@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.t9t.jooq</groupId>
-    <artifactId>jooq-binding-json</artifactId>
+    <artifactId>jooq-postgresql-json-parent</artifactId>
     <packaging>pom</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>jooq-binding-json</name>
-    <description>JOOQ Binding for JSON &amp; JSONB</description>
-    <url>https://github.com/t9t/jooq-binding-json</url>
+    <name>jooq-postgresql-json-parent</name>
+    <description>JOOQ support for PostgreSQL JSON &amp; JSONB - parent pom</description>
+    <url>https://github.com/t9t/jooq-postgresql-json</url>
 
     <modules>
         <module>jooq-postgresql-json</module>
@@ -98,14 +98,14 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/t9t/jooq-binding-json.git</connection>
-        <developerConnection>scm:git:git@github.com:t9t/jooq-binding-json.git</developerConnection>
-        <url>https://github.com/t9t/jooq-binding-json</url>
+        <connection>scm:git:https://github.com/t9t/jooq-postgresql-json.git</connection>
+        <developerConnection>scm:git:git@github.com:t9t/jooq-postgresql-json.git</developerConnection>
+        <url>https://github.com/t9t/jooq-postgresql-json</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/t9t/jooq-binding-json/issues</url>
+        <url>https://github.com/t9t/jooq-postgresql-json/issues</url>
     </issueManagement>
 </project>
