@@ -4,7 +4,7 @@ import org.jooq.Converter;
 
 import java.util.Objects;
 
-public class StringPassthroughConverter implements Converter<Object, String> {
+public class StringConverter implements Converter<Object, String> {
     @Override
     public String from(Object t) {
         return Objects.toString(t, null);

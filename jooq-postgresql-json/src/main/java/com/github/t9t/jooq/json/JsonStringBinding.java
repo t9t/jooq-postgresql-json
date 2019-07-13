@@ -27,7 +27,7 @@ import java.util.Objects;
  * }</pre>
  */
 public class JsonStringBinding implements Binding<Object, String> {
-    private static final Converter<Object, String> CONVERTER = new StringPassthroughConverter();
+    private static final Converter<Object, String> CONVERTER = new StringConverter();
 
     @Override
     public Converter<Object, String> converter() {
