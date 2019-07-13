@@ -10,7 +10,7 @@
     <version>0.1.0-SNAPSHOT</version>
 
     <name>jooq-postgresql-json-parent</name>
-    <description>JOOQ support for PostgreSQL JSON &amp; JSONB - parent pom</description>
+    <description>jOOQ support for PostgreSQL json &amp; jsonb - parent pom</description>
     <url>https://github.com/t9t/jooq-postgresql-json</url>
 
     <modules>

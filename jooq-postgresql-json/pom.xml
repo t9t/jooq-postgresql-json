@@ -12,7 +12,7 @@
     <artifactId>jooq-postgresql-json</artifactId>
 
     <name>jooq-postgresql-json</name>
-    <description>JOOQ support for PostgreSQL JSON &amp; JSONB</description>
+    <description>jOOQ support for PostgreSQL json &amp; jsonb</description>
 
     <dependencies>
         <dependency>
