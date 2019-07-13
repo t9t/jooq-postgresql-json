@@ -2,6 +2,8 @@
 Provides a [jOOQ custom type binding](https://www.jooq.org/doc/3.11/manual/code-generation/custom-data-type-bindings/)
 to interpret PostgreSQL `json` and `jsonb` fields as `String` in Java when using the jOOQ code generator.
 
+Requires at least Java 8.
+
 ## Include as a Maven dependency
 First, add the following Maven dependency:
 
