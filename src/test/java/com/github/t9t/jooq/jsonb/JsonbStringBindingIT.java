@@ -101,4 +101,59 @@ public class JsonbStringBindingIT {
         assertNull(r.value2());
     }
 
+    @Test
+    public void testInsertJson() {
+        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("json-insert")).execute();
+
+        String value = "{\"x\": 1}";
+
+        assertEquals(1, dsl.insertInto(JSON_TEST)
+                .set(JSON_TEST.NAME, "json-insert")
+                .set(JSON_TEST.DATA, value)
+                .execute());
+
+        assertEquals(value, dsl.select(JSON_TEST.DATA).from(JSON_TEST).where(JSON_TEST.NAME.eq("json-insert")).fetchOne().value1());
+    }
+
+    @Test
+    public void testInsertJsonb() {
+        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-insert")).execute();
+
+
+        String value = "{\"x\": 1}";
+
+        assertEquals(1, dsl.insertInto(JSON_TEST)
+                .set(JSON_TEST.NAME, "jsonb-insert")
+                .set(JSON_TEST.DATAB, value)
+                .execute());
+
+        assertEquals(value, dsl.select(JSON_TEST.DATAB).from(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-insert")).fetchOne().value1());
+    }
+
+    @Test
+    public void testUpdateJson() {
+        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("json-update")).execute();
+
+        String initial = "{\"x\": 1}";
+        String updated = "{\"y\": 2}";
+
+        assertEquals(1, dsl.insertInto(JSON_TEST).set(JSON_TEST.NAME, "json-update").set(JSON_TEST.DATA, initial).execute());
+        assertEquals(1, dsl.update(JSON_TEST).set(JSON_TEST.DATA, updated).where(JSON_TEST.NAME.eq("json-update")).execute());
+
+        assertEquals(updated, dsl.select(JSON_TEST.DATA).from(JSON_TEST).where(JSON_TEST.NAME.eq("json-update")).fetchOne().value1());
+    }
+
+    @Test
+    public void testUpdateJsonb() {
+        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-update")).execute();
+
+        String initial = "{\"x\": 1}";
+        String updated = "{\"y\": 2}";
+
+        assertEquals(1, dsl.insertInto(JSON_TEST).set(JSON_TEST.NAME, "jsonb-update").set(JSON_TEST.DATAB, initial).execute());
+        assertEquals(1, dsl.update(JSON_TEST).set(JSON_TEST.DATAB, updated).where(JSON_TEST.NAME.eq("jsonb-update")).execute());
+
+        assertEquals(updated, dsl.select(JSON_TEST.DATAB).from(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-update")).fetchOne().value1());
+    }
+
 }
