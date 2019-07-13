@@ -9,7 +9,6 @@ import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
 import org.postgresql.ds.PGSimpleDataSource;
-import org.postgresql.util.PGobject;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -38,19 +37,19 @@ public class JsonStringBindingIT {
     }
 
     /**
-     * Tests the assumption that the PostgreSQL driver accepts a JGobject with type="json" as input for both json
-     * and jsonb fields.
+     * Tests the assumption that Postgres allows "::json" for jsonb fields and also that
+     * {@link ResultSet#getString(String)} works for json and jsonb fields.
      */
     @Test
     public void testJdbcAssumption() throws Exception {
         dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jdbc")).execute();
 
         try (Connection conn = ds.getConnection();
-             PreparedStatement st = conn.prepareStatement("insert into jooq.json_test (name, data, datab) values (?, ?, ?)")) {
+             PreparedStatement st = conn.prepareStatement("insert into jooq.json_test (name, data, datab) values (?, ?::json, ?::json)")) {
 
             st.setString(1, "jdbc");
-            st.setObject(2, new PGobject() {{type = "json"; value = "{\"jdbc\": \"json\"}";}});
-            st.setObject(3, new PGobject() {{type = "json"; value = "{\"jdbc\":\"jsonb\"}";}});
+            st.setString(2, "{\"jdbc\": \"json\"}");
+            st.setString(3, "{\"jdbc\":\"jsonb\"}");
             assertEquals(1, st.executeUpdate());
 
             PreparedStatement s = conn.prepareStatement("select name, data, datab from jooq.json_test where name = 'jdbc'");
