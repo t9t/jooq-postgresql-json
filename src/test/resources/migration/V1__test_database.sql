@@ -1,9 +1,9 @@
 create table jooq.json_test
 (
     id    bigserial primary key,
-    name  text  not null,
-    data  json  null,
-    datab jsonb null
+    name  text unique not null,
+    data  json        null,
+    datab jsonb       null
 );
 
 insert into jooq.json_test (name, data, datab)
