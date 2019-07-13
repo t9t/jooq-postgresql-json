@@ -9,12 +9,18 @@ import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.postgresql.util.PGobject;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class JsonStringBindingIT {
+    private DataSource ds;
     private DSLContext dsl;
 
     @Before
@@ -24,10 +30,38 @@ public class JsonStringBindingIT {
         ds.setUser("jooq");
         ds.setPassword("jooq");
 
+        this.ds = ds;
         this.dsl = DSL.using(ds, SQLDialect.POSTGRES_10);
 
         // Verify connection naively
         assertEquals(Integer.valueOf(5521), dsl.select(DSL.value("5521")).fetchOneInto(Integer.class));
+    }
+
+    /**
+     * Tests the assumption that the PostgreSQL driver accepts a JGobject with type="json" as input for both json
+     * and jsonb fields.
+     */
+    @Test
+    public void testJdbcAssumption() throws Exception {
+        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jdbc")).execute();
+
+        try (Connection conn = ds.getConnection();
+             PreparedStatement st = conn.prepareStatement("insert into jooq.json_test (name, data, datab) values (?, ?, ?)")) {
+
+            st.setString(1, "jdbc");
+            st.setObject(2, new PGobject() {{type = "json"; value = "{\"jdbc\": \"json\"}";}});
+            st.setObject(3, new PGobject() {{type = "json"; value = "{\"jdbc\":\"jsonb\"}";}});
+            assertEquals(1, st.executeUpdate());
+
+            PreparedStatement s = conn.prepareStatement("select name, data, datab from jooq.json_test where name = 'jdbc'");
+            ResultSet rs = s.executeQuery();
+            assertTrue(rs.next());
+
+            assertEquals("{\"jdbc\": \"json\"}", rs.getString("data"));
+            assertEquals("{\"jdbc\": \"jsonb\"}", rs.getString("datab"));
+
+            assertFalse(rs.next());
+        }
     }
 
     @Test
