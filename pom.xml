@@ -25,6 +25,9 @@
         <pg.dbname>jooq</pg.dbname>
         <db.schema>jooq</db.schema>
         <db.url>jdbc:postgresql://127.0.0.1:${pg.port}/${pg.dbname}</db.url>
+
+        <test.jooq-codegen.directory>${project.build.directory}/generated-test-sources/jooq
+        </test.jooq-codegen.directory>
     </properties>
 
     <dependencies>
@@ -100,21 +103,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
@@ -132,8 +120,15 @@
                 <version>0.30.0</version>
                 <executions>
                     <execution>
+                        <id>stop-existing-postgres</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>start-postgres</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>generate-test-sources</phase>
                         <goals>
                             <goal>start</goal>
                         </goals>
@@ -161,7 +156,7 @@
                                     <port>${pg.port}:5432</port>
                                 </ports>
                                 <wait>
-                                    <log>database system is ready to accept connections</log>
+                                    <log>\[1\]\s+LOG:\s+database system is ready to accept connections</log>
                                     <time>20000</time>
                                 </wait>
                             </run>
@@ -176,7 +171,7 @@
                 <version>${flyway.version}</version>
                 <executions>
                     <execution>
-                        <phase>pre-integration-test</phase>
+                        <phase>generate-test-sources</phase>
                         <goals>
                             <goal>migrate</goal>
                         </goals>
@@ -209,7 +204,7 @@
                 <version>${jooq.version}</version>
                 <executions>
                     <execution>
-                        <phase>pre-integration-test</phase>
+                        <phase>generate-test-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -241,7 +236,7 @@
                         </database>
                         <target>
                             <packageName>com.github.t9t.jooq.generated</packageName>
-                            <directory>target/generated-sources/jooq</directory>
+                            <directory>${test.jooq-codegen.directory}</directory>
                         </target>
                         <generate>
                             <fluentSetters>true</fluentSetters>
@@ -256,6 +251,26 @@
                         <version>${postgresql.driver.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${test.jooq-codegen.directory}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
