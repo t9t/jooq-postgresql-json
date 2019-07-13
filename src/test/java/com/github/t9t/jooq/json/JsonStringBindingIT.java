@@ -1,4 +1,4 @@
-package com.github.t9t.jooq.jsonb;
+package com.github.t9t.jooq.json;
 
 
 import org.jooq.DSLContext;
@@ -14,7 +14,7 @@ import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class JsonbStringBindingIT {
+public class JsonStringBindingIT {
     private DSLContext dsl;
 
     @Before

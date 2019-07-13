@@ -1,4 +1,4 @@
-package com.github.t9t.jooq.jsonb;
+package com.github.t9t.jooq.json;
 
 import org.jooq.*;
 
@@ -7,7 +7,7 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Types;
 import java.util.Objects;
 
-public class JsonbStringBinding implements Binding<Object, String> {
+public class JsonStringBinding implements Binding<Object, String> {
     private static final Converter<Object, String> CONVERTER = new StringPassthroughConverter();
 
     @Override
@@ -17,7 +17,7 @@ public class JsonbStringBinding implements Binding<Object, String> {
 
     @Override
     public void sql(BindingSQLContext<String> ctx) {
-        ctx.render().sql("?::jsonb");
+        ctx.render().sql("?::json");
     }
 
     @Override

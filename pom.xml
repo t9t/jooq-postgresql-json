@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.t9t.jooq-binding-jsonb</groupId>
-    <artifactId>jooq-binding-jsonb</artifactId>
+    <groupId>com.github.t9t.jooq</groupId>
+    <artifactId>jooq-binding-json</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>jooq-binding-jsonb</name>
-    <description>JOOQ Binding for JSONB</description>
-    <url>https://github.com/t9t/jooq-binding-jsonb</url>
+    <name>jooq-binding-json</name>
+    <description>JOOQ Binding for JSON &amp; JSONB</description>
+    <url>https://github.com/t9t/jooq-binding-json</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -237,7 +237,7 @@
                                     <userType>java.lang.String</userType>
 
                                     <!-- Associate that custom type with your binding. -->
-                                    <binding>com.github.t9t.jooq.jsonb.JsonbStringBinding</binding>
+                                    <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
 
                                     <!-- Add a Java regular expression matching fully-qualified columns. Use the pipe to separate several expressions.
 
@@ -307,14 +307,14 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/t9t/jooq-binding-jsonb.git</connection>
-        <developerConnection>scm:git:git@github.com:t9t/jooq-binding-jsonb.git</developerConnection>
-        <url>https://github.com/t9t/jooq-binding-jsonb</url>
+        <connection>scm:git:https://github.com/t9t/jooq-binding-json.git</connection>
+        <developerConnection>scm:git:git@github.com:t9t/jooq-binding-json.git</developerConnection>
+        <url>https://github.com/t9t/jooq-binding-json</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/t9t/jooq-binding-jsonb/issues</url>
+        <url>https://github.com/t9t/jooq-binding-json/issues</url>
     </issueManagement>
 </project>

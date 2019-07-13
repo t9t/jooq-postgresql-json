@@ -1,4 +1,4 @@
-package com.github.t9t.jooq.jsonb;
+package com.github.t9t.jooq.json;
 
 import org.jooq.Converter;
 
