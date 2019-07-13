@@ -7,11 +7,11 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Types;
 import java.util.Objects;
 
-public class JsonbStringBinding implements Binding<String, String> {
-    private static final Converter<String, String> CONVERTER = new StringPassthroughConverter();
+public class JsonbStringBinding implements Binding<Object, String> {
+    private static final Converter<Object, String> CONVERTER = new StringPassthroughConverter();
 
     @Override
-    public Converter<String, String> converter() {
+    public Converter<Object, String> converter() {
         return CONVERTER;
     }
 

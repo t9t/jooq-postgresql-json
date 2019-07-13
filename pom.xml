@@ -256,7 +256,7 @@
                                          It is thus recommended to use defensive regexes for types.
 
                                          If provided, both "expressions" and "types" must match. -->
-                                    <types>jsonb</types>
+                                    <types>json|jsonb</types>
                                 </forcedType>
                             </forcedTypes>
                         </database>

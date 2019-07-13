@@ -2,10 +2,10 @@ package com.github.t9t.jooq.jsonb;
 
 import org.jooq.Converter;
 
-public class StringPassthroughConverter implements Converter<String, String> {
+public class StringPassthroughConverter implements Converter<Object, String> {
     @Override
-    public String from(String t) {
-        return t;
+    public String from(Object t) {
+        return t == null ? null : t.toString();
     }
 
     @Override
@@ -14,8 +14,8 @@ public class StringPassthroughConverter implements Converter<String, String> {
     }
 
     @Override
-    public Class<String> fromType() {
-        return String.class;
+    public Class<Object> fromType() {
+        return Object.class;
     }
 
     @Override
