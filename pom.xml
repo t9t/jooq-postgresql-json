@@ -6,11 +6,17 @@
 
     <groupId>com.github.t9t.jooq</groupId>
     <artifactId>jooq-binding-json</artifactId>
+    <packaging>pom</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
     <name>jooq-binding-json</name>
     <description>JOOQ Binding for JSON &amp; JSONB</description>
     <url>https://github.com/t9t/jooq-binding-json</url>
+
+    <modules>
+        <module>jooq-postgresql-json</module>
+        <module>integration-tests</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,39 +24,37 @@
         <jooq.version>3.11.11</jooq.version>
         <postgresql.driver.version>42.2.6</postgresql.driver.version>
         <flyway.version>5.2.0</flyway.version>
-
-        <pg.port>23719</pg.port>
-        <pg.user>jooq</pg.user>
-        <pg.password>jooq</pg.password>
-        <pg.dbname>jooq</pg.dbname>
-        <db.schema>jooq</db.schema>
-        <db.url>jdbc:postgresql://127.0.0.1:${pg.port}/${pg.dbname}</db.url>
-
-        <test.jooq-codegen.directory>${project.build.directory}/generated-test-sources/jooq
-        </test.jooq-codegen.directory>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>${jooq.version}</version>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.t9t.jooq</groupId>
+                <artifactId>jooq-postgresql-json</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.6</version>
-            <scope>test</scope>
-        </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.driver.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -65,243 +69,8 @@
                     <testTarget>1.8</testTarget>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>integration-tests</id>
-            <activation>
-                <property>
-                    <name>!maven.test.skip</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.30.0</version>
-                        <executions>
-                            <execution>
-                                <id>stop-existing-postgres</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>start-postgres</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop-postgres</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <alias>postgres</alias>
-                                    <name>postgres:10</name>
-                                    <run>
-                                        <env>
-                                            <POSTGRES_DB>${pg.dbname}</POSTGRES_DB>
-                                            <POSTGRES_USER>${pg.user}</POSTGRES_USER>
-                                            <POSTGRES_PASSWORD>${pg.password}</POSTGRES_PASSWORD>
-                                        </env>
-                                        <ports>
-                                            <port>${pg.port}:5432</port>
-                                        </ports>
-                                        <wait>
-                                            <log>\[1\]\s+LOG:\s+database system is ready to accept connections</log>
-                                            <time>20000</time>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.flywaydb</groupId>
-                        <artifactId>flyway-maven-plugin</artifactId>
-                        <version>${flyway.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>migrate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <url>${db.url}</url>
-                            <user>${pg.user}</user>
-                            <password>${pg.password}</password>
-                            <table>schema_version</table>
-                            <schemas>
-                                <schema>${db.schema}</schema>
-                            </schemas>
-                            <locations>
-                                <location>filesystem:src/test/resources/migration</location>
-                            </locations>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${postgresql.driver.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-codegen-maven</artifactId>
-                        <version>${jooq.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <jdbc>
-                                <url>${db.url}</url>
-                                <user>${pg.user}</user>
-                                <password>${pg.password}</password>
-                            </jdbc>
-                            <generator>
-                                <database>
-                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                                    <includes>.*</includes>
-                                    <schemata>
-                                        <schema>
-                                            <inputSchema>jooq</inputSchema>
-                                        </schema>
-                                    </schemata>
-
-                                    <forcedTypes>
-                                        <forcedType>
-                                            <userType>java.lang.String</userType>
-                                            <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
-                                            <types>json|jsonb</types>
-                                        </forcedType>
-                                    </forcedTypes>
-                                </database>
-                                <target>
-                                    <packageName>com.github.t9t.jooq.generated</packageName>
-                                    <directory>${test.jooq-codegen.directory}</directory>
-                                </target>
-                                <generate>
-                                    <fluentSetters>true</fluentSetters>
-                                    <interfaces>false</interfaces>
-                                </generate>
-                            </generator>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${postgresql.driver.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>add-test-sources</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>add-test-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${test.jooq-codegen.directory}</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.0.0-M3</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <distributionManagement>
         <snapshotRepository>

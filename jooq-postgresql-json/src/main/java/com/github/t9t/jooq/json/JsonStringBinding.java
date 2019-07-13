@@ -20,7 +20,7 @@ import java.util.Objects;
  * <forcedTypes>
  *     <forcedType>
  *         <userType>java.lang.String</userType>
- *         <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
+ *         <binding>JsonStringBinding</binding>
  *         <types>json|jsonb</types>
  *     </forcedType>
  * </forcedTypes>
