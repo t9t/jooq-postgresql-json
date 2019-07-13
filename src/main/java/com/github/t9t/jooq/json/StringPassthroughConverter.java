@@ -2,10 +2,12 @@ package com.github.t9t.jooq.json;
 
 import org.jooq.Converter;
 
+import java.util.Objects;
+
 public class StringPassthroughConverter implements Converter<Object, String> {
     @Override
     public String from(Object t) {
-        return t == null ? null : t.toString();
+        return Objects.toString(t, null);
     }
 
     @Override
