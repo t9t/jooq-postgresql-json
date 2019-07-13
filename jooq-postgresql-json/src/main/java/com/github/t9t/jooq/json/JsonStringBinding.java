@@ -9,12 +9,12 @@ import java.util.Objects;
 
 /**
  * <p>
- * Jooq {@link Binding} to use {@code json} and {@code jsonb} fields as {@code String}. When selecting fields, the data
+ * jOOQ {@link Binding} to use {@code json} and {@code jsonb} fields as {@code String}. When selecting fields, the data
  * is returned as {@code String}. When inputting data (eg. on insert and update), the data is sent as text to the
  * server, and converted to json there (by adding {@code ::json} to the placeholder).
  * </p>
  * <p>
- * To use this with the Jooq code generator, use configuration like this:
+ * To use this with the jOOQ code generator, use configuration like this:
  * </p>
  * <pre>{@code
  * <forcedTypes>
