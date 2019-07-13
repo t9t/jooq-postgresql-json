@@ -233,29 +233,8 @@
 
                             <forcedTypes>
                                 <forcedType>
-                                    <!-- Specify the Java type of your custom type. This corresponds to the Binding's <U> type. -->
                                     <userType>java.lang.String</userType>
-
-                                    <!-- Associate that custom type with your binding. -->
                                     <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
-
-                                    <!-- Add a Java regular expression matching fully-qualified columns. Use the pipe to separate several expressions.
-
-                                         If provided, both "expressions" and "types" must match. -->
-                                    <!-- <expression>.*JSON.*</expression>-->
-
-                                    <!-- Add a Java regular expression matching data types to be forced to
-                                         have this type.
-
-                                         Data types may be reported by your database as:
-                                         - NUMBER              regexp suggestion: NUMBER
-                                         - NUMBER(5)           regexp suggestion: NUMBER\(5\)
-                                         - NUMBER(5, 2)        regexp suggestion: NUMBER\(5,\s*2\)
-                                         - any other form
-
-                                         It is thus recommended to use defensive regexes for types.
-
-                                         If provided, both "expressions" and "types" must match. -->
                                     <types>json|jsonb</types>
                                 </forcedType>
                             </forcedTypes>
