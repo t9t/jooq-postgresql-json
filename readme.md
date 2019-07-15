@@ -24,16 +24,22 @@ Then, configure the code generator like this:
         <forcedType>
             <userType>java.lang.String</userType>
             <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
-            <types>json|jsonb</types>
+            <types>json</types>
+        </forcedType>
+        <forcedType>
+            <userType>java.lang.String</userType>
+            <binding>com.github.t9t.jooq.json.JsonbStringBinding</binding>
+            <types>jsonb</types>
         </forcedType>
     </forcedTypes>
 </database>
 ```
 
 The above will use a Java type of `String` for all `json` and `jsonb` fields, and will use the `JsonStringBinding`
-to convert the fields.
+and `JsonbStringBinding` respectively to convert the fields.
 
-If you want to only configure it for certain specific fields, add an `<expression>` element, for example:
+If you want to only configure it for certain specific fields, add an `<expression>` element to the `<forcedType>`
+element, for example:
 
 ```xml
 <expression>.*json.*</expression>

@@ -9,9 +9,9 @@ import java.util.Objects;
 
 /**
  * <p>
- * jOOQ {@link Binding} to use {@code json} fields as {@code String}. When selecting fields, the data
+ * jOOQ {@link Binding} to use {@code jsonb} fields as {@code String}. When selecting fields, the data
  * is returned as {@code String}. When inputting data (eg. on insert and update), the data is sent as text to the
- * server, and converted to json there (by adding {@code ::json} to the placeholder).
+ * server, and converted to json there (by adding {@code ::jsonb} to the placeholder).
  * </p>
  * <p>
  * To use this with the jOOQ code generator, use configuration like this:
@@ -20,14 +20,15 @@ import java.util.Objects;
  * <forcedTypes>
  *     <forcedType>
  *         <userType>java.lang.String</userType>
- *         <binding>JsonStringBinding</binding>
- *         <types>json|jsonb</types>
+ *         <binding>JsonbStringBinding</binding>
+ *         <types>jsonb</types>
  *     </forcedType>
  * </forcedTypes>
  * }</pre>
- * @see JsonbStringBinding
+ *
+ * @see JsonStringBinding
  */
-public class JsonStringBinding implements Binding<Object, String> {
+public class JsonbStringBinding implements Binding<Object, String> {
     private static final Converter<Object, String> CONVERTER = new StringConverter();
 
     @Override
@@ -37,7 +38,7 @@ public class JsonStringBinding implements Binding<Object, String> {
 
     @Override
     public void sql(BindingSQLContext<String> ctx) {
-        ctx.render().sql("?::json");
+        ctx.render().sql("?::jsonb");
     }
 
     @Override

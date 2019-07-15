@@ -4,7 +4,7 @@
     <parent>
         <artifactId>jooq-postgresql-json-parent</artifactId>
         <groupId>com.github.t9t.jooq</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>integration-tests</artifactId>
@@ -187,7 +187,12 @@
                                         <forcedType>
                                             <userType>java.lang.String</userType>
                                             <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
-                                            <types>json|jsonb</types>
+                                            <types>json</types>
+                                        </forcedType>
+                                        <forcedType>
+                                            <userType>java.lang.String</userType>
+                                            <binding>com.github.t9t.jooq.json.JsonbStringBinding</binding>
+                                            <types>jsonb</types>
                                         </forcedType>
                                     </forcedTypes>
                                 </database>
