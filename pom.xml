@@ -77,6 +77,7 @@
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
+                    <pushChanges>false</pushChanges>
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
