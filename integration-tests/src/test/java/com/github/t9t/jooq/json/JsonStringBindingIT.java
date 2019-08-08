@@ -100,7 +100,7 @@ public class JsonStringBindingIT {
                 .where(Tables.JSON_TEST.NAME.eq("both"))
                 .fetchOne();
 
-        assertEquals("{\"jsonb\": {\"n\": null, \"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\": 200}}}", r.value1());
+        assertEquals("{\"jsonb\": {\"n\": null, \"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}}}", r.value1());
     }
 
     @Test
