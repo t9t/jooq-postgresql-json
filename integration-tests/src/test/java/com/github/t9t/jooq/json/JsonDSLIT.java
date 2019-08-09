@@ -26,7 +26,7 @@ public class JsonDSLIT {
     private final Field<String> fieldToSelect;
 
     public JsonDSLIT(String name, String type, String expected, Field<String> fieldToSelect) {
-        this.expected = requireNonNull(expected, "expected");
+        this.expected = expected;
         this.fieldToSelect = requireNonNull(fieldToSelect, "fieldToSelect");
     }
 
@@ -37,7 +37,9 @@ public class JsonDSLIT {
             Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
             params.addAll(Arrays.asList(
                     params("fieldByKey", type, "\"Hello, " + type.toUpperCase() + " world!\"", JsonDSL.fieldByKey(f, "str")),
-                    params("fieldByKey_twoLevels", type, "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i"))
+                    params("fieldByKey_twoLevels", type, "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i")),
+                    params("fieldByKey_nullField", type, "null", JsonDSL.fieldByKey(f, "n")),
+                    params("fieldByKey_notExistingField", type, null, JsonDSL.fieldByKey(f, "notExisting"))
             ));
         }
         return params;
