@@ -9,6 +9,23 @@ import org.jooq.impl.DSL;
  * <p>Reference: <a href="https://www.postgresql.org/docs/11/functions-json.html">https://www.postgresql.org/docs/11/functions-json.html</a></p>
  */
 public final class JsonDSL {
+
+
+    /**
+     * <p>Get JSON array element (indexed from zero, negative integers count from the end), using the
+     * <code>-&gt;</code> operator</p>
+     *
+     * <p>Example: <code>'[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json-&gt;2</code></p>
+     * <p>Example result: <code>{"c":"baz"}</code></p>
+     *
+     * @param jsonField A JSON {@code Field} containing an array to get the array element from
+     * @param index     Array index
+     * @return A {@code Field} representing the extracted array element
+     */
+    public static Field<String> arrayElement(Field<String> jsonField, int index) {
+        return DSL.field("{0}->{1}", String.class, jsonField, index);
+    }
+
     /**
      * <p>Get JSON object field by key using the <code>-&gt;</code> operator</p>
      *

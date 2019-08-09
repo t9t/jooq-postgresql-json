@@ -20,12 +20,15 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class JsonDSLIT {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
-    private static final String testRowName = "json-dsl";
+    private static final String genericRow = "json-dsl";
+    private static final String arrayRow = "array";
 
+    private final String rowName;
     private final String expected;
     private final Field<String> fieldToSelect;
 
-    public JsonDSLIT(String name, String type, String expected, Field<String> fieldToSelect) {
+    public JsonDSLIT(String name, String type, String rowName, String expected, Field<String> fieldToSelect) {
+        this.rowName = requireNonNull(rowName, "rowName");
         this.expected = expected;
         this.fieldToSelect = requireNonNull(fieldToSelect, "fieldToSelect");
     }
@@ -36,17 +39,26 @@ public class JsonDSLIT {
         for (String type : Arrays.asList("json", "jsonb")) {
             Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
             params.addAll(Arrays.asList(
-                    params("fieldByKey", type, "\"Hello, " + type.toUpperCase() + " world!\"", JsonDSL.fieldByKey(f, "str")),
+                    params("fieldByKey", type, "\"Hello, " + type + " world!\"", JsonDSL.fieldByKey(f, "str")),
                     params("fieldByKey_twoLevels", type, "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i")),
                     params("fieldByKey_nullField", type, "null", JsonDSL.fieldByKey(f, "n")),
-                    params("fieldByKey_notExistingField", type, null, JsonDSL.fieldByKey(f, "notExisting"))
+                    params("fieldByKey_notExistingField", type, null, JsonDSL.fieldByKey(f, "notExisting")),
+
+                    params("arrayElement_getFirstObject", type, arrayRow, "{\"d\": 4408}", JsonDSL.arrayElement(f, 0)),
+                    params("arrayElement_getString", type, arrayRow, "\"" + type + " array\"", JsonDSL.arrayElement(f, 3)),
+                    params("arrayElement_outOfBounds", type, arrayRow, null, JsonDSL.arrayElement(f, 100)),
+                    params("arrayElement_onObject", type, genericRow, null, JsonDSL.arrayElement(f, 100))
             ));
         }
         return params;
     }
 
     private static Object[] params(String name, String type, String expected, Field<String> field) {
-        return new Object[]{name, type, expected, field};
+        return params(name, type, genericRow, expected, field);
+    }
+
+    private static Object[] params(String name, String type, String rowName, String expected, Field<String> field) {
+        return new Object[]{name, type, rowName, expected, field};
     }
 
     @Before
@@ -54,23 +66,24 @@ public class JsonDSLIT {
         dsl.deleteFrom(JSON_TEST).execute();
 
         String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
-        assertEquals(1, dsl.insertInto(JSON_TEST)
-                .set(JSON_TEST.NAME, testRowName)
-                .set(JSON_TEST.DATA, String.format(template, "JSON"))
-                .set(JSON_TEST.DATAB, String.format(template, "JSONB"))
+        String artmpl = "[{\"d\": 4408}, 10, true, \"%s array\"]";
+        assertEquals(2, dsl.insertInto(JSON_TEST)
+                .columns(JSON_TEST.NAME, JSON_TEST.DATA, JSON_TEST.DATAB)
+                .values(genericRow, String.format(template, "json"), String.format(template, "jsonb"))
+                .values(arrayRow, String.format(artmpl, "json"), String.format(artmpl, "jsonb"))
                 .execute());
-        assertEquals(1, dsl.fetchCount(JSON_TEST));
+        assertEquals(2, dsl.fetchCount(JSON_TEST));
     }
 
     @Test
     public void test() {
-        assertEquals(expected, select(fieldToSelect));
+        assertEquals(expected, select(rowName, fieldToSelect));
     }
 
-    private static String select(Field<String> field) {
+    private static String select(String rowName, Field<String> field) {
         return dsl.select(field)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq(testRowName))
+                .where(JSON_TEST.NAME.eq(rowName))
                 .fetchOne().value1();
     }
 }
