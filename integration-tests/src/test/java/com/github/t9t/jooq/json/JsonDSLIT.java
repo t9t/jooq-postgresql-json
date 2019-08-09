@@ -6,25 +6,21 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
-import org.postgresql.ds.PGSimpleDataSource;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static org.junit.Assert.assertEquals;
 
 public class JsonDSLIT {
-    private DSLContext dsl;
+    private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
 
     @Before
     public void setUp() {
-        PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setURL("jdbc:postgresql://localhost:23719/jooq");
-        ds.setUser("jooq");
-        ds.setPassword("jooq");
-
-        this.dsl = DSL.using(ds, SQLDialect.POSTGRES_10);
-
-        // Verify connection naively
-        assertEquals(Integer.valueOf(5521), dsl.select(DSL.value("5521")).fetchOneInto(Integer.class));
+        dsl.deleteFrom(JSON_TEST).execute();
+        assertEquals(3, dsl.execute("insert into jooq.json_test (name, data, datab)" +
+                " values " +
+                "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
+                "('empty', '{}', '{}')," +
+                "('null', null, null)"));
     }
 
     @Test
