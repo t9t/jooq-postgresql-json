@@ -39,15 +39,27 @@ public class JsonDSLIT {
         for (String type : Arrays.asList("json", "jsonb")) {
             Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
             params.addAll(Arrays.asList(
+                    params("arrayElement_getFirstObject", type, arrayRow, "{\"d\": 4408}", JsonDSL.arrayElement(f, 0)),
+                    params("arrayElement_getString", type, arrayRow, "\"" + type + " array\"", JsonDSL.arrayElement(f, 3)),
+                    params("arrayElement_outOfBounds", type, arrayRow, null, JsonDSL.arrayElement(f, 100)),
+                    params("arrayElement_negativeIndex", type, arrayRow, "true", JsonDSL.arrayElement(f, -2)),
+                    params("arrayElement_onObject", type, genericRow, null, JsonDSL.arrayElement(f, 100)),
+
                     params("fieldByKey", type, "\"Hello, " + type + " world!\"", JsonDSL.fieldByKey(f, "str")),
                     params("fieldByKey_twoLevels", type, "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i")),
                     params("fieldByKey_nullField", type, "null", JsonDSL.fieldByKey(f, "n")),
                     params("fieldByKey_notExistingField", type, null, JsonDSL.fieldByKey(f, "notExisting")),
 
-                    params("arrayElement_getFirstObject", type, arrayRow, "{\"d\": 4408}", JsonDSL.arrayElement(f, 0)),
-                    params("arrayElement_getString", type, arrayRow, "\"" + type + " array\"", JsonDSL.arrayElement(f, 3)),
-                    params("arrayElement_outOfBounds", type, arrayRow, null, JsonDSL.arrayElement(f, 100)),
-                    params("arrayElement_onObject", type, genericRow, null, JsonDSL.arrayElement(f, 100))
+                    params("arrayElementText_getFirstObject", type, arrayRow, "{\"d\": 4408}", JsonDSL.arrayElementText(f, 0)),
+                    params("arrayElementText_getString", type, arrayRow, type + " array", JsonDSL.arrayElementText(f, 3)),
+                    params("arrayElementText_outOfBounds", type, arrayRow, null, JsonDSL.arrayElementText(f, 100)),
+                    params("arrayElementText_negativeIndex", type, arrayRow, "true", JsonDSL.arrayElementText(f, -2)),
+                    params("arrayElementText_onObject", type, genericRow, null, JsonDSL.arrayElementText(f, 100)),
+
+                    params("fieldByKeyText", type, "Hello, " + type + " world!", JsonDSL.fieldByKeyText(f, "str")),
+                    params("fieldByKeyText_twoLevels", type, "5521", JsonDSL.fieldByKeyText(JsonDSL.fieldByKey(f, "obj"), "i")),
+                    params("fieldByKeyText_nullField", type, null, JsonDSL.fieldByKeyText(f, "n")),
+                    params("fieldByKeyText_notExistingField", type, null, JsonDSL.fieldByKeyText(f, "notExisting"))
             ));
         }
         return params;
