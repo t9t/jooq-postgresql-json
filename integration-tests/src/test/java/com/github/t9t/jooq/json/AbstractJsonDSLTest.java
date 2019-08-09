@@ -50,7 +50,11 @@ public abstract class AbstractJsonDSLTest {
         return params(name, genericRow, expected, field);
     }
 
-    static Params params(String name, String rowName, String expected, Field<String> field) {
+    static Params arrayParams(String name, String expected, Field<String> field) {
+        return params(name, arrayRow, expected, field);
+    }
+
+    private static Params params(String name, String rowName, String expected, Field<String> field) {
         return new Params(name, rowName, expected, field);
     }
 
