@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json;
 
 import org.jooq.DSLContext;
-import org.jooq.Record1;
+import org.jooq.Field;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.Before;
@@ -12,50 +12,45 @@ import static org.junit.Assert.assertEquals;
 
 public class JsonDSLIT {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
+    private static final String name = "json-dsl";
 
     @Before
     public void setUp() {
         dsl.deleteFrom(JSON_TEST).execute();
-        assertEquals(3, dsl.execute("insert into jooq.json_test (name, data, datab)" +
-                " values " +
-                "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
-                "('empty', '{}', '{}')," +
-                "('null', null, null)"));
+
+        String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
+        assertEquals(1, dsl.insertInto(JSON_TEST)
+                .set(JSON_TEST.NAME, name)
+                .set(JSON_TEST.DATA, String.format(template, "JSON"))
+                .set(JSON_TEST.DATAB, String.format(template, "JSONB"))
+                .execute());
+        assertEquals(1, dsl.fetchCount(JSON_TEST));
     }
 
     @Test
     public void json_fieldByKey_select() {
-        Record1<String> r = dsl.select(JsonDSL.fieldByKey(JSON_TEST.DATA, "json"))
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
-                .fetchOne();
-        assertEquals("{\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}", r.value1());
+        assertEquals("\"Hello, JSON world!\"", select(JsonDSL.fieldByKey(JSON_TEST.DATA, "str")));
     }
 
     @Test
     public void json_fieldByKey_select_twoLevels() {
-        Record1<String> r = dsl.select(JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATA, "json"), "str"))
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
-                .fetchOne();
-        assertEquals("\"Hello, JSON world!\"", r.value1());
+        assertEquals("5521", select(JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATA, "obj"), "i")));
     }
 
     @Test
     public void jsonb_fieldByKey_select() {
-        Record1<String> r = dsl.select(JsonDSL.fieldByKey(JSON_TEST.DATAB, "jsonb"))
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
-                .fetchOne();
-        assertEquals("{\"n\": null, \"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}}", r.value1());
+        assertEquals("\"Hello, JSONB world!\"", select(JsonDSL.fieldByKey(JSON_TEST.DATAB, "str")));
     }
 
     @Test
     public void jsonb_fieldByKey_select_twoLevels() {
-        Record1<String> r = dsl.select(JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATAB, "jsonb"), "str"))
+        assertEquals("5521", select(JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATAB, "obj"), "i")));
+    }
+
+    private static String select(Field<String> field) {
+        return dsl.select(field)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
-                .fetchOne();
-        assertEquals("\"Hello, JSONB world!\"", r.value1());
+                .where(JSON_TEST.NAME.eq(name))
+                .fetchOne().value1();
     }
 }
