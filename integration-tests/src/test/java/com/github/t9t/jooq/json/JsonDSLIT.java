@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,23 +25,26 @@ public class JsonDSLIT {
     private final String expected;
     private final Field<String> fieldToSelect;
 
-    public JsonDSLIT(String name, String expected, Field<String> fieldToSelect) {
+    public JsonDSLIT(String name, String type, String expected, Field<String> fieldToSelect) {
         this.expected = requireNonNull(expected, "expected");
         this.fieldToSelect = requireNonNull(fieldToSelect, "fieldToSelect");
     }
 
-    @Parameterized.Parameters(name = "{0}")
+    @Parameterized.Parameters(name = "{1}_{0}")
     public static List<Object[]> params() {
-        return Arrays.asList(
-                params("fieldByKey_json_select", "\"Hello, JSON world!\"", JsonDSL.fieldByKey(JSON_TEST.DATA, "str")),
-                params("fieldByKey_json_select_twoLevels", "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATA, "obj"), "i")),
-                params("fieldByKey_jsonb_select", "\"Hello, JSONB world!\"", JsonDSL.fieldByKey(JSON_TEST.DATAB, "str")),
-                params("fieldByKey_jsonb_select_twoLevels", "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(JSON_TEST.DATAB, "obj"), "i"))
-        );
+        List<Object[]> params = new ArrayList<>();
+        for (String type : Arrays.asList("json", "jsonb")) {
+            Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
+            params.addAll(Arrays.asList(
+                    params("fieldByKey", type, "\"Hello, " + type.toUpperCase() + " world!\"", JsonDSL.fieldByKey(f, "str")),
+                    params("fieldByKey_twoLevels", type, "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i"))
+            ));
+        }
+        return params;
     }
 
-    private static Object[] params(String name, String expected, Field<String> field) {
-        return new Object[]{name, expected, field};
+    private static Object[] params(String name, String type, String expected, Field<String> field) {
+        return new Object[]{name, type, expected, field};
     }
 
     @Before
