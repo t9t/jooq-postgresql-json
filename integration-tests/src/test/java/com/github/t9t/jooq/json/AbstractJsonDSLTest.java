@@ -27,29 +27,31 @@ public abstract class AbstractJsonDSLTest {
     @Parameterized.Parameter
     public String testName;
     @Parameterized.Parameter(1)
-    public String dataType;
-    @Parameterized.Parameter(2)
     public String rowName;
-    @Parameterized.Parameter(3)
+    @Parameterized.Parameter(2)
     public String expected;
-    @Parameterized.Parameter(4)
+    @Parameterized.Parameter(3)
     public Field<String> fieldToSelect;
 
-    static List<Object[]> generateParams(BiFunction<String, Field<String>, List<Object[]>> testParamFunc) {
+    static List<Object[]> generateParams(String baseName, BiFunction<String, Field<String>, List<Params>> testParamFunc) {
         List<Object[]> params = new ArrayList<>();
         for (String type : Arrays.asList("json", "jsonb")) {
             Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
-            params.addAll(testParamFunc.apply(type, f));
+            List<Params> paramList = testParamFunc.apply(type, f);
+            for (Params p : paramList) {
+                String name = String.format("%s_%s_%s", baseName, p.name, type);
+                params.add(new Object[]{name, p.dataSet, p.expected, p.fieldToSelect});
+            }
         }
         return params;
     }
 
-    static Object[] params(String name, String type, String expected, Field<String> field) {
-        return params(name, type, genericRow, expected, field);
+    static Params params(String name, String expected, Field<String> field) {
+        return params(name, genericRow, expected, field);
     }
 
-    static Object[] params(String name, String type, String rowName, String expected, Field<String> field) {
-        return new Object[]{name, type, rowName, expected, field};
+    static Params params(String name, String rowName, String expected, Field<String> field) {
+        return new Params(name, rowName, expected, field);
     }
 
     @Before
@@ -76,5 +78,19 @@ public abstract class AbstractJsonDSLTest {
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq(rowName))
                 .fetchOne().value1();
+    }
+
+    static class Params {
+        final String name;
+        final String dataSet;
+        final String expected;
+        final Field<String> fieldToSelect;
+
+        public Params(String name, String dataSet, String expected, Field<String> fieldToSelect) {
+            this.name = name;
+            this.dataSet = dataSet;
+            this.expected = expected;
+            this.fieldToSelect = fieldToSelect;
+        }
     }
 }
