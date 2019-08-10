@@ -10,6 +10,7 @@ public class JsonDSLObjectAtPathIT extends AbstractJsonDSLTest {
     public static List<Object[]> params() {
         return generateParams("objectAtPath", (type, f) -> Arrays.asList(
                 test("oneLevel", "\"Hello, " + type + " world!\"", JsonDSL.objectAtPath(f, "str")),
+                test("obj", toNode("{\"i\": 5521, \"b\": true}"), JsonDSL.objectAtPath(f, "obj")),
                 test("deepVarargs", "4408", JsonDSL.objectAtPath(f, "arr", "0", "d")),
                 test("deepCollection", "4408", JsonDSL.objectAtPath(f, Arrays.asList("arr", "0", "d"))),
                 test("notExistingPath", null, JsonDSL.objectAtPath(f, "not", "existing", "path"))

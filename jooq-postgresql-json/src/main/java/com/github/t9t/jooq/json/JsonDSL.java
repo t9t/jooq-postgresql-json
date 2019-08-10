@@ -70,18 +70,64 @@ public final class JsonDSL {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
     }
 
+    /**
+     * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
+     *
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example result: <code>{"c": "foo"}</code></p>
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path
+     * @see #objectAtPath(Field, Collection)
+     */
     public static Field<String> objectAtPath(Field<String> jsonField, String... path) {
         return DSL.field("{0}#>{1}", String.class, jsonField, DSL.array(path));
     }
 
+    /**
+     * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
+     *
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example result: <code>{"c": "foo"}</code></p>
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path
+     * @see #objectAtPath(Field, String...)
+     */
     public static Field<String> objectAtPath(Field<String> jsonField, Collection<String> path) {
         return objectAtPath(jsonField, path.toArray(new String[0]));
     }
 
+    /**
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * operator</p>
+     *
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example result: <code>3</code></p>
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path, as text
+     * @see #objectAtPathText(Field, Collection)
+     */
     public static Field<String> objectAtPathText(Field<String> jsonField, String... path) {
         return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
     }
 
+    /**
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * operator</p>
+     *
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example result: <code>3</code></p>
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path, as text
+     * @see #objectAtPath(Field, String...)
+     */
     public static Field<String> objectAtPathText(Field<String> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }

@@ -1,5 +1,7 @@
 package com.github.t9t.jooq.json;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.SQLDialect;
@@ -9,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +19,12 @@ import java.util.function.BiFunction;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(Parameterized.class)
 public abstract class AbstractJsonDSLTest {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
+    private static final ObjectMapper om = new ObjectMapper();
 
     static final String genericRow = "json-dsl";
     static final String arrayRow = "array";
@@ -29,7 +34,7 @@ public abstract class AbstractJsonDSLTest {
     @Parameterized.Parameter(1)
     public String rowName;
     @Parameterized.Parameter(2)
-    public String expected;
+    public Object expected;
     @Parameterized.Parameter(3)
     public Field<String> fieldToSelect;
 
@@ -46,7 +51,7 @@ public abstract class AbstractJsonDSLTest {
         return params;
     }
 
-    static Params test(String name, String expected, Field<String> field) {
+    static Params test(String name, Object expected, Field<String> field) {
         return params(name, genericRow, expected, field);
     }
 
@@ -54,7 +59,7 @@ public abstract class AbstractJsonDSLTest {
         return params(name, arrayRow, expected, field);
     }
 
-    private static Params params(String name, String rowName, String expected, Field<String> field) {
+    private static Params params(String name, String rowName, Object expected, Field<String> field) {
         return new Params(name, rowName, expected, field);
     }
 
@@ -74,7 +79,25 @@ public abstract class AbstractJsonDSLTest {
 
     @Test
     public void test() {
-        assertEquals(expected, select(rowName, fieldToSelect));
+        String data = select(rowName, fieldToSelect);
+
+        if (expected == null) {
+            assertNull(data);
+        } else if (expected instanceof String) {
+            assertEquals(expected, data);
+        } else if (expected instanceof JsonNode) {
+            assertEquals(expected, toNode(data));
+        } else {
+            throw new IllegalArgumentException("Cannot assert object: " + expected.getClass());
+        }
+    }
+
+    static JsonNode toNode(String s) {
+        try {
+            return om.readTree(s);
+        } catch (IOException e) {
+            throw new AssertionError("Unable to parse JSON: " + s, e);
+        }
     }
 
     private static String select(String rowName, Field<String> field) {
@@ -87,10 +110,10 @@ public abstract class AbstractJsonDSLTest {
     static class Params {
         final String name;
         final String dataSet;
-        final String expected;
+        final Object expected;
         final Field<String> fieldToSelect;
 
-        public Params(String name, String dataSet, String expected, Field<String> fieldToSelect) {
+        public Params(String name, String dataSet, Object expected, Field<String> fieldToSelect) {
             this.name = name;
             this.dataSet = dataSet;
             this.expected = expected;
