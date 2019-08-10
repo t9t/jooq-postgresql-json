@@ -3,6 +3,8 @@ package com.github.t9t.jooq.json;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 
+import java.util.Collection;
+
 /**
  * <p>Functions for JSON and JSONB PostgreSQL operator support in jOOQ</p>
  *
@@ -66,5 +68,21 @@ public final class JsonDSL {
      */
     public static Field<String> fieldByKeyText(Field<String> jsonField, String key) {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
+    }
+
+    public static Field<String> objectAtPath(Field<String> jsonField, String... path) {
+        return DSL.field("{0}#>{1}", String.class, jsonField, DSL.array(path));
+    }
+
+    public static Field<String> objectAtPath(Field<String> jsonField, Collection<String> path) {
+        return objectAtPath(jsonField, path.toArray(new String[0]));
+    }
+
+    public static Field<String> objectAtPathText(Field<String> jsonField, String... path) {
+        return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
+    }
+
+    public static Field<String> objectAtPathText(Field<String> jsonField, Collection<String> path) {
+        return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 }

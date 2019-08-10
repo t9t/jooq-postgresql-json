@@ -15,5 +15,4 @@ public class JsonDSLFieldByKeyIT extends AbstractJsonDSLTest {
                 test("notExistingField", null, JsonDSL.fieldByKey(f, "notExisting"))
         ));
     }
-
 }
