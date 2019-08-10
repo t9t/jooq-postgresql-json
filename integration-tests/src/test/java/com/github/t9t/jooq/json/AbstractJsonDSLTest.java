@@ -36,12 +36,12 @@ public abstract class AbstractJsonDSLTest {
     @Parameterized.Parameter(2)
     public Object expected;
     @Parameterized.Parameter(3)
-    public Field<String> fieldToSelect;
+    public Field<?> fieldToSelect;
 
-    static List<Object[]> generateParams(String baseName, BiFunction<String, Field<String>, List<Params>> testParamFunc) {
+    static List<Object[]> generateParams(String baseName, BiFunction<String, Field<Json>, List<Params>> testParamFunc) {
         List<Object[]> params = new ArrayList<>();
         for (String type : Arrays.asList("json", "jsonb")) {
-            Field<String> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
+            Field<Json> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
             List<Params> paramList = testParamFunc.apply(type, f);
             for (Params p : paramList) {
                 String name = String.format("%s_%s_%s", baseName, p.name, type);
@@ -51,16 +51,32 @@ public abstract class AbstractJsonDSLTest {
         return params;
     }
 
-    static Params test(String name, Object expected, Field<String> field) {
-        return params(name, genericRow, expected, field);
+    static Params test(String name, String expected, Field<Json> fieldToSelect) {
+        return params(name, genericRow, Json.ofNullable(expected), fieldToSelect);
     }
 
-    static Params arrayTest(String name, String expected, Field<String> field) {
-        return params(name, arrayRow, expected, field);
+    static Params stringTest(String name, String expected, Field<String> fieldToSelect) {
+        return params(name, genericRow, expected, fieldToSelect);
     }
 
-    private static Params params(String name, String rowName, Object expected, Field<String> field) {
-        return new Params(name, rowName, expected, field);
+    static Params test(String name, JsonNode expected, Field<?> fieldToSelect) {
+        return params(name, genericRow, expected, fieldToSelect);
+    }
+
+    static Params testNull(String name, Field<?> fieldToSelect) {
+        return params(name, genericRow, null, fieldToSelect);
+    }
+
+    static Params arrayTest(String name, String expected, Field<Json> fieldToSelect) {
+        return params(name, arrayRow, Json.ofNullable(expected), fieldToSelect);
+    }
+
+    static Params arrayStringTest(String name, String expected, Field<String> fieldToSelect) {
+        return params(name, arrayRow, expected, fieldToSelect);
+    }
+
+    private static Params params(String name, String rowName, Object expected, Field<?> fieldToSelect) {
+        return new Params(name, rowName, expected, fieldToSelect);
     }
 
     @Before
@@ -68,25 +84,29 @@ public abstract class AbstractJsonDSLTest {
         dsl.deleteFrom(JSON_TEST).execute();
 
         String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
-        String artmpl = "[{\"d\": 4408}, 10, true, \"%s array\"]";
+        String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
         assertEquals(2, dsl.insertInto(JSON_TEST)
                 .columns(JSON_TEST.NAME, JSON_TEST.DATA, JSON_TEST.DATAB)
-                .values(genericRow, String.format(template, "json"), String.format(template, "jsonb"))
-                .values(arrayRow, String.format(artmpl, "json"), String.format(artmpl, "jsonb"))
+                .values(genericRow, Json.of(String.format(template, "json")), Json.of(String.format(template, "jsonb")))
+                .values(arrayRow, Json.of(String.format(arrayTemplate, "json")), Json.of(String.format(arrayTemplate, "jsonb")))
                 .execute());
         assertEquals(2, dsl.fetchCount(JSON_TEST));
     }
 
     @Test
     public void test() {
-        String data = select(rowName, fieldToSelect);
+        Object data = select(rowName, fieldToSelect);
 
         if (expected == null) {
             assertNull(data);
-        } else if (expected instanceof String) {
+        } else if (expected instanceof String || expected instanceof Json) {
             assertEquals(expected, data);
         } else if (expected instanceof JsonNode) {
-            assertEquals(expected, toNode(data));
+            if (data instanceof Json) {
+                assertEquals(expected, toNode(((Json) data).getValue()));
+            } else {
+                assertEquals(expected, toNode((String) data));
+            }
         } else {
             throw new IllegalArgumentException("Cannot assert object: " + expected.getClass());
         }
@@ -100,7 +120,7 @@ public abstract class AbstractJsonDSLTest {
         }
     }
 
-    private static String select(String rowName, Field<String> field) {
+    private Object select(String rowName, Field<?> field) {
         return dsl.select(field)
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq(rowName))
@@ -111,9 +131,9 @@ public abstract class AbstractJsonDSLTest {
         final String name;
         final String dataSet;
         final Object expected;
-        final Field<String> fieldToSelect;
+        final Field<?> fieldToSelect;
 
-        public Params(String name, String dataSet, Object expected, Field<String> fieldToSelect) {
+        public Params(String name, String dataSet, Object expected, Field<?> fieldToSelect) {
             this.name = name;
             this.dataSet = dataSet;
             this.expected = expected;

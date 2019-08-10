@@ -22,22 +22,8 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element
      */
-    public static Field<String> arrayElement(Field<String> jsonField, int index) {
-        return DSL.field("{0}->{1}", String.class, jsonField, index);
-    }
-
-    /**
-     * <p>Get JSON object field by key using the <code>-&gt;</code> operator</p>
-     *
-     * <p>Example: <code>'{"a": {"b":"foo"}}'::json-&gt;'a'</code></p>
-     * <p>Example result: <code>{"b":"foo"}</code></p>
-     *
-     * @param jsonField The JSON {@code Field} to extract the field from
-     * @param key       JSON field key name
-     * @return A {@code Field} representing the extracted value
-     */
-    public static Field<String> fieldByKey(Field<String> jsonField, String key) {
-        return DSL.field("{0}->{1}", String.class, jsonField, key);
+    public static Field<Json> arrayElement(Field<Json> jsonField, int index) {
+        return DSL.field("{0}->{1}", Json.class, jsonField, index);
     }
 
     /**
@@ -51,8 +37,22 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> arrayElementText(Field<String> jsonField, int index) {
+    public static Field<String> arrayElementText(Field<Json> jsonField, int index) {
         return DSL.field("{0}->>{1}", String.class, jsonField, index);
+    }
+
+    /**
+     * <p>Get JSON object field by key using the <code>-&gt;</code> operator</p>
+     *
+     * <p>Example: <code>'{"a": {"b":"foo"}}'::json-&gt;'a'</code></p>
+     * <p>Example result: <code>{"b":"foo"}</code></p>
+     *
+     * @param jsonField The JSON {@code Field} to extract the field from
+     * @param key       JSON field key name
+     * @return A {@code Field} representing the extracted value
+     */
+    public static Field<Json> fieldByKey(Field<Json> jsonField, String key) {
+        return DSL.field("{0}->{1}", Json.class, jsonField, key);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class JsonDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> fieldByKeyText(Field<String> jsonField, String key) {
+    public static Field<String> fieldByKeyText(Field<Json> jsonField, String key) {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
     }
 
@@ -81,8 +81,8 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, Collection)
      */
-    public static Field<String> objectAtPath(Field<String> jsonField, String... path) {
-        return DSL.field("{0}#>{1}", String.class, jsonField, DSL.array(path));
+    public static Field<Json> objectAtPath(Field<Json> jsonField, String... path) {
+        return DSL.field("{0}#>{1}", Json.class, jsonField, DSL.array(path));
     }
 
     /**
@@ -96,7 +96,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<String> objectAtPath(Field<String> jsonField, Collection<String> path) {
+    public static Field<Json> objectAtPath(Field<Json> jsonField, Collection<String> path) {
         return objectAtPath(jsonField, path.toArray(new String[0]));
     }
 
@@ -112,7 +112,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPathText(Field, Collection)
      */
-    public static Field<String> objectAtPathText(Field<String> jsonField, String... path) {
+    public static Field<String> objectAtPathText(Field<Json> jsonField, String... path) {
         return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
     }
 
@@ -128,7 +128,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<String> objectAtPathText(Field<String> jsonField, Collection<String> path) {
+    public static Field<String> objectAtPathText(Field<Json> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 }

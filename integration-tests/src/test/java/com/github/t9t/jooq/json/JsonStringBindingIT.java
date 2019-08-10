@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
+import static com.github.t9t.jooq.generated.Tables.JSON_STR_TEST;
 import static org.junit.Assert.*;
 
 public class JsonStringBindingIT {
@@ -23,8 +23,8 @@ public class JsonStringBindingIT {
 
     @Before
     public void setUp() {
-        dsl.deleteFrom(JSON_TEST).execute();
-        assertEquals(3, dsl.execute("insert into jooq.json_test (name, data, datab)" +
+        dsl.deleteFrom(JSON_STR_TEST).execute();
+        assertEquals(3, dsl.execute("insert into jooq.json_str_test (name, data, datab)" +
                 " values " +
                 "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
                 "('empty', '{}', '{}')," +
@@ -38,14 +38,14 @@ public class JsonStringBindingIT {
     @Test
     public void testJdbcAssumption() throws Exception {
         try (Connection conn = ds.getConnection();
-             PreparedStatement st = conn.prepareStatement("insert into jooq.json_test (name, data, datab) values (?, ?::json, ?::json)")) {
+             PreparedStatement st = conn.prepareStatement("insert into jooq.json_str_test (name, data, datab) values (?, ?::json, ?::json)")) {
 
             st.setString(1, "jdbc");
             st.setString(2, "{\"jdbc\": \"json\"}");
             st.setString(3, "{\"jdbc\":\"jsonb\"}");
             assertEquals(1, st.executeUpdate());
 
-            PreparedStatement s = conn.prepareStatement("select name, data, datab from jooq.json_test where name = 'jdbc'");
+            PreparedStatement s = conn.prepareStatement("select name, data, datab from jooq.json_str_test where name = 'jdbc'");
             ResultSet rs = s.executeQuery();
             assertTrue(rs.next());
 
@@ -58,9 +58,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJson() {
-        Record1<String> r = dsl.select(JSON_TEST.DATA)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATA)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("both"))
                 .fetchOne();
 
         assertEquals("{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}", r.value1());
@@ -68,9 +68,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJsonEmpty() {
-        Record1<String> r = dsl.select(JSON_TEST.DATA)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("empty"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATA)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("empty"))
                 .fetchOne();
 
         assertEquals("{}", r.value1());
@@ -78,9 +78,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJsonNull() {
-        Record1<String> r = dsl.select(JSON_TEST.DATA)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATA)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("null"))
                 .fetchOne();
 
         assertNull(r.value1());
@@ -88,9 +88,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJsonb() {
-        Record1<String> r = dsl.select(JSON_TEST.DATAB)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("both"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATAB)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("both"))
                 .fetchOne();
 
         assertEquals("{\"jsonb\": {\"n\": null, \"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}}}", r.value1());
@@ -98,9 +98,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJsonbEmpty() {
-        Record1<String> r = dsl.select(JSON_TEST.DATAB)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("empty"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATAB)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("empty"))
                 .fetchOne();
 
         assertEquals("{}", r.value1());
@@ -108,9 +108,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectJsonbNull() {
-        Record1<String> r = dsl.select(JSON_TEST.DATAB)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+        Record1<String> r = dsl.select(JSON_STR_TEST.DATAB)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("null"))
                 .fetchOne();
 
         assertNull(r.value1());
@@ -118,9 +118,9 @@ public class JsonStringBindingIT {
 
     @Test
     public void selectBothJsonAndJsonB() {
-        Record2<String, String> r = dsl.select(JSON_TEST.DATA, JSON_TEST.DATAB)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+        Record2<String, String> r = dsl.select(JSON_STR_TEST.DATA, JSON_STR_TEST.DATAB)
+                .from(JSON_STR_TEST)
+                .where(JSON_STR_TEST.NAME.eq("null"))
                 .fetchOne();
 
         assertNull(r.value1());
@@ -129,57 +129,57 @@ public class JsonStringBindingIT {
 
     @Test
     public void testInsertJson() {
-        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("json-insert")).execute();
+        dsl.deleteFrom(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("json-insert")).execute();
 
         String value = "{\"x\": 1}";
 
-        assertEquals(1, dsl.insertInto(JSON_TEST)
-                .set(JSON_TEST.NAME, "json-insert")
-                .set(JSON_TEST.DATA, value)
+        assertEquals(1, dsl.insertInto(JSON_STR_TEST)
+                .set(JSON_STR_TEST.NAME, "json-insert")
+                .set(JSON_STR_TEST.DATA, value)
                 .execute());
 
-        assertEquals(value, dsl.select(JSON_TEST.DATA).from(JSON_TEST).where(JSON_TEST.NAME.eq("json-insert")).fetchOne().value1());
+        assertEquals(value, dsl.select(JSON_STR_TEST.DATA).from(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("json-insert")).fetchOne().value1());
     }
 
     @Test
     public void testInsertJsonb() {
-        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-insert")).execute();
+        dsl.deleteFrom(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("jsonb-insert")).execute();
 
 
         String value = "{\"x\": 1}";
 
-        assertEquals(1, dsl.insertInto(JSON_TEST)
-                .set(JSON_TEST.NAME, "jsonb-insert")
-                .set(JSON_TEST.DATAB, value)
+        assertEquals(1, dsl.insertInto(JSON_STR_TEST)
+                .set(JSON_STR_TEST.NAME, "jsonb-insert")
+                .set(JSON_STR_TEST.DATAB, value)
                 .execute());
 
-        assertEquals(value, dsl.select(JSON_TEST.DATAB).from(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-insert")).fetchOne().value1());
+        assertEquals(value, dsl.select(JSON_STR_TEST.DATAB).from(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("jsonb-insert")).fetchOne().value1());
     }
 
     @Test
     public void testUpdateJson() {
-        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("json-update")).execute();
+        dsl.deleteFrom(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("json-update")).execute();
 
         String initial = "{\"x\": 1}";
         String updated = "{\"y\": 2}";
 
-        assertEquals(1, dsl.insertInto(JSON_TEST).set(JSON_TEST.NAME, "json-update").set(JSON_TEST.DATA, initial).execute());
-        assertEquals(1, dsl.update(JSON_TEST).set(JSON_TEST.DATA, updated).where(JSON_TEST.NAME.eq("json-update")).execute());
+        assertEquals(1, dsl.insertInto(JSON_STR_TEST).set(JSON_STR_TEST.NAME, "json-update").set(JSON_STR_TEST.DATA, initial).execute());
+        assertEquals(1, dsl.update(JSON_STR_TEST).set(JSON_STR_TEST.DATA, updated).where(JSON_STR_TEST.NAME.eq("json-update")).execute());
 
-        assertEquals(updated, dsl.select(JSON_TEST.DATA).from(JSON_TEST).where(JSON_TEST.NAME.eq("json-update")).fetchOne().value1());
+        assertEquals(updated, dsl.select(JSON_STR_TEST.DATA).from(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("json-update")).fetchOne().value1());
     }
 
     @Test
     public void testUpdateJsonb() {
-        dsl.deleteFrom(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-update")).execute();
+        dsl.deleteFrom(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("jsonb-update")).execute();
 
         String initial = "{\"x\": 1}";
         String updated = "{\"y\": 2}";
 
-        assertEquals(1, dsl.insertInto(JSON_TEST).set(JSON_TEST.NAME, "jsonb-update").set(JSON_TEST.DATAB, initial).execute());
-        assertEquals(1, dsl.update(JSON_TEST).set(JSON_TEST.DATAB, updated).where(JSON_TEST.NAME.eq("jsonb-update")).execute());
+        assertEquals(1, dsl.insertInto(JSON_STR_TEST).set(JSON_STR_TEST.NAME, "jsonb-update").set(JSON_STR_TEST.DATAB, initial).execute());
+        assertEquals(1, dsl.update(JSON_STR_TEST).set(JSON_STR_TEST.DATAB, updated).where(JSON_STR_TEST.NAME.eq("jsonb-update")).execute());
 
-        assertEquals(updated, dsl.select(JSON_TEST.DATAB).from(JSON_TEST).where(JSON_TEST.NAME.eq("jsonb-update")).fetchOne().value1());
+        assertEquals(updated, dsl.select(JSON_STR_TEST.DATAB).from(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("jsonb-update")).fetchOne().value1());
     }
 
 }
