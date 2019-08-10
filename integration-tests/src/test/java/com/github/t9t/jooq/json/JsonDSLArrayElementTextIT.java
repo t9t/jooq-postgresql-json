@@ -9,11 +9,11 @@ public class JsonDSLArrayElementTextIT extends AbstractJsonDSLTest {
     @Parameterized.Parameters(name = "{1}_{0}")
     public static List<Object[]> params() {
         return generateParams("arrayElementText", (type, f) -> Arrays.asList(
-                arrayStringTest("getFirstObject", "{\"d\": 4408}", JsonDSL.arrayElementText(f, 0)),
-                arrayStringTest("getString", type + " array", JsonDSL.arrayElementText(f, 3)),
-                arrayStringTest("outOfBounds", null, JsonDSL.arrayElementText(f, 100)),
-                arrayStringTest("negativeIndex", "true", JsonDSL.arrayElementText(f, -2)),
-                testNull("onObject", JsonDSL.arrayElementText(f, 100))
+                test("getFirstObject").forArray().selecting(JsonDSL.arrayElementText(f, 0)).expectString("{\"d\": 4408}"),
+                test("getString").forArray().selecting(JsonDSL.arrayElementText(f, 3)).expectString(type + " array"),
+                test("outOfBounds").forArray().selecting(JsonDSL.arrayElementText(f, 100)).expectString(null),
+                test("negativeIndex").forArray().selecting(JsonDSL.arrayElementText(f, -2)).expectString("true"),
+                test("onObject").selecting(JsonDSL.arrayElementText(f, 100)).expectNull()
         ));
     }
 

@@ -9,10 +9,10 @@ public class JsonDSLFieldByKeyIT extends AbstractJsonDSLTest {
     @Parameterized.Parameters(name = "{1}_{0}")
     public static List<Object[]> params() {
         return generateParams("fieldByKey", (type, f) -> Arrays.asList(
-                test("string", "\"Hello, " + type + " world!\"", JsonDSL.fieldByKey(f, "str")),
-                test("twoLevels", "5521", JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i")),
-                test("nullField", "null", JsonDSL.fieldByKey(f, "n")),
-                testNull("notExistingField", JsonDSL.fieldByKey(f, "notExisting"))
+                test("string").selecting(JsonDSL.fieldByKey(f, "str")).expectJson("\"Hello, " + type + " world!\""),
+                test("twoLevels").selecting(JsonDSL.fieldByKey(JsonDSL.fieldByKey(f, "obj"), "i")).expectJson("5521"),
+                test("nullField").selecting(JsonDSL.fieldByKey(f, "n")).expectJson("null"),
+                test("notExistingField").selecting(JsonDSL.fieldByKey(f, "notExisting")).expectNull()
         ));
     }
 }

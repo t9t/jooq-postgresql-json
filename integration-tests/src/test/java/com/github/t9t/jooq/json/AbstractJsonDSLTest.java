@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
+import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -26,8 +27,8 @@ public abstract class AbstractJsonDSLTest {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
     private static final ObjectMapper om = new ObjectMapper();
 
-    static final String genericRow = "json-dsl";
-    static final String arrayRow = "array";
+    private static final String genericRow = "json-dsl";
+    private static final String arrayRow = "array";
 
     @Parameterized.Parameter
     public String testName;
@@ -45,38 +46,10 @@ public abstract class AbstractJsonDSLTest {
             List<Params> paramList = testParamFunc.apply(type, f);
             for (Params p : paramList) {
                 String name = String.format("%s_%s_%s", baseName, p.name, type);
-                params.add(new Object[]{name, p.dataSet, p.expected, p.fieldToSelect});
+                params.add(new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")});
             }
         }
         return params;
-    }
-
-    static Params test(String name, String expected, Field<Json> fieldToSelect) {
-        return params(name, genericRow, Json.ofNullable(expected), fieldToSelect);
-    }
-
-    static Params stringTest(String name, String expected, Field<String> fieldToSelect) {
-        return params(name, genericRow, expected, fieldToSelect);
-    }
-
-    static Params test(String name, JsonNode expected, Field<?> fieldToSelect) {
-        return params(name, genericRow, expected, fieldToSelect);
-    }
-
-    static Params testNull(String name, Field<?> fieldToSelect) {
-        return params(name, genericRow, null, fieldToSelect);
-    }
-
-    static Params arrayTest(String name, String expected, Field<Json> fieldToSelect) {
-        return params(name, arrayRow, Json.ofNullable(expected), fieldToSelect);
-    }
-
-    static Params arrayStringTest(String name, String expected, Field<String> fieldToSelect) {
-        return params(name, arrayRow, expected, fieldToSelect);
-    }
-
-    private static Params params(String name, String rowName, Object expected, Field<?> fieldToSelect) {
-        return new Params(name, rowName, expected, fieldToSelect);
     }
 
     @Before
@@ -127,17 +100,49 @@ public abstract class AbstractJsonDSLTest {
                 .fetchOne().value1();
     }
 
-    static class Params {
-        final String name;
-        final String dataSet;
-        final Object expected;
-        final Field<?> fieldToSelect;
+    static Params test(String name) {
+        return new Params(name);
+    }
 
-        public Params(String name, String dataSet, Object expected, Field<?> fieldToSelect) {
+    static class Params {
+        private final String name;
+        private String dataSet;
+        private Object expected;
+        private Field<?> fieldToSelect;
+
+        private Params(String name) {
             this.name = name;
-            this.dataSet = dataSet;
-            this.expected = expected;
+            this.dataSet = genericRow;
+        }
+
+        Params forArray() {
+            this.dataSet = arrayRow;
+            return this;
+        }
+
+        Params selecting(Field<?> fieldToSelect) {
             this.fieldToSelect = fieldToSelect;
+            return this;
+        }
+
+        Params expectNull() {
+            this.expected = null;
+            return this;
+        }
+
+        Params expectString(String s) {
+            this.expected = s;
+            return this;
+        }
+
+        Params expectJson(String s) {
+            this.expected = Json.ofNullable(s);
+            return this;
+        }
+
+        Params expectJson(JsonNode node) {
+            this.expected = node;
+            return this;
         }
     }
 }

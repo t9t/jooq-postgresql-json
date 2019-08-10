@@ -9,11 +9,11 @@ public class JsonDSLObjectAtPathIT extends AbstractJsonDSLTest {
     @Parameterized.Parameters(name = "{1}_{0}")
     public static List<Object[]> params() {
         return generateParams("objectAtPath", (type, f) -> Arrays.asList(
-                test("oneLevel", "\"Hello, " + type + " world!\"", JsonDSL.objectAtPath(f, "str")),
-                test("obj", toNode("{\"i\": 5521, \"b\": true}"), JsonDSL.objectAtPath(f, "obj")),
-                test("deepVarargs", "4408", JsonDSL.objectAtPath(f, "arr", "0", "d")),
-                test("deepCollection", "4408", JsonDSL.objectAtPath(f, Arrays.asList("arr", "0", "d"))),
-                testNull("notExistingPath", JsonDSL.objectAtPath(f, "not", "existing", "path"))
+                test("oneLevel").selecting(JsonDSL.objectAtPath(f, "str")).expectJson("\"Hello, " + type + " world!\""),
+                test("obj").selecting(JsonDSL.objectAtPath(f, "obj")).expectJson(toNode("{\"i\": 5521, \"b\": true}")),
+                test("deepVarargs").selecting(JsonDSL.objectAtPath(f, "arr", "0", "d")).expectJson("4408"),
+                test("deepCollection").selecting(JsonDSL.objectAtPath(f, Arrays.asList("arr", "0", "d"))).expectJson("4408"),
+                test("notExistingPath").selecting(JsonDSL.objectAtPath(f, "not", "existing", "path")).expectNull()
         ));
     }
 }
