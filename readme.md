@@ -12,6 +12,7 @@ Requires at least Java 8.
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
 - [Example](#example)
 - [References](#references)
+- [![Javadocs](https://javadoc.io/badge/com.github.t9t.jooq/jooq-postgresql-json.svg)](https://javadoc.io/doc/com.github.t9t.jooq/jooq-postgresql-json)
 
 ---
 
