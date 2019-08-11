@@ -116,6 +116,36 @@ public String fetchData(long id) {
 }
 ```
 
+## PostgreSQL json operator support
+Reference: https://www.postgresql.org/docs/11/functions-json.html
+
+Operators available for both `json` (through `JsonDSL`) and `jsonb` (through `JsonbDSL`):
+
+| Op | Operand | Description | Method |
+| --- | --- | --- | --- |
+| `->` | `int` | Get array element | `arrayElement()` |
+| `->` | `text` | Get object field | `fieldByKey()` |
+| `->>` | `int` | Get array element as text | `arrayElementText()` |
+| `->>` | `text` | Get object field as text | `fieldByKeyText()` |
+| `#>` | `text[]` | Get object at path | `objectAtPath()` |
+| `#>>` | `text[]` | Get object at path as text | `objectAtPathText()` |
+
+Operators available only for `jsonb` (through `JsonbDSL`):
+
+
+| Op | Operand | Description | Method |
+| --- | --- | --- | --- |
+| `@>` | `jsonb` | Does contain value? | `contains()` |
+| `<@` | `jsonb` | Are entries contained? | `containedIn()` |
+| `?` | `text` | Does the key exist? | `hasKey()` |
+| <code>?&#124;</code> | `text[]` | Does any key exist? | `doesAnyKeyExist()` |
+| `?&` | `text[]` | Do all keys exist? | `doAllKeysExist()` |
+| <code>&#124;&#124;</code> | `jsonb` | Concatenate values | `concat()` |
+| `-` | `text` | Delete key or element | `delete()` |
+| `-` | `text[]` | Delete multiple keys or elements | `delete()` |
+| `-` | `int` | Delete array element | `deleteElement()` |
+| `#-` | `text[]` | Delete field for path | `deletePath()` |
+
 ## Example
 See the [integration-tests](integration-tests) module's [pom.xml](integration-tests/pom.xml) for an example of the
 `jooq-codegen` Maven plugin with the custom json bindings.
