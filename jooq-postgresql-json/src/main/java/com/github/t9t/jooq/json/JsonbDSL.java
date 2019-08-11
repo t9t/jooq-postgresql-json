@@ -1,5 +1,6 @@
 package com.github.t9t.jooq.json;
 
+import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.impl.DSL;
 
@@ -11,6 +12,14 @@ import java.util.Collection;
  * <p>Reference: <a href="https://www.postgresql.org/docs/11/functions-json.html">https://www.postgresql.org/docs/11/functions-json.html</a></p>
  */
 public final class JsonbDSL {
+    public static Field<Jsonb> field(String s) {
+        return DSL.field("{0}", Jsonb.class, Jsonb.of(s));
+    }
+
+    public static Field<Jsonb> field(Jsonb jsonb) {
+        return DSL.field("{0}", Jsonb.class, jsonb);
+    }
+
     /**
      * <p>Get JSON array element (indexed from zero, negative integers count from the end), using the
      * <code>-&gt;</code> operator</p>
@@ -130,5 +139,102 @@ public final class JsonbDSL {
      */
     public static Field<String> objectAtPathText(Field<Jsonb> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
+    }
+
+    /**
+     * TODO: write docs
+     * <p>
+     * {@code @}> jsonb    Does the left JSON value contain the right JSON path/value entries at the top level? 	'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb
+     */
+    public static Condition contains(Field<Jsonb> left, Field<Jsonb> right) {
+        return DSL.condition("{0} @> {1}", left, right);
+    }
+
+    /**
+     * TODO: write docs
+     * <@ 	jsonb 	Are the left JSON path/value entries contained at the top level within the right JSON value? 	'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
+     */
+    public static Condition containedIn(Field<Jsonb> left, Field<Jsonb> right) {
+        return DSL.condition("{0} <@ {1}", left, right);
+    }
+
+    /**
+     * TODO: write docs
+     * ?  	text 	Does the string exist as a top-level key within the JSON value? 	'{"a":1, "b":2}'::jsonb ? 'b'
+     */
+    public static Condition hasKey(Field<Jsonb> f, String key) {
+        return DSL.condition("{0} ? {1}", f, key);
+    }
+
+    /**
+     * TODO: write docs
+     * ?| 	text[] 	Do any of these array strings exist as top-level keys? 	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
+     */
+    public static Condition doesAnyKeyExist(Field<Jsonb> f, String... keys) {
+        return DSL.condition("{0} ?| {1}", f, DSL.array(keys));
+    }
+
+    /**
+     * TODO: write docs
+     * ?| 	text[] 	Do any of these array strings exist as top-level keys? 	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
+     */
+    public static Condition doesAnyKeyExist(Field<Jsonb> f, Collection<String> keys) {
+        return doesAnyKeyExist(f, keys.toArray(new String[0]));
+    }
+
+    /**
+     * TODO: write docs
+     * ?& 	text[] 	Do all of these array strings exist as top-level keys? 	'["a", "b"]'::jsonb ?& array['a', 'b']
+     */
+    public static Condition doAllKeysExist(Field<Jsonb> f, String... keys) {
+        return DSL.condition("{0} ?& {1}", f, keys);
+    }
+
+    /**
+     * TODO: write docs
+     * ?& 	text[] 	Do all of these array strings exist as top-level keys? 	'["a", "b"]'::jsonb ?& array['a', 'b']
+     */
+    public static Condition doAllKeysExist(Field<Jsonb> f, Collection<String> keys) {
+        return doesAnyKeyExist(f, keys.toArray(new String[0]));
+    }
+
+    /**
+     * TODO: write docs
+     * || 	jsonb 	Concatenate two jsonb values into a new jsonb value 	'["a", "b"]'::jsonb || '["c", "d"]'::jsonb
+     */
+    public static Field<Jsonb> concat(Field<Jsonb> field1, Field<Jsonb> field2) {
+        return DSL.field("{0} || {1}", Jsonb.class, field1, field2);
+    }
+
+    /**
+     * TODO: write docs
+     * - 	text 	Delete key/value pair or string element from left operand. Key/value pairs are matched based on their key value. 	'{"a": "b"}'::jsonb - 'a'
+     */
+    public static Field<Jsonb> delete(Field<Jsonb> f, String keyOrElement) {
+        return DSL.field("{0} - {1}", Jsonb.class, f, keyOrElement);
+    }
+
+    /**
+     * TODO: write docs
+     * - 	text[] 	Delete multiple key/value pairs or string elements from left operand. Key/value pairs are matched based on their key value. 	'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]
+     */
+    public static Field<Jsonb> delete(Field<Jsonb> f, String... keysOrElements) {
+        return DSL.field("{0} - {1}", Jsonb.class, f, DSL.array(keysOrElements));
+    }
+
+    /**
+     * TODO: write docs
+     * - 	integer 	Delete the array element with specified index (Negative integers count from the end). Throws an error if top level container is not an array. 	'["a", "b"]'::jsonb - 1
+     */
+    public static Field<Jsonb> deleteElement(Field<Jsonb> f, int index) {
+        return DSL.field("{0} - {1}", Jsonb.class, f, index);
+    }
+
+    /**
+     * TODO: write docs
+     * #- 	text[] 	Delete the field or element with specified path (for JSON arrays, negative integers count from the end) 	'["a", {"b":1}]'::jsonb #- '{1,b}'
+     */
+    public static Field<Jsonb> deletePath(Field<Jsonb> f, String... path) {
+        return DSL.field("{0} #- {1}", Jsonb.class, f, DSL.array(path));
     }
 }
