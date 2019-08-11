@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static java.util.Objects.requireNonNull;
@@ -41,12 +41,10 @@ public abstract class AbstractJsonDSLTest {
     public Field<?> fieldToSelect;
 
     static List<Object[]> generateParams(String baseName, List<Params> paramList) {
-        List<Object[]> params = new ArrayList<>();
-        for (Params p : paramList) {
+        return paramList.stream().map(p -> {
             String name = String.format("%s_%s", baseName, p.name);
-            params.add(new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")});
-        }
-        return params;
+            return new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")};
+        }).collect(Collectors.toList());
     }
 
     @Before
