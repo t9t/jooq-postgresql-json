@@ -43,7 +43,7 @@ public abstract class AbstractJsonDSLTest {
     static List<Object[]> generateParams(String baseName, List<Params> paramList) {
         List<Object[]> params = new ArrayList<>();
         for (Params p : paramList) {
-            String name = String.format("%s_%s_%s", baseName, p.name, "json");
+            String name = String.format("%s_%s", baseName, p.name);
             params.add(new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")});
         }
         return params;
@@ -69,11 +69,13 @@ public abstract class AbstractJsonDSLTest {
 
         if (expected == null) {
             assertNull(data);
-        } else if (expected instanceof String || expected instanceof Json) {
+        } else if (expected instanceof String || expected instanceof Json || expected instanceof Jsonb) {
             assertEquals(expected, data);
         } else if (expected instanceof JsonNode) {
             if (data instanceof Json) {
                 assertEquals(expected, toNode(((Json) data).getValue()));
+            } else if (data instanceof Jsonb) {
+                assertEquals(expected, toNode(((Jsonb) data).getValue()));
             } else {
                 assertEquals(expected, toNode((String) data));
             }
@@ -98,7 +100,11 @@ public abstract class AbstractJsonDSLTest {
     }
 
     static Params test(String name) {
-        return new Params(name);
+        return new Params(name + "_json");
+    }
+
+    static Params btest(String name) {
+        return new Params(name + "_jsonb");
     }
 
     static class Params {
@@ -134,6 +140,11 @@ public abstract class AbstractJsonDSLTest {
 
         Params expectJson(String s) {
             this.expected = Json.ofNullable(s);
+            return this;
+        }
+
+        Params expectJsonb(String s) {
+            this.expected = Jsonb.ofNullable(s);
             return this;
         }
 

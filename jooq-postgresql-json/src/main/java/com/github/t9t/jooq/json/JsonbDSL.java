@@ -6,11 +6,11 @@ import org.jooq.impl.DSL;
 import java.util.Collection;
 
 /**
- * <p>Functions for {@code json} PostgreSQL operator support in jOOQ</p>
+ * <p>Functions for {@code jsonb} PostgreSQL operator support in jOOQ</p>
  *
  * <p>Reference: <a href="https://www.postgresql.org/docs/11/functions-json.html">https://www.postgresql.org/docs/11/functions-json.html</a></p>
  */
-public final class JsonDSL {
+public final class JsonbDSL {
     /**
      * <p>Get JSON array element (indexed from zero, negative integers count from the end), using the
      * <code>-&gt;</code> operator</p>
@@ -22,8 +22,8 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element
      */
-    public static Field<Json> arrayElement(Field<Json> jsonField, int index) {
-        return DSL.field("{0}->{1}", Json.class, jsonField, index);
+    public static Field<Jsonb> arrayElement(Field<Jsonb> jsonField, int index) {
+        return DSL.field("{0}->{1}", Jsonb.class, jsonField, index);
     }
 
     /**
@@ -37,7 +37,7 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> arrayElementText(Field<Json> jsonField, int index) {
+    public static Field<String> arrayElementText(Field<Jsonb> jsonField, int index) {
         return DSL.field("{0}->>{1}", String.class, jsonField, index);
     }
 
@@ -51,8 +51,8 @@ public final class JsonDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted value
      */
-    public static Field<Json> fieldByKey(Field<Json> jsonField, String key) {
-        return DSL.field("{0}->{1}", Json.class, jsonField, key);
+    public static Field<Jsonb> fieldByKey(Field<Jsonb> jsonField, String key) {
+        return DSL.field("{0}->{1}", Jsonb.class, jsonField, key);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class JsonDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> fieldByKeyText(Field<Json> jsonField, String key) {
+    public static Field<String> fieldByKeyText(Field<Jsonb> jsonField, String key) {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
     }
 
@@ -81,8 +81,8 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, Collection)
      */
-    public static Field<Json> objectAtPath(Field<Json> jsonField, String... path) {
-        return DSL.field("{0}#>{1}", Json.class, jsonField, DSL.array(path));
+    public static Field<Jsonb> objectAtPath(Field<Jsonb> jsonField, String... path) {
+        return DSL.field("{0}#>{1}", Jsonb.class, jsonField, DSL.array(path));
     }
 
     /**
@@ -96,7 +96,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<Json> objectAtPath(Field<Json> jsonField, Collection<String> path) {
+    public static Field<Jsonb> objectAtPath(Field<Jsonb> jsonField, Collection<String> path) {
         return objectAtPath(jsonField, path.toArray(new String[0]));
     }
 
@@ -112,7 +112,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPathText(Field, Collection)
      */
-    public static Field<String> objectAtPathText(Field<Json> jsonField, String... path) {
+    public static Field<String> objectAtPathText(Field<Jsonb> jsonField, String... path) {
         return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
     }
 
@@ -128,7 +128,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<String> objectAtPathText(Field<Json> jsonField, Collection<String> path) {
+    public static Field<String> objectAtPathText(Field<Jsonb> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 }

@@ -15,7 +15,13 @@ public class JsonDSLArrayElementIT extends AbstractJsonDSLTest {
                 test("getString").forArray().selecting(arrayElement(json, 3)).expectJson("\"json array\""),
                 test("outOfBounds").forArray().selecting(arrayElement(json, 100)).expectNull(),
                 test("negativeIndex").forArray().selecting(arrayElement(json, -2)).expectJson("true"),
-                test("onObject").forArray().selecting(arrayElement(json, 100)).expectNull()
+                test("onObject").forArray().selecting(arrayElement(json, 100)).expectNull(),
+
+                btest("getFirstObject").forArray().selecting(JsonbDSL.arrayElement(jsonb, 0)).expectJsonb("{\"d\": 4408}"),
+                btest("getString").forArray().selecting(JsonbDSL.arrayElement(jsonb, 3)).expectJsonb("\"jsonb array\""),
+                btest("outOfBounds").forArray().selecting(JsonbDSL.arrayElement(jsonb, 100)).expectNull(),
+                btest("negativeIndex").forArray().selecting(JsonbDSL.arrayElement(jsonb, -2)).expectJsonb("true"),
+                btest("onObject").forArray().selecting(JsonbDSL.arrayElement(jsonb, 100)).expectNull()
         ));
     }
 
