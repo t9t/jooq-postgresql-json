@@ -163,7 +163,7 @@ public final class JsonbDSL {
      * ?  	text 	Does the string exist as a top-level key within the JSON value? 	'{"a":1, "b":2}'::jsonb ? 'b'
      */
     public static Condition hasKey(Field<Jsonb> f, String key) {
-        return DSL.condition("{0} ? {1}", f, key);
+        return DSL.condition("{0} ?? {1}", f, key);
     }
 
     /**
@@ -171,7 +171,7 @@ public final class JsonbDSL {
      * ?| 	text[] 	Do any of these array strings exist as top-level keys? 	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
      */
     public static Condition doesAnyKeyExist(Field<Jsonb> f, String... keys) {
-        return DSL.condition("{0} ?| {1}", f, DSL.array(keys));
+        return DSL.condition("{0} ??| {1}", f, DSL.array(keys));
     }
 
     /**
@@ -187,7 +187,7 @@ public final class JsonbDSL {
      * ?& 	text[] 	Do all of these array strings exist as top-level keys? 	'["a", "b"]'::jsonb ?& array['a', 'b']
      */
     public static Condition doAllKeysExist(Field<Jsonb> f, String... keys) {
-        return DSL.condition("{0} ?& {1}", f, keys);
+        return DSL.condition("{0} ??& {1}", f, keys);
     }
 
     /**
