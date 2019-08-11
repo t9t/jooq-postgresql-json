@@ -232,9 +232,9 @@ public final class JsonbDSL {
      * @param f    The JSON {@code Field} that should contain all of the {@code keys}
      * @param keys List of keys that all should exist in the JSON value
      * @return A {@code Condition} representing whether all of the {@code keys} exist
-     * @see #doAllKeysExist(Field, Collection)
+     * @see #hasAllKeys(Field, Collection)
      */
-    public static Condition doAllKeysExist(Field<Jsonb> f, String... keys) {
+    public static Condition hasAllKeys(Field<Jsonb> f, String... keys) {
         return DSL.condition("{0} ??& {1}", f, keys);
     }
 
@@ -246,10 +246,10 @@ public final class JsonbDSL {
      * @param f    The JSON {@code Field} that should contain all of the {@code keys}
      * @param keys List of keys that all should exist in the JSON value
      * @return A {@code Condition} representing whether all of the {@code keys} exist
-     * @see #doAllKeysExist(Field, String...)
+     * @see #hasAllKeys(Field, String...)
      */
-    public static Condition doAllKeysExist(Field<Jsonb> f, Collection<String> keys) {
-        return doAllKeysExist(f, keys.toArray(new String[0]));
+    public static Condition hasAllKeys(Field<Jsonb> f, Collection<String> keys) {
+        return hasAllKeys(f, keys.toArray(new String[0]));
     }
 
     /**
