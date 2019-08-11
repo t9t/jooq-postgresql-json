@@ -13,9 +13,7 @@ import org.junit.runners.Parameterized;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiFunction;
 
 import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static java.util.Objects.requireNonNull;
@@ -30,6 +28,9 @@ public abstract class AbstractJsonDSLTest {
     private static final String genericRow = "json-dsl";
     private static final String arrayRow = "array";
 
+    static final Field<Json> json = JSON_TEST.DATA;
+    static final Field<Jsonb> jsonb = JSON_TEST.DATAB;
+
     @Parameterized.Parameter
     public String testName;
     @Parameterized.Parameter(1)
@@ -39,15 +40,11 @@ public abstract class AbstractJsonDSLTest {
     @Parameterized.Parameter(3)
     public Field<?> fieldToSelect;
 
-    static List<Object[]> generateParams(String baseName, BiFunction<String, Field<Json>, List<Params>> testParamFunc) {
+    static List<Object[]> generateParams(String baseName, List<Params> paramList) {
         List<Object[]> params = new ArrayList<>();
-        for (String type : Arrays.asList("json", "jsonb")) {
-            Field<Json> f = "json".equals(type) ? JSON_TEST.DATA : JSON_TEST.DATAB;
-            List<Params> paramList = testParamFunc.apply(type, f);
-            for (Params p : paramList) {
-                String name = String.format("%s_%s_%s", baseName, p.name, type);
-                params.add(new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")});
-            }
+        for (Params p : paramList) {
+            String name = String.format("%s_%s_%s", baseName, p.name, "json");
+            params.add(new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")});
         }
         return params;
     }
@@ -60,8 +57,8 @@ public abstract class AbstractJsonDSLTest {
         String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
         assertEquals(2, dsl.insertInto(JSON_TEST)
                 .columns(JSON_TEST.NAME, JSON_TEST.DATA, JSON_TEST.DATAB)
-                .values(genericRow, Json.of(String.format(template, "json")), Json.of(String.format(template, "jsonb")))
-                .values(arrayRow, Json.of(String.format(arrayTemplate, "json")), Json.of(String.format(arrayTemplate, "jsonb")))
+                .values(genericRow, Json.of(String.format(template, "json")), Jsonb.of(String.format(template, "jsonb")))
+                .values(arrayRow, Json.of(String.format(arrayTemplate, "json")), Jsonb.of(String.format(arrayTemplate, "jsonb")))
                 .execute());
         assertEquals(2, dsl.fetchCount(JSON_TEST));
     }

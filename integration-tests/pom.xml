@@ -196,8 +196,8 @@
                                             <types>json</types>
                                         </forcedType>
                                         <forcedType>
-                                            <userType>com.github.t9t.jooq.json.Json</userType>
-                                            <binding>com.github.t9t.jooq.json.JsonBinding</binding>
+                                            <userType>com.github.t9t.jooq.json.Jsonb</userType>
+                                            <binding>com.github.t9t.jooq.json.JsonbBinding</binding>
                                             <expression>.*\.json_test\..*</expression>
                                             <types>jsonb</types>
                                         </forcedType>

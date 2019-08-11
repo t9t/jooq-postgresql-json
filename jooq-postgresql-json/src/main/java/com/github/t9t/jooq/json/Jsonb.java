@@ -5,7 +5,7 @@ import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 
 /**
- * <p>Represents a {@code json} value. When using {@link JsonBinding}, {@code null} values from the database are turned
+ * <p>Represents a {@code jsonb} value. When using {@link JsonBinding}, {@code null} values from the database are turned
  * as a {@code null}, <i>not</i> a {@code Json} instance with a {@code null} value.</p>
  *
  * <p>The {@link #toString()} method returns only the value without any additions, so can be used safely in place of
@@ -14,10 +14,10 @@ import static java.util.Objects.requireNonNull;
  * <p>To create an instance of a non-{@code null} value, use {@link #of(String)}. When you have a nullable value, use
  * {@link #ofNullable(String)} which returns {@code null} in case the input is {@code null}.</p>
  */
-public class Json {
+public final class Jsonb {
     private final String value;
 
-    private Json(String value) {
+    private Jsonb(String value) {
         this.value = requireNonNull(value, "value");
     }
 
@@ -29,8 +29,8 @@ public class Json {
      * @return Instance representing the string value
      * @see #ofNullable(String)
      */
-    public static Json of(String value) {
-        return new Json(value);
+    public static Jsonb of(String value) {
+        return new Jsonb(value);
     }
 
     /**
@@ -41,11 +41,11 @@ public class Json {
      * @return Instance representing the string value or {@code null}
      * @see #of(String)
      */
-    public static Json ofNullable(String value) {
+    public static Jsonb ofNullable(String value) {
         return value == null ? null : of(value);
     }
 
-    public static Json copy(Json in) {
+    public static Jsonb copy(Jsonb in) {
         return in == null ? null : of(in.value);
     }
 
@@ -71,7 +71,7 @@ public class Json {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return Objects.equals(value, ((Json) o).value);
+        return Objects.equals(value, ((Jsonb) o).value);
     }
 
     @Override
