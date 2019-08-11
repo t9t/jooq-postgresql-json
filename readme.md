@@ -13,7 +13,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>0.3.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
