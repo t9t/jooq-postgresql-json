@@ -138,7 +138,7 @@ Operators available only for `jsonb` (through `JsonbDSL`):
 | `@>` | `jsonb` | Does contain value? | `contains()` |
 | `<@` | `jsonb` | Are entries contained? | `containedIn()` |
 | `?` | `text` | Does the key exist? | `hasKey()` |
-| <code>?&#124;</code> | `text[]` | Does any key exist? | `doesAnyKeyExist()` |
+| <code>?&#124;</code> | `text[]` | Does any key exist? | `hasAnyKey()` |
 | `?&` | `text[]` | Do all keys exist? | `doAllKeysExist()` |
 | <code>&#124;&#124;</code> | `jsonb` | Concatenate values | `concat()` |
 | `-` | `text` | Delete key or element | `delete()` |

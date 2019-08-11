@@ -204,9 +204,9 @@ public final class JsonbDSL {
      * @param f    The JSON {@code Field} that should contain any of the {@code keys}
      * @param keys List of keys that may exist in the JSON value
      * @return A {@code Condition} representing whether any of the {@code keys} exist
-     * @see #doesAnyKeyExist(Field, Collection)
+     * @see #hasAnyKey(Field, Collection)
      */
-    public static Condition doesAnyKeyExist(Field<Jsonb> f, String... keys) {
+    public static Condition hasAnyKey(Field<Jsonb> f, String... keys) {
         return DSL.condition("{0} ??| {1}", f, DSL.array(keys));
     }
 
@@ -218,10 +218,10 @@ public final class JsonbDSL {
      * @param f    The JSON {@code Field} that should contain any of the {@code keys}
      * @param keys List of keys that may exist in the JSON value
      * @return A {@code Condition} representing whether any of the {@code keys} exist
-     * @see #doesAnyKeyExist(Field, String...)
+     * @see #hasAnyKey(Field, String...)
      */
-    public static Condition doesAnyKeyExist(Field<Jsonb> f, Collection<String> keys) {
-        return doesAnyKeyExist(f, keys.toArray(new String[0]));
+    public static Condition hasAnyKey(Field<Jsonb> f, Collection<String> keys) {
+        return hasAnyKey(f, keys.toArray(new String[0]));
     }
 
     /**
@@ -249,7 +249,7 @@ public final class JsonbDSL {
      * @see #doAllKeysExist(Field, String...)
      */
     public static Condition doAllKeysExist(Field<Jsonb> f, Collection<String> keys) {
-        return doesAnyKeyExist(f, keys.toArray(new String[0]));
+        return doAllKeysExist(f, keys.toArray(new String[0]));
     }
 
     /**
