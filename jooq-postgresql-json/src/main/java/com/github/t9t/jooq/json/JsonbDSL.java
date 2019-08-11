@@ -142,97 +142,171 @@ public final class JsonbDSL {
     }
 
     /**
-     * TODO: write docs
-     * <p>
-     * {@code @}> jsonb    Does the left JSON value contain the right JSON path/value entries at the top level? 	'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb
+     * <p>Does the {@code left} JSON value contain the {@code right} JSON path/value entries at the top level? Uses the
+     * {@code @>} operator.</p>
+     *
+     * <p>Example: <code>'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb</code></p>
+     *
+     * @param left  The JSON {@code Field} that should contain {@code right}
+     * @param right The JSON {@code Field} that should be contained in {@code left}
+     * @return A {@code Condition} representing whether {@code left} is contained in {@code right}
      */
     public static Condition contains(Field<Jsonb> left, Field<Jsonb> right) {
         return DSL.condition("{0} @> {1}", left, right);
     }
 
     /**
-     * TODO: write docs
-     * <@ 	jsonb 	Are the left JSON path/value entries contained at the top level within the right JSON value? 	'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
+     * <p>Are the {@code left} JSON path/value entries contained at the top level within the {@code right} JSON value?
+     * Uses the {@code <@} operator.</p>
+     *
+     * <p>Example: <code>'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb</code></p>
+     *
+     * @param left  The JSON {@code Field} that should be contained in {@code right}
+     * @param right The JSON {@code Field} that should contain {@code left}
+     * @return A {@code Condition} representing whether {@code right} is contained in {@code left}
      */
     public static Condition containedIn(Field<Jsonb> left, Field<Jsonb> right) {
         return DSL.condition("{0} <@ {1}", left, right);
     }
 
     /**
-     * TODO: write docs
-     * ?  	text 	Does the string exist as a top-level key within the JSON value? 	'{"a":1, "b":2}'::jsonb ? 'b'
+     * <p>Does the <i>string</i> exist as a top-level key within the JSON value? Uses the {@code ?} operator.</p>
+     *
+     * <p>Example: <code>'{"a":1, "b":2}'::jsonb ? 'b'</code></p>
+     *
+     * @param f   The JSON {@code Field} that should contain the {@code key}
+     * @param key The key that should exist at the top level in the JSON
+     * @return A {@code Condition} representing whether the key is contained in the JSON value
      */
     public static Condition hasKey(Field<Jsonb> f, String key) {
         return DSL.condition("{0} ?? {1}", f, key);
     }
 
     /**
-     * TODO: write docs
-     * ?| 	text[] 	Do any of these array strings exist as top-level keys? 	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
+     * <p>Do any of these array <i>strings</i> exist as top-level keys? Uses the {@code ?|} operator.</p>
+     *
+     * <p>Example: <code>'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']</code></p>
+     *
+     * @param f    The JSON {@code Field} that should contain any of the {@code keys}
+     * @param keys List of keys that may exist in the JSON value
+     * @return A {@code Condition} representing whether any of the {@code keys} exist
+     * @see #doesAnyKeyExist(Field, Collection)
      */
     public static Condition doesAnyKeyExist(Field<Jsonb> f, String... keys) {
         return DSL.condition("{0} ??| {1}", f, DSL.array(keys));
     }
 
     /**
-     * TODO: write docs
-     * ?| 	text[] 	Do any of these array strings exist as top-level keys? 	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
+     * <p>Do any of these array <i>strings</i> exist as top-level keys? Uses the {@code ?|} operator.</p>
+     *
+     * <p>Example: <code>'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']</code></p>
+     *
+     * @param f    The JSON {@code Field} that should contain any of the {@code keys}
+     * @param keys List of keys that may exist in the JSON value
+     * @return A {@code Condition} representing whether any of the {@code keys} exist
+     * @see #doesAnyKeyExist(Field, String...)
      */
     public static Condition doesAnyKeyExist(Field<Jsonb> f, Collection<String> keys) {
         return doesAnyKeyExist(f, keys.toArray(new String[0]));
     }
 
     /**
-     * TODO: write docs
-     * ?& 	text[] 	Do all of these array strings exist as top-level keys? 	'["a", "b"]'::jsonb ?& array['a', 'b']
+     * <p>Do all of these array <i>strings</i> exist as top-level keys? Uses the {@code ?&} operator.</p>
+     *
+     * <p>Example: <code>'["a", "b"]'::jsonb ?& array['a', 'b']</code></p>
+     *
+     * @param f    The JSON {@code Field} that should contain all of the {@code keys}
+     * @param keys List of keys that all should exist in the JSON value
+     * @return A {@code Condition} representing whether all of the {@code keys} exist
+     * @see #doAllKeysExist(Field, Collection)
      */
     public static Condition doAllKeysExist(Field<Jsonb> f, String... keys) {
         return DSL.condition("{0} ??& {1}", f, keys);
     }
 
     /**
-     * TODO: write docs
-     * ?& 	text[] 	Do all of these array strings exist as top-level keys? 	'["a", "b"]'::jsonb ?& array['a', 'b']
+     * <p>Do all of these array <i>strings</i> exist as top-level keys? Uses the {@code ?&} operator.</p>
+     *
+     * <p>Example: <code>'["a", "b"]'::jsonb ?& array['a', 'b']</code></p>
+     *
+     * @param f    The JSON {@code Field} that should contain all of the {@code keys}
+     * @param keys List of keys that all should exist in the JSON value
+     * @return A {@code Condition} representing whether all of the {@code keys} exist
+     * @see #doAllKeysExist(Field, String...)
      */
     public static Condition doAllKeysExist(Field<Jsonb> f, Collection<String> keys) {
         return doesAnyKeyExist(f, keys.toArray(new String[0]));
     }
 
     /**
-     * TODO: write docs
-     * || 	jsonb 	Concatenate two jsonb values into a new jsonb value 	'["a", "b"]'::jsonb || '["c", "d"]'::jsonb
+     * <p>Concatenate two {@code jsonb} values into a new {@code jsonb} value using the {@code ||} operator.</p>
+     *
+     * <p>Example: <code>'["a", "b"]'::jsonb || '["c", "d"]'::jsonb</code></p>
+     * <p>Example result: <code>["a", "b", "c", "d"]</code></p>
+     *
+     * @param field1 Field to concatenate {@code field2} to
+     * @param field2 Field to concatenate to {@code field1}
+     * @return A {@code Field} representing a concatenation of the two JSON fields
      */
     public static Field<Jsonb> concat(Field<Jsonb> field1, Field<Jsonb> field2) {
         return DSL.field("{0} || {1}", Jsonb.class, field1, field2);
     }
 
     /**
-     * TODO: write docs
-     * - 	text 	Delete key/value pair or string element from left operand. Key/value pairs are matched based on their key value. 	'{"a": "b"}'::jsonb - 'a'
+     * <p>Delete key/value pair or <i>string</i> element from left operand. Key/value pairs are matched based on their
+     * key value. Uses the {@code -} operator.</p>
+     *
+     * <p>Example: <code>'{"a": "b", "c": "d"}'::jsonb - 'a'</code></p>
+     * <p>Example result: <code>{"c": "d"}</code></p>
+     *
+     * @param f            JSON {@code Field} to delete the key or element from
+     * @param keyOrElement The key name or element value to delete from the JSON field
+     * @return A {@code Field} representing the original field with the key or element deleted
      */
     public static Field<Jsonb> delete(Field<Jsonb> f, String keyOrElement) {
         return DSL.field("{0} - {1}", Jsonb.class, f, keyOrElement);
     }
 
     /**
-     * TODO: write docs
-     * - 	text[] 	Delete multiple key/value pairs or string elements from left operand. Key/value pairs are matched based on their key value. 	'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]
+     * <p>Delete multiple key/value pairs or <i>string</i> elements from left operand. Key/value pairs are matched
+     * based on their key value. Uses the {@code -} operator.</p>
+     *
+     * <p>Example: <code>'{"a": "b", "c": "d", "e": "f"}'::jsonb - '{a,c}'::text[]</code></p>
+     * <p>Example result: <code>{"e", "f"}</code></p>
+     *
+     * @param f              JSON {@code Field} to delete the keys or elements from
+     * @param keysOrElements The key names or element values to delete from the JSON field
+     * @return A {@code Field} representing the original field with the keys or elements deleted
      */
     public static Field<Jsonb> delete(Field<Jsonb> f, String... keysOrElements) {
         return DSL.field("{0} - {1}", Jsonb.class, f, DSL.array(keysOrElements));
     }
 
     /**
-     * TODO: write docs
-     * - 	integer 	Delete the array element with specified index (Negative integers count from the end). Throws an error if top level container is not an array. 	'["a", "b"]'::jsonb - 1
+     * <p>Delete the array element with specified index (Negative integers count from the end). Throws an error if top
+     * level container is not an array. Uses the {@code -} operator.</p>
+     *
+     * <p>Example: <code>'["a", "b"]'::jsonb - 1</code></p>
+     * <p>Example result: <code>["a"]</code></p>
+     *
+     * @param f JSON {@code Field} containing an array to delete the element from
+     * @param index Array index to delete; negative values count from the end of the array
+     * @return A {@code Field} representing the field with the array element removed
      */
     public static Field<Jsonb> deleteElement(Field<Jsonb> f, int index) {
         return DSL.field("{0} - {1}", Jsonb.class, f, index);
     }
 
     /**
-     * TODO: write docs
-     * #- 	text[] 	Delete the field or element with specified path (for JSON arrays, negative integers count from the end) 	'["a", {"b":1}]'::jsonb #- '{1,b}'
+     * <p>Delete the field or element with specified path (for JSON arrays, negative integers count from the end). Uses
+     * the {@code #-} operator.</p>
+     *
+     * <p>Example: <code>'["a", {"b":1,"c":2}]'::jsonb #- '{1,b}'</code></p>
+     * <p>Example result: <code>["a", {"c": 2}]</code></p>
+     *
+     * @param f JSON {@code Field} to delete the selected path from
+     * @param path Path to the JSON element to remove
+     * @return A {@code Field} representing the field with the chosen path removed
      */
     public static Field<Jsonb> deletePath(Field<Jsonb> f, String... path) {
         return DSL.field("{0} #- {1}", Jsonb.class, f, DSL.array(path));
