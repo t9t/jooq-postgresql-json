@@ -69,9 +69,10 @@ public abstract class AbstractJsonDSLTest {
 
         if (expected == null) {
             assertNull(data);
-        } else if (expected instanceof String || expected instanceof Json || expected instanceof Jsonb) {
-            assertEquals(expected, data);
-        } else if (expected instanceof JsonNode) {
+            return;
+        }
+
+        if (expected instanceof JsonNode) {
             if (data instanceof Json) {
                 assertEquals(expected, toNode(((Json) data).getValue()));
             } else if (data instanceof Jsonb) {
@@ -79,9 +80,10 @@ public abstract class AbstractJsonDSLTest {
             } else {
                 assertEquals(expected, toNode((String) data));
             }
-        } else {
-            throw new IllegalArgumentException("Cannot assert object: " + expected.getClass());
+            return;
         }
+
+        assertEquals(expected, data);
     }
 
     static JsonNode toNode(String s) {
@@ -133,9 +135,13 @@ public abstract class AbstractJsonDSLTest {
             return this;
         }
 
-        Params expectString(String s) {
-            this.expected = s;
+        Params expect(Object o) {
+            this.expected = o;
             return this;
+        }
+
+        Params expectString(String s) {
+            return expect(s);
         }
 
         Params expectJson(String s) {

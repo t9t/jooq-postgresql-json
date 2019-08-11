@@ -181,5 +181,4 @@ public class JsonStringBindingIT {
 
         assertEquals(updated, dsl.select(JSON_STR_TEST.DATAB).from(JSON_STR_TEST).where(JSON_STR_TEST.NAME.eq("jsonb-update")).fetchOne().value1());
     }
-
 }
