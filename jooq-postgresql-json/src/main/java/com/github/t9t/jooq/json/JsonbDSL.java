@@ -12,10 +12,24 @@ import java.util.Collection;
  * <p>Reference: <a href="https://www.postgresql.org/docs/11/functions-json.html">https://www.postgresql.org/docs/11/functions-json.html</a></p>
  */
 public final class JsonbDSL {
-    public static Field<Jsonb> field(String s) {
-        return DSL.field("{0}", Jsonb.class, Jsonb.of(s));
+    /**
+     * Create a jOOQ {@link Field} wrapping a {@link Jsonb} object representing a {@code jsonb} value for the JSON
+     * string. <b>Note</b> that the JSON is <i>not</i> validated (any formatting errors will only occur when
+     * interacting with the database).
+     *
+     * @param json JSON string
+     * @return {@code jsonb} {@code Field} for the JSON string
+     */
+    public static Field<Jsonb> field(String json) {
+        return field(Jsonb.of(json));
     }
 
+    /**
+     * Create a jOOQ {@link Field} wrapping the {@link Jsonb} object.
+     *
+     * @param jsonb {@code Jsonb} object to wrap
+     * @return {@code jsonb} {@code Field} for the {@code Jsonb} object
+     */
     public static Field<Jsonb> field(Jsonb jsonb) {
         return DSL.field("{0}", Jsonb.class, jsonb);
     }

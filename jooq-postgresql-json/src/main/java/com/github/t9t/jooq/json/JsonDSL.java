@@ -12,6 +12,28 @@ import java.util.Collection;
  */
 public final class JsonDSL {
     /**
+     * Create a jOOQ {@link Field} wrapping a {@link Json} object representing a {@code json} value for the JSON
+     * string. <b>Note</b> that the JSON is <i>not</i> validated (any formatting errors will only occur when
+     * interacting with the database).
+     *
+     * @param json JSON string
+     * @return {@code json} {@code Field} for the JSON string
+     */
+    public static Field<Json> field(String json) {
+        return field(Json.of(json));
+    }
+
+    /**
+     * Create a jOOQ {@link Field} wrapping the {@link Json} object.
+     *
+     * @param json {@code Jsonb} object to wrap
+     * @return {@code json} {@code Field} for the {@code Jsonb} object
+     */
+    public static Field<Json> field(Json json) {
+        return DSL.field("{0}", Json.class, json);
+    }
+
+    /**
      * <p>Get JSON array element (indexed from zero, negative integers count from the end), using the
      * <code>-&gt;</code> operator</p>
      *
