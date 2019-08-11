@@ -6,6 +6,15 @@ specific `Json` and `Jsonb` types, allowing use of `JsonDSL` and `JsonbDSL` clas
 
 Requires at least Java 8.
 
+- [Include as a Maven dependency](#include-as-a-maven-dependency)
+- [Configure the jOOQ code generator](#configure-the-jooq-code-generator)
+- [Using in code](#using-in-code)
+- [PostgreSQL json operator support](#postgresql-json-operator-support)
+- [Example](#example)
+- [References](#references)
+
+---
+
 ## Include as a Maven dependency
 First, add the following Maven dependency:
 
@@ -13,7 +22,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
