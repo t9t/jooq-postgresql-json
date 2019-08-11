@@ -8,7 +8,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.arrayElement;
 
 public class JsonDSLArrayElementIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{1}_{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static List<Object[]> params() {
         return generateParams("arrayElement", Arrays.asList(
                 test("getFirstObject").forArray().selecting(arrayElement(json, 0)).expectJson("{\"d\": 4408}"),

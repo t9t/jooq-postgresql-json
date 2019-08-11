@@ -9,7 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonbDSL.doesAnyKeyExist;
 
 public class JsonbDSLDoesAnyKeyExistIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{1}_{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static List<Object[]> params() {
         return generateParams("doesAnyKeyExist", Arrays.asList(
                 btest("one").selecting(DSL.field(doesAnyKeyExist(jsonb, "str"))).expect(true),

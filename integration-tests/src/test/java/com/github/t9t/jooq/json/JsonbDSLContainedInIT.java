@@ -10,7 +10,7 @@ import static com.github.t9t.jooq.json.JsonbDSL.containedIn;
 import static com.github.t9t.jooq.json.JsonbDSL.field;
 
 public class JsonbDSLContainedInIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{1}_{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static List<Object[]> params() {
         return generateParams("contains", Arrays.asList(
                 btest("simple").selecting(DSL.field(containedIn(field("{\"num\": 1337}"), jsonb))).expect(true),

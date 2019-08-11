@@ -9,7 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonbDSL.hasKey;
 
 public class JsonbDSLHasKeyIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{1}_{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static List<Object[]> params() {
         return generateParams("hasKey", Arrays.asList(
                 btest("does").selecting(DSL.field(hasKey(jsonb, "str"))).expect(true),

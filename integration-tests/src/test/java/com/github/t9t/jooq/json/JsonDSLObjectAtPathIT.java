@@ -8,7 +8,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.objectAtPath;
 
 public class JsonDSLObjectAtPathIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{1}_{0}")
+    @Parameterized.Parameters(name = "{0}")
     public static List<Object[]> params() {
         return generateParams("objectAtPath", Arrays.asList(
                 test("oneLevel").selecting(objectAtPath(json, "str")).expectJson("\"Hello, json world!\""),
