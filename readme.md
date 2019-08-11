@@ -1,6 +1,8 @@
 # jOOQ PostgreSQL JSON binding
 Provides a [jOOQ custom type binding](https://www.jooq.org/doc/3.11/manual/code-generation/custom-data-type-bindings/)
-to interpret PostgreSQL `json` and `jsonb` fields as `String` in Java when using the jOOQ code generator.
+for the jOOQ code generator  to interpret PostgreSQL `json` and `jsonb` fields, either simply as `String` or as
+specific `Json` and `Jsonb` types, allowing use of `JsonDSL` and `JsonbDSL` classes to use
+[PostgreSQL JSON functions](https://www.postgresql.org/docs/11/functions-json.html) with jOOQ code.
 
 Requires at least Java 8.
 
@@ -11,7 +13,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
@@ -21,6 +23,7 @@ Then, configure the code generator like this:
 ```xml
 <database>
     <forcedTypes>
+        <!-- When you just want json/jsonb fields mapped as String: -->
         <forcedType>
             <userType>java.lang.String</userType>
             <binding>com.github.t9t.jooq.json.JsonStringBinding</binding>
@@ -31,12 +34,27 @@ Then, configure the code generator like this:
             <binding>com.github.t9t.jooq.json.JsonbStringBinding</binding>
             <types>jsonb</types>
         </forcedType>
+        
+        <!-- When you want to map json/jsonb fields to specialized Json/Jsonb types: -->
+        <forcedType>
+            <userType>com.github.t9t.jooq.json.Json</userType>
+            <binding>com.github.t9t.jooq.json.JsonBinding</binding>
+            <types>json</types>
+        </forcedType>
+        <forcedType>
+            <userType>com.github.t9t.jooq.json.Jsonb</userType>
+            <binding>com.github.t9t.jooq.json.JsonbBinding</binding>
+            <types>jsonb</types>
+        </forcedType>
     </forcedTypes>
 </database>
 ```
 
-The above will use a Java type of `String` for all `json` and `jsonb` fields, and will use the `JsonStringBinding`
-and `JsonbStringBinding` respectively to convert the fields.
+The first example above will use a Java type of `String` for all `json` and `jsonb` fields, and will use the
+`JsonStringBinding` and `JsonbStringBinding` respectively to convert the fields.
+
+The second example instead binds `json` fields to `Json` using `JsonBinding`, and `jsonb` fields to `Jsonb` using
+`JsonbBinding`. This enables the use of `JsonDSL` and `JsonbDSL`.
 
 If you want to only configure it for certain specific fields, add an `<expression>` element to the `<forcedType>`
 element, for example:
@@ -59,7 +77,7 @@ the [jOOQ documentation for more information](https://www.jooq.org/doc/3.11/manu
 ## Using in code
 By default the jOOQ code generator will generate `Object` as a return value for json fields and return the raw
 PostgreSQL driver's JDBC type, `PGobject`. It's up to the user to interpret this somehow. Using this binding, jOOQ
-will instead just return the json data as `String`.
+will instead just return the json data as `String`, `Json`, or `Jsonb`.
 
 An example before using this binding when doing a `select` query:
 ```java
@@ -74,7 +92,7 @@ public String fetchData(long id) {
 }
 ```
 
-When using this binding, instead it will be simplified to:
+When using this binding, instead it can be simplified to:
 ```java
 public String fetchData(long id) {
     Record1<String> r = dsl.select(MY_TABLE.DATA)
@@ -86,12 +104,25 @@ public String fetchData(long id) {
 }
 ```
 
+Or, in the case of `Json` and `Jsonb`:
+```java
+public String fetchData(long id) {
+    Record1<Jsonb> r = dsl.select(MY_TABLE.DATA)
+        .from(MY_TABLE)
+        .where(MY_TABLE.ID.eq(id))
+        .fetchOne();
+    Jsonb j = r.value1();
+    return j == null ? null : j.getValue();
+}
+```
+
 ## Example
 See the [integration-tests](integration-tests) module's [pom.xml](integration-tests/pom.xml) for an example of the
-`jooq-codegen` Maven plugin with the custom json binding.
+`jooq-codegen` Maven plugin with the custom json bindings.
 
-See [JsonStringBindingIT](integration-tests/src/test/java/com/github/t9t/jooq/json/JsonStringBindingIT.java) for some
-usage examples.
+For some code usage examples, refer to:
+- `String`: [integration-tests/.../JsonStringBindingIT](integration-tests/src/test/java/com/github/t9t/jooq/json/JsonStringBindingIT.java)
+- `Json`/`Jsonb`: [integration-tests/.../JsonBindingIT](integration-tests/src/test/java/com/github/t9t/jooq/json/JsonBindingIT.java)
 
 
 ## References
