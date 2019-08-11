@@ -96,7 +96,7 @@ public final class JsonbDSL {
     /**
      * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
      *
-     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#&gt;'{a,b}'</code></p>
      * <p>Example result: <code>{"c": "foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -111,7 +111,7 @@ public final class JsonbDSL {
     /**
      * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
      *
-     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#&gt;'{a,b}'</code></p>
      * <p>Example result: <code>{"c": "foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -124,10 +124,10 @@ public final class JsonbDSL {
     }
 
     /**
-     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;&gt;</code>
      * operator</p>
      *
-     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></p>
      * <p>Example result: <code>3</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -140,10 +140,10 @@ public final class JsonbDSL {
     }
 
     /**
-     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;&gt;</code>
      * operator</p>
      *
-     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></p>
      * <p>Example result: <code>3</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -159,7 +159,7 @@ public final class JsonbDSL {
      * <p>Does the {@code left} JSON value contain the {@code right} JSON path/value entries at the top level? Uses the
      * {@code @>} operator.</p>
      *
-     * <p>Example: <code>'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb</code></p>
+     * <p>Example: <code>'{"a":1, "b":2}'::jsonb @&gt; '{"b":2}'::jsonb</code></p>
      *
      * @param left  The JSON {@code Field} that should contain {@code right}
      * @param right The JSON {@code Field} that should be contained in {@code left}
@@ -173,7 +173,7 @@ public final class JsonbDSL {
      * <p>Are the {@code left} JSON path/value entries contained at the top level within the {@code right} JSON value?
      * Uses the {@code <@} operator.</p>
      *
-     * <p>Example: <code>'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb</code></p>
+     * <p>Example: <code>'{"b":2}'::jsonb &lt;@ '{"a":1, "b":2}'::jsonb</code></p>
      *
      * @param left  The JSON {@code Field} that should be contained in {@code right}
      * @param right The JSON {@code Field} that should contain {@code left}
@@ -227,7 +227,7 @@ public final class JsonbDSL {
     /**
      * <p>Do all of these array <i>strings</i> exist as top-level keys? Uses the {@code ?&} operator.</p>
      *
-     * <p>Example: <code>'["a", "b"]'::jsonb ?& array['a', 'b']</code></p>
+     * <p>Example: <code>'["a", "b"]'::jsonb ?&amp; array['a', 'b']</code></p>
      *
      * @param f    The JSON {@code Field} that should contain all of the {@code keys}
      * @param keys List of keys that all should exist in the JSON value
@@ -241,7 +241,7 @@ public final class JsonbDSL {
     /**
      * <p>Do all of these array <i>strings</i> exist as top-level keys? Uses the {@code ?&} operator.</p>
      *
-     * <p>Example: <code>'["a", "b"]'::jsonb ?& array['a', 'b']</code></p>
+     * <p>Example: <code>'["a", "b"]'::jsonb ?&amp; array['a', 'b']</code></p>
      *
      * @param f    The JSON {@code Field} that should contain all of the {@code keys}
      * @param keys List of keys that all should exist in the JSON value

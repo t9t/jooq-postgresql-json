@@ -95,7 +95,7 @@ public final class JsonDSL {
     /**
      * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
      *
-     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#&gt;'{a,b}'</code></p>
      * <p>Example result: <code>{"c": "foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -110,7 +110,7 @@ public final class JsonDSL {
     /**
      * <p>Get JSON object at specified path using the <code>#&gt;</code> operator</p>
      *
-     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'</code></p>
+     * <p>Example: <code>'{"a": {"b":{"c": "foo"}}}'::json#&gt;'{a,b}'</code></p>
      * <p>Example result: <code>{"c": "foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -123,10 +123,10 @@ public final class JsonDSL {
     }
 
     /**
-     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;&gt;</code>
      * operator</p>
      *
-     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></p>
      * <p>Example result: <code>3</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
@@ -139,10 +139,10 @@ public final class JsonDSL {
     }
 
     /**
-     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;</code>
+     * <p>Get JSON object at specified path as {@code text} rather than {@code json(b)}, using the <code>#&gt;&gt;</code>
      * operator</p>
      *
-     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'</code></p>
+     * <p>Example: <code>'{"a":[1,2,3],"b":[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></p>
      * <p>Example result: <code>3</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
