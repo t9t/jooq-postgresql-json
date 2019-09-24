@@ -4,7 +4,8 @@ for the jOOQ code generator  to interpret PostgreSQL `json` and `jsonb` fields, 
 specific `Json` and `Jsonb` types, allowing use of `JsonDSL` and `JsonbDSL` classes to use
 [PostgreSQL JSON functions](https://www.postgresql.org/docs/11/functions-json.html) with jOOQ code.
 
-Requires at least Java 8.
+Requires at least Java 8. **Note:** this project is currently only compatible with jOOQ version 3.11. jOOQ 3.12
+introduces new native JSON and JSONB types. See #4 for more information.
 
 - [Include as a Maven dependency](#include-as-a-maven-dependency)
 - [Configure the jOOQ code generator](#configure-the-jooq-code-generator)
