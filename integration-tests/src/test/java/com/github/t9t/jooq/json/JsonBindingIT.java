@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNull;
 
 public class JsonBindingIT {
     private static final DataSource ds = TestDb.createDataSource();
-    private static final DSLContext dsl = DSL.using(ds, SQLDialect.POSTGRES_10);
+    private static final DSLContext dsl = DSL.using(ds, SQLDialect.POSTGRES);
 
     @Before
     public void setUp() {
