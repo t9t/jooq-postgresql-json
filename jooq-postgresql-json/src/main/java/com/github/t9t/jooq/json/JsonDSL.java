@@ -1,6 +1,7 @@
 package com.github.t9t.jooq.json;
 
 import org.jooq.Field;
+import org.jooq.JSON;
 import org.jooq.impl.DSL;
 
 import java.util.Collection;
@@ -12,25 +13,25 @@ import java.util.Collection;
  */
 public final class JsonDSL {
     /**
-     * Create a jOOQ {@link Field} wrapping a {@link Json} object representing a {@code json} value for the JSON
+     * Create a jOOQ {@link Field} wrapping a {@link JSON} object representing a {@code json} value for the JSON
      * string. <b>Note</b> that the JSON is <i>not</i> validated (any formatting errors will only occur when
      * interacting with the database).
      *
      * @param json JSON string
      * @return {@code json} {@code Field} for the JSON string
      */
-    public static Field<Json> field(String json) {
-        return field(Json.of(json));
+    public static Field<JSON> field(String json) {
+        return field(JSON.valueOf(json));
     }
 
     /**
-     * Create a jOOQ {@link Field} wrapping the {@link Json} object.
+     * Create a jOOQ {@link Field} wrapping the {@link JSON} object.
      *
-     * @param json {@code Json} object to wrap
-     * @return {@code json} {@code Field} for the {@code Json} object
+     * @param json {@code JSON} object to wrap
+     * @return {@code json} {@code Field} for the {@code JSON} object
      */
-    public static Field<Json> field(Json json) {
-        return DSL.field("{0}", Json.class, json);
+    public static Field<JSON> field(JSON json) {
+        return DSL.field("{0}", JSON.class, json);
     }
 
     /**
@@ -44,8 +45,8 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element
      */
-    public static Field<Json> arrayElement(Field<Json> jsonField, int index) {
-        return DSL.field("{0}->{1}", Json.class, jsonField, index);
+    public static Field<JSON> arrayElement(Field<JSON> jsonField, int index) {
+        return DSL.field("{0}->{1}", JSON.class, jsonField, index);
     }
 
     /**
@@ -59,7 +60,7 @@ public final class JsonDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> arrayElementText(Field<Json> jsonField, int index) {
+    public static Field<String> arrayElementText(Field<JSON> jsonField, int index) {
         return DSL.field("{0}->>{1}", String.class, jsonField, index);
     }
 
@@ -73,8 +74,8 @@ public final class JsonDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted value
      */
-    public static Field<Json> fieldByKey(Field<Json> jsonField, String key) {
-        return DSL.field("{0}->{1}", Json.class, jsonField, key);
+    public static Field<JSON> fieldByKey(Field<JSON> jsonField, String key) {
+        return DSL.field("{0}->{1}", JSON.class, jsonField, key);
     }
 
     /**
@@ -88,7 +89,7 @@ public final class JsonDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> fieldByKeyText(Field<Json> jsonField, String key) {
+    public static Field<String> fieldByKeyText(Field<JSON> jsonField, String key) {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
     }
 
@@ -103,8 +104,8 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, Collection)
      */
-    public static Field<Json> objectAtPath(Field<Json> jsonField, String... path) {
-        return DSL.field("{0}#>{1}", Json.class, jsonField, DSL.array(path));
+    public static Field<JSON> objectAtPath(Field<JSON> jsonField, String... path) {
+        return DSL.field("{0}#>{1}", JSON.class, jsonField, DSL.array(path));
     }
 
     /**
@@ -118,7 +119,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<Json> objectAtPath(Field<Json> jsonField, Collection<String> path) {
+    public static Field<JSON> objectAtPath(Field<JSON> jsonField, Collection<String> path) {
         return objectAtPath(jsonField, path.toArray(new String[0]));
     }
 
@@ -134,7 +135,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPathText(Field, Collection)
      */
-    public static Field<String> objectAtPathText(Field<Json> jsonField, String... path) {
+    public static Field<String> objectAtPathText(Field<JSON> jsonField, String... path) {
         return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
     }
 
@@ -150,7 +151,7 @@ public final class JsonDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<String> objectAtPathText(Field<Json> jsonField, Collection<String> path) {
+    public static Field<String> objectAtPathText(Field<JSON> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 

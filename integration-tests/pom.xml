@@ -187,27 +187,6 @@
                                             <inputSchema>jooq</inputSchema>
                                         </schema>
                                     </schemata>
-
-                                    <forcedTypes>
-                                        <forcedType>
-                                            <userType>com.github.t9t.jooq.json.Json</userType>
-                                            <binding>com.github.t9t.jooq.json.JsonBinding</binding>
-                                            <expression>.*\.json_test\..*</expression>
-                                            <types>json</types>
-                                        </forcedType>
-                                        <forcedType>
-                                            <userType>com.github.t9t.jooq.json.Jsonb</userType>
-                                            <binding>com.github.t9t.jooq.json.JsonbBinding</binding>
-                                            <expression>.*\.json_test\..*</expression>
-                                            <types>jsonb</types>
-                                        </forcedType>
-                                        <forcedType>
-                                            <userType>java.lang.String</userType>
-                                            <binding>com.github.t9t.jooq.json.JsonbStringBinding</binding>
-                                            <expression>.*\.json_str_test\..*</expression>
-                                            <types>json|jsonb</types>
-                                        </forcedType>
-                                    </forcedTypes>
                                 </database>
                                 <target>
                                     <packageName>com.github.t9t.jooq.generated</packageName>
