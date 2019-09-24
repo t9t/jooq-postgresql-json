@@ -22,11 +22,12 @@ public class JsonBindingIT {
     @Before
     public void setUp() {
         dsl.deleteFrom(JSON_TEST).execute();
-        assertEquals(3, dsl.execute("insert into jooq.json_test (name, data, datab)" +
+        assertEquals(4, dsl.execute("insert into jooq.json_test (name, data, datab)" +
                 " values " +
                 "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
                 "('empty', '{}', '{}')," +
-                "('null', null, null)"));
+                "('null-sql', null, null)," +
+                "('null-json', 'null', 'null')"));
     }
 
     @Test
@@ -50,13 +51,24 @@ public class JsonBindingIT {
     }
 
     @Test
-    public void selectJsonNull() {
+    public void selectJsonNullSql() {
         Record1<Json> r = dsl.select(JSON_TEST.DATA)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+                .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
         assertNull(r.value1());
+    }
+
+
+    @Test
+    public void selectJsonNullJsonValue() {
+        Record1<Json> r = dsl.select(JSON_TEST.DATA)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne();
+
+        assertEquals(Json.of("null"), r.value1());
     }
 
     @Test
@@ -80,20 +92,30 @@ public class JsonBindingIT {
     }
 
     @Test
-    public void selectJsonbNull() {
+    public void selectJsonbNullSql() {
         Record1<Jsonb> r = dsl.select(JSON_TEST.DATAB)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+                .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
         assertNull(r.value1());
     }
 
     @Test
+    public void selectJsonbNullJsonValue() {
+        Record1<Jsonb> r = dsl.select(JSON_TEST.DATAB)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne();
+
+        assertEquals(Jsonb.of("null"), r.value1());
+    }
+
+    @Test
     public void selectBothJsonAndJsonB() {
         Record2<Json, Jsonb> r = dsl.select(JSON_TEST.DATA, JSON_TEST.DATAB)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null"))
+                .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
         assertNull(r.value1());
