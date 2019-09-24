@@ -26,8 +26,8 @@ public final class JsonDSL {
     /**
      * Create a jOOQ {@link Field} wrapping the {@link Json} object.
      *
-     * @param json {@code Jsonb} object to wrap
-     * @return {@code json} {@code Field} for the {@code Jsonb} object
+     * @param json {@code Json} object to wrap
+     * @return {@code json} {@code Field} for the {@code Json} object
      */
     public static Field<Json> field(Json json) {
         return DSL.field("{0}", Json.class, json);
