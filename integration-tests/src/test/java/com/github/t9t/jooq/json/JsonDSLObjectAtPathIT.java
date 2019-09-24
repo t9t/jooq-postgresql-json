@@ -15,13 +15,13 @@ public class JsonDSLObjectAtPathIT extends AbstractJsonDSLTest {
                 test("obj").selecting(objectAtPath(json, "obj")).expectJson(toNode("{\"i\": 5521, \"b\": true}")),
                 test("deepVarargs").selecting(objectAtPath(json, "arr", "0", "d")).expectJson("4408"),
                 test("deepCollection").selecting(objectAtPath(json, Arrays.asList("arr", "0", "d"))).expectJson("4408"),
-                test("notExistingPath").selecting(objectAtPath(json, "not", "existing", "path")).expectNull(),
+                test("notExistingPath").selecting(objectAtPath(json, "not", "existing", "path")).expectJsonNull(),
 
                 btest("oneLevel").selecting(JsonbDSL.objectAtPath(jsonb, "str")).expectJsonb("\"Hello, jsonb world!\""),
                 btest("obj").selecting(JsonbDSL.objectAtPath(jsonb, "obj")).expectJson(toNode("{\"i\": 5521, \"b\": true}")),
                 btest("deepVarargs").selecting(JsonbDSL.objectAtPath(jsonb, "arr", "0", "d")).expectJsonb("4408"),
                 btest("deepCollection").selecting(JsonbDSL.objectAtPath(jsonb, Arrays.asList("arr", "0", "d"))).expectJsonb("4408"),
-                btest("notExistingPath").selecting(JsonbDSL.objectAtPath(jsonb, "not", "existing", "path")).expectNull()
+                btest("notExistingPath").selecting(JsonbDSL.objectAtPath(jsonb, "not", "existing", "path")).expectJsonbNull()
         ));
     }
 }

@@ -23,8 +23,8 @@ public class JsonBindingIT {
                 " values " +
                 "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
                 "('empty', '{}', '{}')," +
-                "('null-sql', null, null)," +
-                "('null-json', 'null', 'null')"));
+                "('null-row', null, null)," +
+                "('null-json', 'null'::json, 'null'::jsonb)"));
     }
 
     @Test
@@ -48,13 +48,24 @@ public class JsonBindingIT {
     }
 
     @Test
-    public void selectJsonNullSql() {
+    public void selectJsonNullRow() {
         Record1<JSON> r = dsl.select(JSON_TEST.DATA)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null-sql"))
+                .where(JSON_TEST.NAME.eq("null-row"))
                 .fetchOne();
 
-        assertNull(r.value1());
+        assertNull(r.value1().toString());
+    }
+
+
+    @Test
+    public void selectJsonNullJsonValue() {
+        Record1<JSON> r = dsl.select(JSON_TEST.DATA)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne();
+
+        assertEquals("null", r.value1().toString());
     }
 
 
@@ -89,13 +100,23 @@ public class JsonBindingIT {
     }
 
     @Test
-    public void selectJsonbNullSql() {
+    public void selectJsonbNullRow() {
         Record1<JSONB> r = dsl.select(JSON_TEST.DATAB)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null-sql"))
+                .where(JSON_TEST.NAME.eq("null-row"))
                 .fetchOne();
 
-        assertNull(r.value1());
+        assertNull(r.value1().toString());
+    }
+
+    @Test
+    public void selectJsonbNullJsonValue() {
+        Record1<JSONB> r = dsl.select(JSON_TEST.DATAB)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne();
+
+        assertEquals("null", r.value1().toString());
     }
 
     @Test
@@ -112,11 +133,11 @@ public class JsonBindingIT {
     public void selectBothJsonAndJsonB() {
         Record2<JSON, JSONB> r = dsl.select(JSON_TEST.DATA, JSON_TEST.DATAB)
                 .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq("null-sql"))
+                .where(JSON_TEST.NAME.eq("null-row"))
                 .fetchOne();
 
-        assertNull(r.value1());
-        assertNull(r.value2());
+        assertNull(r.value1().toString());
+        assertNull(r.value2().toString());
     }
 
     @Test
