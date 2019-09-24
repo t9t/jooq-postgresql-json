@@ -1,7 +1,8 @@
 # ?.?.?
 - Upgraded to jOOQ 3.12.1, which has its own `JSON` and `JSONB` types, which means:
   - Removed `Json` and `Jsonb` classes, replacing them with `JSON` and `JSONB` respectively in `JsonDSL` and `JsonbDSL`
-  - Removed `JsonBinding`, `JsonbBinding`, and `JsonStringBinding` as they are now obsolete 
+  - Removed `JsonBinding`, `JsonbBinding`, and `JsonStringBinding` as they are now obsolete
+  - **Important**: in jOOQ, SQL `NULL` returns `JSON` or `JSONB` with `toString()` returning Java `null`, while the JSON `null` value returns a `JSON`/`JSONB` with `toString()` returning the String `"null"`. This differs from the `Json`/`Jsonb` types previously used by this library, which would return a `null` instance of the respective class in the case of an SQL `NULL`.
 
 # 0.4.0
 - Added a handful of processing functions:

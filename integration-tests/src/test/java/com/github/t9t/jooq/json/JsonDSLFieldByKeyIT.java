@@ -14,12 +14,12 @@ public class JsonDSLFieldByKeyIT extends AbstractJsonDSLTest {
                 test("string").selecting(fieldByKey(json, "str")).expectJson("\"Hello, json world!\""),
                 test("twoLevels").selecting(fieldByKey(fieldByKey(json, "obj"), "i")).expectJson("5521"),
                 test("nullField").selecting(fieldByKey(json, "n")).expectJson("null"),
-                test("notExistingField").selecting(fieldByKey(json, "notExisting")).expectNull(),
+                test("notExistingField").selecting(fieldByKey(json, "notExisting")).expectJsonNull(),
 
                 btest("string").selecting(JsonbDSL.fieldByKey(jsonb, "str")).expectJsonb("\"Hello, jsonb world!\""),
                 btest("twoLevels").selecting(JsonbDSL.fieldByKey(JsonbDSL.fieldByKey(jsonb, "obj"), "i")).expectJsonb("5521"),
                 btest("nullField").selecting(JsonbDSL.fieldByKey(jsonb, "n")).expectJsonb("null"),
-                btest("notExistingField").selecting(JsonbDSL.fieldByKey(jsonb, "notExisting")).expectNull()
+                btest("notExistingField").selecting(JsonbDSL.fieldByKey(jsonb, "notExisting")).expectJsonbNull()
         ));
     }
 }
