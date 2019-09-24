@@ -107,7 +107,7 @@
                             <images>
                                 <image>
                                     <alias>postgres</alias>
-                                    <name>postgres:10</name>
+                                    <name>postgres:11</name>
                                     <run>
                                         <env>
                                             <POSTGRES_DB>${pg.dbname}</POSTGRES_DB>
