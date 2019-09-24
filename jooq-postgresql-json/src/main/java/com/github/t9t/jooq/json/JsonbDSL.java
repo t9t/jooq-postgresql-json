@@ -2,6 +2,7 @@ package com.github.t9t.jooq.json;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.JSONB;
 import org.jooq.impl.DSL;
 
 import java.util.Collection;
@@ -13,25 +14,25 @@ import java.util.Collection;
  */
 public final class JsonbDSL {
     /**
-     * Create a jOOQ {@link Field} wrapping a {@link Jsonb} object representing a {@code jsonb} value for the JSON
+     * Create a jOOQ {@link Field} wrapping a {@link JSONB} object representing a {@code jsonb} value for the JSON
      * string. <b>Note</b> that the JSON is <i>not</i> validated (any formatting errors will only occur when
      * interacting with the database).
      *
      * @param json JSON string
      * @return {@code jsonb} {@code Field} for the JSON string
      */
-    public static Field<Jsonb> field(String json) {
-        return field(Jsonb.of(json));
+    public static Field<JSONB> field(String json) {
+        return field(JSONB.valueOf(json));
     }
 
     /**
-     * Create a jOOQ {@link Field} wrapping the {@link Jsonb} object.
+     * Create a jOOQ {@link Field} wrapping the {@link JSONB} object.
      *
-     * @param jsonb {@code Jsonb} object to wrap
-     * @return {@code jsonb} {@code Field} for the {@code Jsonb} object
+     * @param jsonb {@code JSONB} object to wrap
+     * @return {@code jsonb} {@code Field} for the {@code JSONB} object
      */
-    public static Field<Jsonb> field(Jsonb jsonb) {
-        return DSL.field("{0}", Jsonb.class, jsonb);
+    public static Field<JSONB> field(JSONB jsonb) {
+        return DSL.field("{0}", JSONB.class, jsonb);
     }
 
     /**
@@ -45,8 +46,8 @@ public final class JsonbDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element
      */
-    public static Field<Jsonb> arrayElement(Field<Jsonb> jsonField, int index) {
-        return DSL.field("{0}->{1}", Jsonb.class, jsonField, index);
+    public static Field<JSONB> arrayElement(Field<JSONB> jsonField, int index) {
+        return DSL.field("{0}->{1}", JSONB.class, jsonField, index);
     }
 
     /**
@@ -60,7 +61,7 @@ public final class JsonbDSL {
      * @param index     Array index; negative values count from the end
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> arrayElementText(Field<Jsonb> jsonField, int index) {
+    public static Field<String> arrayElementText(Field<JSONB> jsonField, int index) {
         return DSL.field("{0}->>{1}", String.class, jsonField, index);
     }
 
@@ -74,8 +75,8 @@ public final class JsonbDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted value
      */
-    public static Field<Jsonb> fieldByKey(Field<Jsonb> jsonField, String key) {
-        return DSL.field("{0}->{1}", Jsonb.class, jsonField, key);
+    public static Field<JSONB> fieldByKey(Field<JSONB> jsonField, String key) {
+        return DSL.field("{0}->{1}", JSONB.class, jsonField, key);
     }
 
     /**
@@ -89,7 +90,7 @@ public final class JsonbDSL {
      * @param key       JSON field key name
      * @return A {@code Field} representing the extracted array element, as text
      */
-    public static Field<String> fieldByKeyText(Field<Jsonb> jsonField, String key) {
+    public static Field<String> fieldByKeyText(Field<JSONB> jsonField, String key) {
         return DSL.field("{0}->>{1}", String.class, jsonField, key);
     }
 
@@ -104,8 +105,8 @@ public final class JsonbDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, Collection)
      */
-    public static Field<Jsonb> objectAtPath(Field<Jsonb> jsonField, String... path) {
-        return DSL.field("{0}#>{1}", Jsonb.class, jsonField, DSL.array(path));
+    public static Field<JSONB> objectAtPath(Field<JSONB> jsonField, String... path) {
+        return DSL.field("{0}#>{1}", JSONB.class, jsonField, DSL.array(path));
     }
 
     /**
@@ -119,7 +120,7 @@ public final class JsonbDSL {
      * @return A {@code Field} representing the object at the specified path
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<Jsonb> objectAtPath(Field<Jsonb> jsonField, Collection<String> path) {
+    public static Field<JSONB> objectAtPath(Field<JSONB> jsonField, Collection<String> path) {
         return objectAtPath(jsonField, path.toArray(new String[0]));
     }
 
@@ -135,7 +136,7 @@ public final class JsonbDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPathText(Field, Collection)
      */
-    public static Field<String> objectAtPathText(Field<Jsonb> jsonField, String... path) {
+    public static Field<String> objectAtPathText(Field<JSONB> jsonField, String... path) {
         return DSL.field("{0}#>>{1}", String.class, jsonField, DSL.array(path));
     }
 
@@ -151,7 +152,7 @@ public final class JsonbDSL {
      * @return A {@code Field} representing the object at the specified path, as text
      * @see #objectAtPath(Field, String...)
      */
-    public static Field<String> objectAtPathText(Field<Jsonb> jsonField, Collection<String> path) {
+    public static Field<String> objectAtPathText(Field<JSONB> jsonField, Collection<String> path) {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 
@@ -165,7 +166,7 @@ public final class JsonbDSL {
      * @param right The JSON {@code Field} that should be contained in {@code left}
      * @return A {@code Condition} representing whether {@code left} is contained in {@code right}
      */
-    public static Condition contains(Field<Jsonb> left, Field<Jsonb> right) {
+    public static Condition contains(Field<JSONB> left, Field<JSONB> right) {
         return DSL.condition("{0} @> {1}", left, right);
     }
 
@@ -179,7 +180,7 @@ public final class JsonbDSL {
      * @param right The JSON {@code Field} that should contain {@code left}
      * @return A {@code Condition} representing whether {@code right} is contained in {@code left}
      */
-    public static Condition containedIn(Field<Jsonb> left, Field<Jsonb> right) {
+    public static Condition containedIn(Field<JSONB> left, Field<JSONB> right) {
         return DSL.condition("{0} <@ {1}", left, right);
     }
 
@@ -192,7 +193,7 @@ public final class JsonbDSL {
      * @param key The key that should exist at the top level in the JSON
      * @return A {@code Condition} representing whether the key is contained in the JSON value
      */
-    public static Condition hasKey(Field<Jsonb> f, String key) {
+    public static Condition hasKey(Field<JSONB> f, String key) {
         return DSL.condition("{0} ?? {1}", f, key);
     }
 
@@ -206,7 +207,7 @@ public final class JsonbDSL {
      * @return A {@code Condition} representing whether any of the {@code keys} exist
      * @see #hasAnyKey(Field, Collection)
      */
-    public static Condition hasAnyKey(Field<Jsonb> f, String... keys) {
+    public static Condition hasAnyKey(Field<JSONB> f, String... keys) {
         return DSL.condition("{0} ??| {1}", f, DSL.array(keys));
     }
 
@@ -220,7 +221,7 @@ public final class JsonbDSL {
      * @return A {@code Condition} representing whether any of the {@code keys} exist
      * @see #hasAnyKey(Field, String...)
      */
-    public static Condition hasAnyKey(Field<Jsonb> f, Collection<String> keys) {
+    public static Condition hasAnyKey(Field<JSONB> f, Collection<String> keys) {
         return hasAnyKey(f, keys.toArray(new String[0]));
     }
 
@@ -234,7 +235,7 @@ public final class JsonbDSL {
      * @return A {@code Condition} representing whether all of the {@code keys} exist
      * @see #hasAllKeys(Field, Collection)
      */
-    public static Condition hasAllKeys(Field<Jsonb> f, String... keys) {
+    public static Condition hasAllKeys(Field<JSONB> f, String... keys) {
         return DSL.condition("{0} ??& {1}", f, keys);
     }
 
@@ -248,7 +249,7 @@ public final class JsonbDSL {
      * @return A {@code Condition} representing whether all of the {@code keys} exist
      * @see #hasAllKeys(Field, String...)
      */
-    public static Condition hasAllKeys(Field<Jsonb> f, Collection<String> keys) {
+    public static Condition hasAllKeys(Field<JSONB> f, Collection<String> keys) {
         return hasAllKeys(f, keys.toArray(new String[0]));
     }
 
@@ -262,8 +263,8 @@ public final class JsonbDSL {
      * @param field2 Field to concatenate to {@code field1}
      * @return A {@code Field} representing a concatenation of the two JSON fields
      */
-    public static Field<Jsonb> concat(Field<Jsonb> field1, Field<Jsonb> field2) {
-        return DSL.field("{0} || {1}", Jsonb.class, field1, field2);
+    public static Field<JSONB> concat(Field<JSONB> field1, Field<JSONB> field2) {
+        return DSL.field("{0} || {1}", JSONB.class, field1, field2);
     }
 
     /**
@@ -277,8 +278,8 @@ public final class JsonbDSL {
      * @param keyOrElement The key name or element value to delete from the JSON field
      * @return A {@code Field} representing the original field with the key or element deleted
      */
-    public static Field<Jsonb> delete(Field<Jsonb> f, String keyOrElement) {
-        return DSL.field("{0} - {1}", Jsonb.class, f, keyOrElement);
+    public static Field<JSONB> delete(Field<JSONB> f, String keyOrElement) {
+        return DSL.field("{0} - {1}", JSONB.class, f, keyOrElement);
     }
 
     /**
@@ -292,8 +293,8 @@ public final class JsonbDSL {
      * @param keysOrElements The key names or element values to delete from the JSON field
      * @return A {@code Field} representing the original field with the keys or elements deleted
      */
-    public static Field<Jsonb> delete(Field<Jsonb> f, String... keysOrElements) {
-        return DSL.field("{0} - {1}", Jsonb.class, f, DSL.array(keysOrElements));
+    public static Field<JSONB> delete(Field<JSONB> f, String... keysOrElements) {
+        return DSL.field("{0} - {1}", JSONB.class, f, DSL.array(keysOrElements));
     }
 
     /**
@@ -307,8 +308,8 @@ public final class JsonbDSL {
      * @param index Array index to delete; negative values count from the end of the array
      * @return A {@code Field} representing the field with the array element removed
      */
-    public static Field<Jsonb> deleteElement(Field<Jsonb> f, int index) {
-        return DSL.field("{0} - {1}", Jsonb.class, f, index);
+    public static Field<JSONB> deleteElement(Field<JSONB> f, int index) {
+        return DSL.field("{0} - {1}", JSONB.class, f, index);
     }
 
     /**
@@ -322,8 +323,8 @@ public final class JsonbDSL {
      * @param path Path to the JSON element to remove
      * @return A {@code Field} representing the field with the chosen path removed
      */
-    public static Field<Jsonb> deletePath(Field<Jsonb> f, String... path) {
-        return DSL.field("{0} #- {1}", Jsonb.class, f, DSL.array(path));
+    public static Field<JSONB> deletePath(Field<JSONB> f, String... path) {
+        return DSL.field("{0} #- {1}", JSONB.class, f, DSL.array(path));
     }
 
 

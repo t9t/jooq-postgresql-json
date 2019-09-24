@@ -1,3 +1,8 @@
+# ?.?.?
+- Upgraded to jOOQ 3.12.1, which has its own `JSON` and `JSONB` types, which means:
+  - Removed `Json` and `Jsonb` classes, replacing them with `JSON` and `JSONB` respectively in `JsonDSL` and `JsonbDSL`
+  - Removed `JsonBinding`, `JsonbBinding`, and `JsonStringBinding` as they are now obsolete 
+
 # 0.4.0
 - Added a handful of processing functions:
     - `json(b)_array_length`

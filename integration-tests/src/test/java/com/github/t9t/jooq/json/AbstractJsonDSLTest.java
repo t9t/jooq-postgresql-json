@@ -2,9 +2,7 @@ package com.github.t9t.jooq.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jooq.DSLContext;
-import org.jooq.Field;
-import org.jooq.SQLDialect;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,15 +20,15 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(Parameterized.class)
 public abstract class AbstractJsonDSLTest {
-    private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
+    private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES);
     private static final ObjectMapper om = new ObjectMapper();
 
     private static final String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
     private static final String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
 
 
-    static final Field<Json> json = JSON_TEST.DATA;
-    static final Field<Jsonb> jsonb = JSON_TEST.DATAB;
+    static final Field<JSON> json = JSON_TEST.DATA;
+    static final Field<JSONB> jsonb = JSON_TEST.DATAB;
 
     @Parameterized.Parameter
     public String testName;
@@ -54,7 +52,7 @@ public abstract class AbstractJsonDSLTest {
 
         assertEquals(1, dsl.insertInto(JSON_TEST)
                 .columns(JSON_TEST.NAME, JSON_TEST.DATA, JSON_TEST.DATAB)
-                .values("json-dsl-test", Json.of(jsonData), Jsonb.of(jsonData))
+                .values("json-dsl-test", JSON.valueOf(jsonData), JSONB.valueOf(jsonData))
                 .execute());
         assertEquals(1, dsl.fetchCount(JSON_TEST));
     }
@@ -69,10 +67,10 @@ public abstract class AbstractJsonDSLTest {
         }
 
         if (expected instanceof JsonNode) {
-            if (data instanceof Json) {
-                assertEquals(expected, toNode(((Json) data).getValue()));
-            } else if (data instanceof Jsonb) {
-                assertEquals(expected, toNode(((Jsonb) data).getValue()));
+            if (data instanceof JSON) {
+                assertEquals(expected, toNode(data.toString()));
+            } else if (data instanceof JSONB) {
+                assertEquals(expected, toNode(data.toString()));
             } else {
                 assertEquals(expected, toNode((String) data));
             }
@@ -139,12 +137,12 @@ public abstract class AbstractJsonDSLTest {
         }
 
         Params expectJson(String s) {
-            this.expected = Json.ofNullable(s);
+            this.expected = s == null ? null : JSON.valueOf(s);
             return this;
         }
 
         Params expectJsonb(String s) {
-            this.expected = Jsonb.ofNullable(s);
+            this.expected = s == null ? null : JSONB.valueOf(s);
             return this;
         }
 
