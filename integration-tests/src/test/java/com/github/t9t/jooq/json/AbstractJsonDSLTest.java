@@ -25,8 +25,9 @@ public abstract class AbstractJsonDSLTest {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES_10);
     private static final ObjectMapper om = new ObjectMapper();
 
-    private static final String genericRow = "json-dsl";
-    private static final String arrayRow = "array";
+    private static final String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
+    private static final String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
+
 
     static final Field<Json> json = JSON_TEST.DATA;
     static final Field<Jsonb> jsonb = JSON_TEST.DATAB;
@@ -34,7 +35,7 @@ public abstract class AbstractJsonDSLTest {
     @Parameterized.Parameter
     public String testName;
     @Parameterized.Parameter(1)
-    public String rowName;
+    public String jsonData;
     @Parameterized.Parameter(2)
     public Object expected;
     @Parameterized.Parameter(3)
@@ -43,7 +44,7 @@ public abstract class AbstractJsonDSLTest {
     static List<Object[]> generateParams(String baseName, List<Params> paramList) {
         return paramList.stream().map(p -> {
             String name = String.format("%s_%s", baseName, p.name);
-            return new Object[]{name, requireNonNull(p.dataSet, "dataSet"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")};
+            return new Object[]{name, requireNonNull(p.jsonData, "jsonData"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")};
         }).collect(Collectors.toList());
     }
 
@@ -51,19 +52,16 @@ public abstract class AbstractJsonDSLTest {
     public void setUp() {
         dsl.deleteFrom(JSON_TEST).execute();
 
-        String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
-        String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
-        assertEquals(2, dsl.insertInto(JSON_TEST)
+        assertEquals(1, dsl.insertInto(JSON_TEST)
                 .columns(JSON_TEST.NAME, JSON_TEST.DATA, JSON_TEST.DATAB)
-                .values(genericRow, Json.of(String.format(template, "json")), Jsonb.of(String.format(template, "jsonb")))
-                .values(arrayRow, Json.of(String.format(arrayTemplate, "json")), Jsonb.of(String.format(arrayTemplate, "jsonb")))
+                .values("json-dsl-test", Json.of(jsonData), Jsonb.of(jsonData))
                 .execute());
-        assertEquals(2, dsl.fetchCount(JSON_TEST));
+        assertEquals(1, dsl.fetchCount(JSON_TEST));
     }
 
     @Test
     public void test() {
-        Object data = select(rowName, fieldToSelect);
+        Object data = dsl.select(fieldToSelect).from(JSON_TEST).fetchOne().value1();
 
         if (expected == null) {
             assertNull(data);
@@ -92,34 +90,32 @@ public abstract class AbstractJsonDSLTest {
         }
     }
 
-    private Object select(String rowName, Field<?> field) {
-        return dsl.select(field)
-                .from(JSON_TEST)
-                .where(JSON_TEST.NAME.eq(rowName))
-                .fetchOne().value1();
-    }
-
     static Params test(String name) {
-        return new Params(name + "_json");
+        return new Params(name + "_json", String.format(template, "json"));
     }
 
     static Params btest(String name) {
-        return new Params(name + "_jsonb");
+        return new Params(name + "_jsonb", String.format(template, "jsonb"));
     }
 
     static class Params {
         private final String name;
-        private String dataSet;
+        private String jsonData;
         private Object expected;
         private Field<?> fieldToSelect;
 
-        private Params(String name) {
+        private Params(String name, String jsonData) {
             this.name = name;
-            this.dataSet = genericRow;
+            this.jsonData = jsonData;
         }
 
         Params forArray() {
-            this.dataSet = arrayRow;
+            this.jsonData = String.format(arrayTemplate, "json" + (name.endsWith("b") ? "b" : ""));
+            return this;
+        }
+
+        Params usingJson(String json) {
+            this.jsonData = json;
             return this;
         }
 
