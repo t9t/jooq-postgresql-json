@@ -155,7 +155,10 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns the number of elements in the outermost JSON array.
+     * <p>Returns the number of elements in the outermost JSON array.</p>
+     *
+     * <p>Example: <code>json_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4]')</code></p>
+     * <p>Example result: <code>5</code></p>
      *
      * @param jsonField The JSON {@code Field} containing an array to measure the length of
      * @return Length of the array
@@ -165,8 +168,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
-     * {@link #objectAtPath(Field, String...)}).
+     * <p>Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
+     * {@link #objectAtPath(Field, String...)}).</p>
+     *
+     * <p>Example: <code>json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4')</code></p>
+     * <p>Example result: <code>{"f5":99,"f6":"foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
      * @param path      Path to the the object to return
@@ -180,8 +186,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
-     * {@link #objectAtPath(Field, Collection)}).
+     * <p>Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
+     * {@link #objectAtPath(Field, Collection)}).</p>
+     *
+     * <p>Example: <code>json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4')</code></p>
+     * <p>Example result: <code>{"f5":99,"f6":"foo"}</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
      * @param path      Path to the the object to return
@@ -195,8 +204,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
-     * {@link #objectAtPathText(Field, String...)}).
+     * <p>Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
+     * {@link #objectAtPathText(Field, String...)}).</p>
+     *
+     * <p>Example: <code>json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4', 'f6')</code></p>
+     * <p>Example result: <code>foo</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
      * @param path      Path to the the object to return
@@ -210,8 +222,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
-     * {@link #objectAtPathText(Field, Collection)}).
+     * <p>Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
+     * {@link #objectAtPathText(Field, Collection)}).</p>
+     *
+     * <p>Example: <code>json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"foo"}}','f4', 'f6')</code></p>
+     * <p>Example result: <code>foo</code></p>
      *
      * @param jsonField The JSON {@code Field} to extract the path from
      * @param path      Path to the the object to return
@@ -225,8 +240,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns the type of the outermost JSON value as a text string. Possible types are {@code object}, {@code array},
-     * {@code string}, {@code number}, {@code boolean}, and {@code null}.
+     * <p>Returns the type of the outermost JSON value as a text string. Possible types are {@code object}, {@code array},
+     * {@code string}, {@code number}, {@code boolean}, and {@code null}.</p>
+     *
+     * <p>Example: <code>json_typeof('-123.4')</code></p>
+     * <p>Example result: <code>number</code></p>
      *
      * @param jsonField The JSON {@code Field} to determine the type of
      * @return The JSON type
@@ -236,8 +254,11 @@ public final class JsonDSL {
     }
 
     /**
-     * Returns a JSON {@code Field} with all object fields that have {@code null} values omitted. Other {@code null}
-     * values (eg. in arrays) are untouched.
+     * <p>Returns a JSON {@code Field} with all object fields that have {@code null} values omitted. Other {@code null}
+     * values (eg. in arrays) are untouched.</p>
+     *
+     * <p>Example: <code>json_strip_nulls('[{"f1":1,"f2":null},2,null,3]')</code></p>
+     * <p>Example result: <code>[{"f1":1},2,null,3]</code></p>
      *
      * @param jsonField The JSON {@code Field} to remove {@code null} values from
      * @return A JSON {@code Field} with {@code null} object fields removed
