@@ -26,7 +26,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>0.3.1</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
