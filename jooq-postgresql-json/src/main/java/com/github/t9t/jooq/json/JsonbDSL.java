@@ -325,4 +325,32 @@ public final class JsonbDSL {
     public static Field<Jsonb> deletePath(Field<Jsonb> f, String... path) {
         return DSL.field("{0} #- {1}", Jsonb.class, f, DSL.array(path));
     }
+
+    public static Field<Integer> arrayLength(Field<Jsonb> jsonField) {
+        return DSL.field("jsonb_array_length({0})", Integer.class, jsonField);
+    }
+
+    public static Field<Jsonb> extractPath(Field<Jsonb> jsonField, String... path) {
+        return DSL.field("jsonb_extract_path({0}, VARIADIC {1})", Jsonb.class, jsonField, DSL.array(path));
+    }
+
+    public static Field<Jsonb> extractPath(Field<Jsonb> jsonField, Collection<String> path) {
+        return extractPath(jsonField, path.toArray(new String[0]));
+    }
+
+    public static Field<String> extractPathText(Field<Jsonb> jsonField, String... path) {
+        return DSL.field("jsonb_extract_path_text({0}, VARIADIC {1})", String.class, jsonField, DSL.array(path));
+    }
+
+    public static Field<String> extractPathText(Field<Jsonb> jsonField, Collection<String> path) {
+        return extractPathText(jsonField, path.toArray(new String[0]));
+    }
+
+    public static Field<String> typeOf(Field<Jsonb> jsonField) {
+        return DSL.field("jsonb_typeof({0})", String.class, jsonField);
+    }
+
+    public static Field<Jsonb> stripNulls(Field<Jsonb> jsonField) {
+        return DSL.field("jsonb_strip_nulls({0})", Jsonb.class, jsonField);
+    }
 }
