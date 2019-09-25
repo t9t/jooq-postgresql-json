@@ -154,30 +154,94 @@ public final class JsonDSL {
         return objectAtPathText(jsonField, path.toArray(new String[0]));
     }
 
+    /**
+     * Returns the number of elements in the outermost JSON array.
+     *
+     * @param jsonField The JSON {@code Field} containing an array to measure the length of
+     * @return Length of the array
+     */
     public static Field<Integer> arrayLength(Field<Json> jsonField) {
         return DSL.field("json_array_length({0})", Integer.class, jsonField);
     }
 
+    /**
+     * Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
+     * {@link #objectAtPath(Field, String...)}).
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path
+     * @see #objectAtPath(Field, String...)
+     * @see #objectAtPath(Field, Collection)
+     * @see #extractPath(Field, Collection)
+     */
     public static Field<Json> extractPath(Field<Json> jsonField, String... path) {
         return DSL.field("json_extract_path({0}, VARIADIC {1})", Json.class, jsonField, DSL.array(path));
     }
 
+    /**
+     * Returns JSON value pointed to by {@code path} (equivalent to <code>#&gt;</code> operator, ie.
+     * {@link #objectAtPath(Field, Collection)}).
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path
+     * @see #objectAtPath(Field, String...)
+     * @see #objectAtPath(Field, Collection)
+     * @see #extractPath(Field, String...)
+     */
     public static Field<Json> extractPath(Field<Json> jsonField, Collection<String> path) {
         return extractPath(jsonField, path.toArray(new String[0]));
     }
 
+    /**
+     * Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
+     * {@link #objectAtPathText(Field, String...)}).
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path, as text
+     * @see #objectAtPathText(Field, String...)
+     * @see #objectAtPathText(Field, Collection)
+     * @see #extractPathText(Field, Collection)
+     */
     public static Field<String> extractPathText(Field<Json> jsonField, String... path) {
         return DSL.field("json_extract_path_text({0}, VARIADIC {1})", String.class, jsonField, DSL.array(path));
     }
 
+    /**
+     * Returns JSON value pointed to by {@code path} as text (equivalent to <code>#&gt;&gt;</code> operator, ie.
+     * {@link #objectAtPathText(Field, Collection)}).
+     *
+     * @param jsonField The JSON {@code Field} to extract the path from
+     * @param path      Path to the the object to return
+     * @return A {@code Field} representing the object at the specified path, as text
+     * @see #objectAtPathText(Field, String...)
+     * @see #objectAtPathText(Field, Collection)
+     * @see #extractPathText(Field, String...)
+     */
     public static Field<String> extractPathText(Field<Json> jsonField, Collection<String> path) {
         return extractPathText(jsonField, path.toArray(new String[0]));
     }
 
+    /**
+     * Returns the type of the outermost JSON value as a text string. Possible types are {@code object}, {@code array},
+     * {@code string}, {@code number}, {@code boolean}, and {@code null}.
+     *
+     * @param jsonField The JSON {@code Field} to determine the type of
+     * @return The JSON type
+     */
     public static Field<String> typeOf(Field<Json> jsonField) {
         return DSL.field("json_typeof({0})", String.class, jsonField);
     }
 
+    /**
+     * Returns a JSON {@code Field} with all object fields that have {@code null} values omitted. Other {@code null}
+     * values (eg. in arrays) are untouched.
+     *
+     * @param jsonField The JSON {@code Field} to remove {@code null} values from
+     * @return A JSON {@code Field} with {@code null} object fields removed
+     */
     public static Field<Json> stripNulls(Field<Json> jsonField) {
         return DSL.field("json_strip_nulls({0})", Json.class, jsonField);
     }
