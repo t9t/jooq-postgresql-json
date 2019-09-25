@@ -11,11 +11,13 @@ introduces new native JSON and JSONB types. See #4 for more information.
 - [Configure the jOOQ code generator](#configure-the-jooq-code-generator)
 - [Using in code](#using-in-code)
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
+- [Available PostgreSQL json processing functions](#available-postgresql-json-processing-functions)
 - [Example](#example)
 - [References](#references)
 - [![Javadocs](https://javadoc.io/badge/com.github.t9t.jooq/jooq-postgresql-json.svg)](https://javadoc.io/doc/com.github.t9t.jooq/jooq-postgresql-json)
 
 ---
+
 
 ## Include as a Maven dependency
 First, add the following Maven dependency:
@@ -27,6 +29,7 @@ First, add the following Maven dependency:
   <version>0.3.1</version>
 </dependency>
 ```
+
 
 ## Configure the jOOQ code generator
 Then, configure the code generator like this:
@@ -127,6 +130,7 @@ public String fetchData(long id) {
 }
 ```
 
+
 ## PostgreSQL json operator support
 Reference: https://www.postgresql.org/docs/11/functions-json.html
 
@@ -156,6 +160,28 @@ Operators available only for `jsonb` (through `JsonbDSL`):
 | `-` | `text[]` | Delete multiple keys or elements | `delete()` |
 | `-` | `int` | Delete array element | `deleteElement()` |
 | `#-` | `text[]` | Delete field for path | `deletePath()` |
+
+
+## Available PostgreSQL json processing functions
+Reference: https://www.postgresql.org/docs/11/functions-json.html#FUNCTIONS-JSON-PROCESSING-TABLE
+
+Processing functions available for both `json` (through `JsonDSL`) and `jsonb` (through `JsonbDSL`):
+
+| Function | Return type | Description | Method |
+| --- | --- | --- | --- |
+| `json(b)_array_length` | `int` | Get length of JSON array | `arrayLength()` |
+| `json(b)_extract_path` | `json`/`jsonb` | Extract object at path (same as `#>`) | `extractPath()` |
+| `json(b)_extract_path_text` | `text` | Extract object at path as text (same as `#>>`) | `extractPathText()` |
+| `json(b)_typeof` | `text` | Get the type of a JSON field | `typeOf()` |
+| `json(b)_strip_nulls` | `json`/`jsonb` | Remove object fields with `null` values | `stripNulls()` |
+
+Functions only available for `json` (through `JsonbDSL`):
+
+| Function | Return type | Description | Method |
+| --- | --- | --- | --- |
+| `jsonb_pretty` | `text` | Pretty format JSON field | `pretty()` |
+
+
 
 ## Example
 See the [integration-tests](integration-tests) module's [pom.xml](integration-tests/pom.xml) for an example of the
