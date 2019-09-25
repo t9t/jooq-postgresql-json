@@ -353,4 +353,8 @@ public final class JsonbDSL {
     public static Field<Jsonb> stripNulls(Field<Jsonb> jsonField) {
         return DSL.field("jsonb_strip_nulls({0})", Jsonb.class, jsonField);
     }
+
+    public static Field<String> pretty(Field<Jsonb> jsonField) {
+        return DSL.field("jsonb_pretty({0})", String.class, jsonField);
+    }
 }
