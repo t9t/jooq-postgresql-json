@@ -127,14 +127,6 @@ public abstract class AbstractJsonDSLTest {
             return this;
         }
 
-        Params expectJsonNull() {
-            return expectJson((String) null);
-        }
-
-        Params expectJsonbNull() {
-            return expectJsonb(null);
-        }
-
         Params expect(Object o) {
             this.expected = o;
             return this;
