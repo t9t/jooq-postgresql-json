@@ -1,4 +1,4 @@
-# ?.?.?
+# 1.0.0
 **Breaking update!**
 
 - Upgraded to jOOQ 3.12.3, which has its own `JSON` and `JSONB` types, which means:

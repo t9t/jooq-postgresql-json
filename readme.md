@@ -24,11 +24,11 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>?.?.?</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-**Warning**: upgrading from `0.4.0` to `?.?.?` **breaking change**. jOOQ has been updated from 3.11 to 3.12, meaning
+**Warning**: upgrading from `0.4.0` to `1.0.0` **breaking change**. jOOQ has been updated from 3.11 to 3.12, meaning
 the custom classes `Json` and `Jsonb` (and their bindings) have been removed, and replaced by the jOOQ `JSON` and
 `JSONB` classes respectively (which are automatically bound to `json` and `jsonb` PostgreSQL fields).
 
