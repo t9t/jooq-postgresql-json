@@ -54,7 +54,7 @@ public class JsonBindingIT {
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
-        assertNull(r.value1().toString());
+        assertNull(r.value1());
     }
 
 
@@ -95,7 +95,7 @@ public class JsonBindingIT {
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
-        assertNull(r.value1().toString());
+        assertNull(r.value1());
     }
 
     @Test
@@ -115,8 +115,8 @@ public class JsonBindingIT {
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne();
 
-        assertNull(r.value1().toString());
-        assertNull(r.value2().toString());
+        assertNull(r.value1());
+        assertNull(r.value2());
     }
 
     @Test
