@@ -337,7 +337,7 @@ public final class JsonbDSL {
      * @param jsonField The JSON {@code Field} containing an array to measure the length of
      * @return Length of the array
      */
-    public static Field<Integer> arrayLength(Field<Jsonb> jsonField) {
+    public static Field<Integer> arrayLength(Field<JSONB> jsonField) {
         return DSL.field("jsonb_array_length({0})", Integer.class, jsonField);
     }
 
@@ -355,8 +355,8 @@ public final class JsonbDSL {
      * @see #objectAtPath(Field, Collection)
      * @see #extractPath(Field, Collection)
      */
-    public static Field<Jsonb> extractPath(Field<Jsonb> jsonField, String... path) {
-        return DSL.field("jsonb_extract_path({0}, VARIADIC {1})", Jsonb.class, jsonField, DSL.array(path));
+    public static Field<JSONB> extractPath(Field<JSONB> jsonField, String... path) {
+        return DSL.field("jsonb_extract_path({0}, VARIADIC {1})", JSONB.class, jsonField, DSL.array(path));
     }
 
     /**
@@ -373,7 +373,7 @@ public final class JsonbDSL {
      * @see #objectAtPath(Field, Collection)
      * @see #extractPath(Field, String...)
      */
-    public static Field<Jsonb> extractPath(Field<Jsonb> jsonField, Collection<String> path) {
+    public static Field<JSONB> extractPath(Field<JSONB> jsonField, Collection<String> path) {
         return extractPath(jsonField, path.toArray(new String[0]));
     }
 
@@ -391,7 +391,7 @@ public final class JsonbDSL {
      * @see #objectAtPathText(Field, Collection)
      * @see #extractPathText(Field, Collection)
      */
-    public static Field<String> extractPathText(Field<Jsonb> jsonField, String... path) {
+    public static Field<String> extractPathText(Field<JSONB> jsonField, String... path) {
         return DSL.field("jsonb_extract_path_text({0}, VARIADIC {1})", String.class, jsonField, DSL.array(path));
     }
 
@@ -409,7 +409,7 @@ public final class JsonbDSL {
      * @see #objectAtPathText(Field, Collection)
      * @see #extractPathText(Field, String...)
      */
-    public static Field<String> extractPathText(Field<Jsonb> jsonField, Collection<String> path) {
+    public static Field<String> extractPathText(Field<JSONB> jsonField, Collection<String> path) {
         return extractPathText(jsonField, path.toArray(new String[0]));
     }
 
@@ -423,7 +423,7 @@ public final class JsonbDSL {
      * @param jsonField The JSON {@code Field} to determine the type of
      * @return The JSON type
      */
-    public static Field<String> typeOf(Field<Jsonb> jsonField) {
+    public static Field<String> typeOf(Field<JSONB> jsonField) {
         return DSL.field("jsonb_typeof({0})", String.class, jsonField);
     }
 
@@ -437,8 +437,8 @@ public final class JsonbDSL {
      * @param jsonField The JSON {@code Field} to remove {@code null} values from
      * @return A JSON {@code Field} with {@code null} object fields removed
      */
-    public static Field<Jsonb> stripNulls(Field<Jsonb> jsonField) {
-        return DSL.field("jsonb_strip_nulls({0})", Jsonb.class, jsonField);
+    public static Field<JSONB> stripNulls(Field<JSONB> jsonField) {
+        return DSL.field("jsonb_strip_nulls({0})", JSONB.class, jsonField);
     }
 
     /**
@@ -460,7 +460,7 @@ public final class JsonbDSL {
      * @param jsonField The JSON {@code Field} to format
      * @return Pretty formatted, intended String representation of the JSON {@code Field}
      */
-    public static Field<String> pretty(Field<Jsonb> jsonField) {
+    public static Field<String> pretty(Field<JSONB> jsonField) {
         return DSL.field("jsonb_pretty({0})", String.class, jsonField);
     }
 }
