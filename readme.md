@@ -6,7 +6,6 @@ Requires at least Java 8. **Note:** this project is currently only compatible wi
 3.11 you can temporarily fall back to version `0.4.0`.
 
 - [Include as a Maven dependency](#include-as-a-maven-dependency)
-- [Configure the jOOQ code generator](#configure-the-jooq-code-generator)
 - [Using in code](#using-in-code)
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
 - [Available PostgreSQL json processing functions](#available-postgresql-json-processing-functions)
