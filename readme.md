@@ -1,15 +1,14 @@
 # jOOQ PostgreSQL JSON binding
-Provides jOOQ support for [PostgreSQL JSON functions](https://www.postgresql.org/docs/11/functions-json.html) through
-the use of the `JsonDSL` and `JsonbDSL` classes (for `json` and `jsonb` fields respectively).
+Provides jOOQ support for [PostgreSQL JSON functions and operators](https://www.postgresql.org/docs/11/functions-json.html)
+for `json` and `jsonb` fields.
 
 Requires at least Java 8. **Note:** this project is currently only compatible with jOOQ version 3.12. For jOOQ version
-3.11 you can temporarily fall back to version `0.4.0`.
+3.11 you can use version `0.4.0` until you upgrade to 3.12.
 
 - [Include as a Maven dependency](#include-as-a-maven-dependency)
-- [Using in code](#using-in-code)
+- [Usage](#usage)
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
 - [Available PostgreSQL json processing functions](#available-postgresql-json-processing-functions)
-- [Example](#example)
 - [References](#references)
 - [![Javadocs](https://javadoc.io/badge/com.github.t9t.jooq/jooq-postgresql-json.svg)](https://javadoc.io/doc/com.github.t9t.jooq/jooq-postgresql-json)
 
@@ -27,12 +26,48 @@ First, add the following Maven dependency:
 </dependency>
 ```
 
-**Warning**: upgrading from `0.4.0` to `1.0.0` **breaking change**. jOOQ has been updated from 3.11 to 3.12, meaning
-the custom classes `Json` and `Jsonb` (and their bindings) have been removed, and replaced by the jOOQ `JSON` and
-`JSONB` classes respectively (which are automatically bound to `json` and `jsonb` PostgreSQL fields).
+**Warning**: upgrading from `0.4.0` to `1.0.0` is a **breaking change**. jOOQ has been updated from 3.11 to 3.12,
+meaning the custom classes `Json` and `Jsonb` (and their bindings) have been removed, and replaced by the jOOQ `JSON`
+and `JSONB` classes respectively (which are automatically bound to `json` and `jsonb` PostgreSQL fields).
 
-If you need jOOQ 3.11 support, please continue to use version `0.4.0`.
+If you need jOOQ 3.11 support, please continue using version `0.4.0`.
 
+## Usage
+Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.0.0/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.0.0/com/github/t9t/jooq/json/JsonbDSL.html)
+classes to access the JSON functions and operators.
+
+For example, to extract a JSON nested property value as text from a `json` field:
+
+```java
+/* Sample JSON:
+{
+  "data": {
+    "productCode": "Z-5521"
+  }
+}
+*/
+String productCode = dsl.select(JsonDSL.extractPathText(MY_TABLE.DATA_FIELD, "data", "productCode"))
+    .from(MY_TABLE).fetchOneInto(String.class);
+``` 
+
+Or for example using the `@>` operator to update a row of which a `jsonb` field contains a certain id:
+
+```java
+/* Sample JSON:
+{
+  "id": "1337",
+  "name": "The Hitchhiker's Guide to the Galaxy"
+}
+*/
+dsl.update(MY_TABLE)
+    .set(MY_TABLE.RATING, 100)
+    .where(JsonbDSL.contains(MY_TABLE.DATA_FIELD, JsonbDSL.field("{\"id\": \"1337\"}")))
+    .execute()
+``` 
+
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.0.0/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.0.0/com/github/t9t/jooq/json/JsonbDSL.html)
 
 ## PostgreSQL json operator support
 Reference: https://www.postgresql.org/docs/11/functions-json.html
@@ -83,15 +118,6 @@ Functions only available for `json` (through `JsonbDSL`):
 | Function | Return type | Description | Method |
 | --- | --- | --- | --- |
 | `jsonb_pretty` | `text` | Pretty format JSON field | `pretty()` |
-
-
-
-## Example
-See the [integration-tests](integration-tests) module's [pom.xml](integration-tests/pom.xml) for an example of the
-`jooq-codegen` Maven plugin.
-
-For some code usage examples, refer to
-[integration-tests/.../JsonBindingIT](integration-tests/src/test/java/com/github/t9t/jooq/json/JsonBindingIT.java).
 
 
 ## References
