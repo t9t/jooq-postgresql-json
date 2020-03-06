@@ -12,6 +12,10 @@ import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * Tests the basic assumptions about jOOQ binding json and jsonb fields to the {@link JSON} and {@link JSONB} classes
+ * and its null handling.
+ */
 public class JsonBindingIT {
     private static final DataSource ds = TestDb.createDataSource();
     private static final DSLContext dsl = DSL.using(ds, SQLDialect.POSTGRES);
