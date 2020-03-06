@@ -79,7 +79,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.30.0</version>
+                        <version>0.33.0</version>
                         <executions>
                             <execution>
                                 <id>stop-existing-postgres</id>
@@ -230,7 +230,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.0.0-M3</version>
+                        <version>3.0.0-M4</version>
                         <executions>
                             <execution>
                                 <goals>
