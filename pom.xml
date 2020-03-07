@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jooq.version>3.12.3</jooq.version>
+        <jooq.version>3.13.1</jooq.version>
         <postgresql.driver.version>42.2.10</postgresql.driver.version>
         <flyway.version>6.3.0</flyway.version>
     </properties>
@@ -73,27 +73,6 @@
                     <testSource>1.8</testSource>
                     <testTarget>1.8</testTarget>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <executions>
-                    <execution>
-                        <id>enforce-java</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[1.8]</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
