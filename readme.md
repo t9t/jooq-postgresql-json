@@ -22,7 +22,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
@@ -33,17 +33,20 @@ and `JSONB` classes respectively (which are automatically bound to `json` and `j
 If you need jOOQ 3.11 support, please continue using version `0.4.0`.
 
 ### Version matrix
-This shows only which jOOQ version is used in this library, but newer versions of jOOQ might work just as well.
+This shows only which jOOQ version is used in this library. Minor version differences should still be compatible and
+newer major versions of jOOQ might still work with older versions of this library if nothing changed much in the jOOQ
+JSON APIs.
 
 | Library version | jOOQ version |
-| --- | ---- | 
+| --- | ---- |
+| 1.1.1 | 3.13.2 | 
 | 1.1.0 | 3.13.1 |
 | 1.0.0 | 3.12.3 |
 | 0.4.0 | 3.11.11 |
 
 ## Usage
-Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.0/com/github/t9t/jooq/json/JsonDSL.html)
-and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.0/com/github/t9t/jooq/json/JsonbDSL.html)
+Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.1/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.1/com/github/t9t/jooq/json/JsonbDSL.html)
 classes to access the JSON functions and operators.
 
 For example, to extract a JSON nested property value as text from a `json` field:
@@ -75,8 +78,8 @@ dsl.update(MY_TABLE)
     .execute()
 ``` 
 
-- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.0/com/github/t9t/jooq/json/JsonDSL.html)
-- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.0/com/github/t9t/jooq/json/JsonbDSL.html)
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.1/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.1/com/github/t9t/jooq/json/JsonbDSL.html)
 
 ## PostgreSQL json operator support
 Reference: https://www.postgresql.org/docs/11/functions-json.html
