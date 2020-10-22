@@ -22,7 +22,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>1.1.2</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
@@ -47,8 +47,8 @@ JSON APIs.
 | 0.4.0 | 3.11.11 |
 
 ## Usage
-Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.2/com/github/t9t/jooq/json/JsonDSL.html)
-and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.2/com/github/t9t/jooq/json/JsonbDSL.html)
+Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
 classes to access the JSON functions and operators.
 
 For example, to extract a JSON nested property value as text from a `json` field:
@@ -80,8 +80,8 @@ dsl.update(MY_TABLE)
     .execute()
 ``` 
 
-- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.2/com/github/t9t/jooq/json/JsonDSL.html)
-- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.1.2/com/github/t9t/jooq/json/JsonbDSL.html)
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
 
 ## PostgreSQL json operator support
 Reference: https://www.postgresql.org/docs/11/functions-json.html
