@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jooq.version>3.13.4</jooq.version>
+        <jooq.version>3.14.0</jooq.version>
         <postgresql.driver.version>42.2.12</postgresql.driver.version>
         <flyway.version>6.4.2</flyway.version>
     </properties>
