@@ -22,6 +22,7 @@
         <jooq.version>3.14.4</jooq.version>
         <postgresql.driver.version>42.2.18</postgresql.driver.version>
         <flyway.version>7.3.1</flyway.version>
+        <kotlin.version>1.4.21</kotlin.version>
     </properties>
 
     <dependencyManagement>
@@ -43,6 +44,12 @@
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.driver.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>${kotlin.version}</version>
             </dependency>
 
             <dependency>
