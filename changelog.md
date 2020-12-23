@@ -1,3 +1,15 @@
+# 1.3.0
+- Introduced Kotlin extension functions (#11 & #12)
+
+# 1.2.2
+- Updated jOOQ version to 3.14.4
+
+# 1.2.1
+- Updated jOOQ version to 3.14.3
+
+# 1.2.0
+- Updated jOOQ version to 3.14.0
+
 # 1.1.2
 - Updated jOOQ version to 3.13.4
 
