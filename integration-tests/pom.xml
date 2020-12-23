@@ -19,7 +19,7 @@
 
         <test.jooq-codegen.directory>${project.build.directory}/generated-sources/jooq</test.jooq-codegen.directory>
 
-        <kotlin.version>1.4.20</kotlin.version>
+        <kotlin.version>1.4.21</kotlin.version>
     </properties>
 
     <dependencies>
