@@ -22,7 +22,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -39,6 +39,7 @@ JSON APIs.
 
 | Library version | jOOQ version |
 | --- | ---- |
+| 1.3.0 | 3.14.4 |
 | 1.2.2 | 3.14.4 |
 | 1.2.1 | 3.14.3 |
 | 1.2.0 | 3.14.0 |
@@ -49,8 +50,8 @@ JSON APIs.
 | 0.4.0 | 3.11.11 |
 
 ## Usage
-Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonDSL.html)
-and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
+Use the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/JsonbDSL.html)
 classes to access the JSON functions and operators.
 
 For example, to extract a JSON nested property value as text from a `json` field:
@@ -82,8 +83,22 @@ dsl.update(MY_TABLE)
     .execute()
 ``` 
 
-- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonDSL.html)
-- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/JsonbDSL.html)
+
+### Kotlin
+Kotlin extension functions are available for `Field<JSON>` and `Field<JSONB>`. That means that instead of something like
+`JsonDSL.extractPathText(MY_TABLE.DATA_FIELD, "data", "productCode")` you can instead write:
+`MY_TABLE.DATA_FIELD.extractPathText("data", "productCode")`.
+
+The extension functions are available in the following packages:
+
+- [`com.github.t9t.jooq.json.json`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/json)
+- [`com.github.t9t.jooq.json.jsonb`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/1.3.0/com/github/t9t/jooq/json/jsonb)
+
+The names of extension functions match the names of the methods on `JsonDSL` and `JsonbDSL`, except for `concat` and
+`contains`, which are called `concatJson` and `containsJson` respectively to prevent clashes with existing methods
+of `Field`.
 
 ## PostgreSQL json operator support
 Reference: https://www.postgresql.org/docs/11/functions-json.html
