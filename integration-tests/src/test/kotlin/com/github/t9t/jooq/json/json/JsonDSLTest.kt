@@ -7,7 +7,7 @@ import org.jooq.impl.DSL
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class JsonDSLTestIT {
+class JsonDSLTest {
 
     private val jsonField: Field<JSON> = DSL.field("foo.bar", JSON::class.java)
 
