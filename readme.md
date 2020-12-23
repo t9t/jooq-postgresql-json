@@ -1,4 +1,4 @@
-# jOOQ PostgreSQL JSON binding
+# jOOQ PostgreSQL JSON support
 Provides jOOQ support for [PostgreSQL JSON functions and operators](https://www.postgresql.org/docs/11/functions-json.html)
 for `json` and `jsonb` fields.
 
