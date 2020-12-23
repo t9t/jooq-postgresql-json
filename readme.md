@@ -7,6 +7,7 @@ jOOQ version 3.11 you can use version `0.4.0` until you upgrade to 3.12 (or high
 
 - [Include as a Maven dependency](#include-as-a-maven-dependency)
 - [Usage](#usage)
+  - [Kotlin extension functions](#kotlin)
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
 - [Available PostgreSQL json processing functions](#available-postgresql-json-processing-functions)
 - [References](#references)
