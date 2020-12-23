@@ -18,8 +18,6 @@
         <db.url>jdbc:postgresql://127.0.0.1:${pg.port}/${pg.dbname}</db.url>
 
         <test.jooq-codegen.directory>${project.build.directory}/generated-sources/jooq</test.jooq-codegen.directory>
-
-        <kotlin.version>1.4.21</kotlin.version>
     </properties>
 
     <dependencies>
@@ -199,25 +197,7 @@
                     <plugin>
                         <groupId>org.jetbrains.kotlin</groupId>
                         <artifactId>kotlin-maven-plugin</artifactId>
-                        <version>${kotlin.version}</version>
-                        <configuration>
-                            <jvmTarget>1.8</jvmTarget>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>test-compile</id>
-                                <goals>
-                                    <goal>test-compile</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceDirs>
-                                        <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                                    </sourceDirs>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
-
 
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
