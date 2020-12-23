@@ -53,7 +53,7 @@ fun Field<JSONB>.objectAtPathText(path: Collection<String>): Field<String> = Jso
 /**
  * @see JsonbDSL.contains
  */
-fun Field<JSONB>._contains(other: Field<JSONB>): Condition = JsonbDSL.contains(this, other)
+fun Field<JSONB>.containsJson(other: Field<JSONB>): Condition = JsonbDSL.contains(this, other)
 
 /**
  * @see JsonbDSL.containedIn
@@ -88,7 +88,7 @@ fun Field<JSONB>.hasAllKeys(keys: Collection<String>): Condition = JsonbDSL.hasA
 /**
  * @see JsonbDSL.concat
  */
-fun Field<JSONB>._concat(field2: Field<JSONB>): Field<JSONB> = JsonbDSL.concat(this, field2)
+fun Field<JSONB>.concatJson(field2: Field<JSONB>): Field<JSONB> = JsonbDSL.concat(this, field2)
 
 /**
  * @see JsonbDSL.delete
