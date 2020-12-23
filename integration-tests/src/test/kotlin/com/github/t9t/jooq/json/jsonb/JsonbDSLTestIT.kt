@@ -116,7 +116,7 @@ class JsonbDSLTestIT {
         val other: Field<JSONB> = DSL.field("other.bar", JSONB::class.java)
         /* When */
         val containsField = JsonbDSL.contains(jsonbField, other)
-        val containsFieldExt = jsonbField._contains(other)
+        val containsFieldExt = jsonbField.containsJson(other)
         /* Then */
         assertEquals(containsField, containsFieldExt)
     }
@@ -193,7 +193,7 @@ class JsonbDSLTestIT {
         val other: Field<JSONB> = DSL.field("other.bar", JSONB::class.java)
         /* When */
         val concatField = JsonbDSL.concat(jsonbField, other)
-        val concatFieldExt = jsonbField._concat(other)
+        val concatFieldExt = jsonbField.concatJson(other)
         /* Then */
         assertEquals(concatField, concatFieldExt)
     }
