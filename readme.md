@@ -11,6 +11,7 @@ jOOQ version 3.11 you can use version `0.4.0` until you upgrade to 3.12 (or high
 - [PostgreSQL json operator support](#postgresql-json-operator-support)
 - [Available PostgreSQL json processing functions](#available-postgresql-json-processing-functions)
 - [References](#references)
+- [Contributors](#contributors)
 - [![Javadocs](https://javadoc.io/badge/com.github.t9t.jooq/jooq-postgresql-json.svg)](https://javadoc.io/doc/com.github.t9t.jooq/jooq-postgresql-json)
 
 ---
@@ -155,3 +156,7 @@ Functions only available for `json` (through `JsonbDSL`):
 ## References
 - [jOOQ.org](https://www.jooq.org/)
 - [PostgreSQL JSON data types](https://www.postgresql.org/docs/current/datatype-json.html)
+
+
+## Contributors
+- @davinkevin was kind enough to implement Kotlin extension functions ([#11](https://github.com/t9t/jooq-postgresql-json/issues/11) and [#12](https://github.com/t9t/jooq-postgresql-json/pull/12))!
