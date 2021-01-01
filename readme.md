@@ -159,4 +159,4 @@ Functions only available for `json` (through `JsonbDSL`):
 
 
 ## Contributors
-- @davinkevin was kind enough to implement Kotlin extension functions ([#11](https://github.com/t9t/jooq-postgresql-json/issues/11) and [#12](https://github.com/t9t/jooq-postgresql-json/pull/12))!
+- [@davinkevin](https://github.com/davinkevin) was kind enough to implement Kotlin extension functions ([#11](https://github.com/t9t/jooq-postgresql-json/issues/11) and [#12](https://github.com/t9t/jooq-postgresql-json/pull/12))!
