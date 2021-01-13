@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>jooq-postgresql-json-parent</artifactId>
@@ -153,10 +154,61 @@
                         <artifactId>jooq-codegen-maven</artifactId>
                         <executions>
                             <execution>
+                                <id>codegen-java</id>
                                 <phase>generate-test-sources</phase>
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
+                                <configuration>
+                                    <generator>
+                                        <database>
+                                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                            <includes>.*</includes>
+                                            <schemata>
+                                                <schema>
+                                                    <inputSchema>jooq</inputSchema>
+                                                </schema>
+                                            </schemata>
+                                        </database>
+                                        <target>
+                                            <packageName>com.github.t9t.jooq.generated.java</packageName>
+                                            <directory>${test.jooq-codegen.directory}</directory>
+                                        </target>
+                                        <generate>
+                                            <fluentSetters>true</fluentSetters>
+                                            <interfaces>false</interfaces>
+                                        </generate>
+                                    </generator>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>codegen-kotlin</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <generator>
+                                        <name>org.jooq.codegen.KotlinGenerator</name>
+                                        <database>
+                                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                            <includes>.*</includes>
+                                            <schemata>
+                                                <schema>
+                                                    <inputSchema>jooq</inputSchema>
+                                                </schema>
+                                            </schemata>
+                                        </database>
+                                        <target>
+                                            <packageName>com.github.t9t.jooq.generated.kotlin</packageName>
+                                            <directory>${test.jooq-codegen.directory}</directory>
+                                        </target>
+                                        <generate>
+                                            <fluentSetters>true</fluentSetters>
+                                            <interfaces>false</interfaces>
+                                        </generate>
+                                    </generator>
+                                </configuration>
                             </execution>
                         </executions>
                         <configuration>
@@ -165,25 +217,6 @@
                                 <user>${pg.user}</user>
                                 <password>${pg.password}</password>
                             </jdbc>
-                            <generator>
-                                <database>
-                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
-                                    <includes>.*</includes>
-                                    <schemata>
-                                        <schema>
-                                            <inputSchema>jooq</inputSchema>
-                                        </schema>
-                                    </schemata>
-                                </database>
-                                <target>
-                                    <packageName>com.github.t9t.jooq.generated</packageName>
-                                    <directory>${test.jooq-codegen.directory}</directory>
-                                </target>
-                                <generate>
-                                    <fluentSetters>true</fluentSetters>
-                                    <interfaces>false</interfaces>
-                                </generate>
-                            </generator>
                         </configuration>
                         <dependencies>
                             <dependency>

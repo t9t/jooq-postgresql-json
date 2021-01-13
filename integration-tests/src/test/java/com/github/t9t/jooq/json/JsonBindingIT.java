@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import javax.sql.DataSource;
 
-import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
+import static com.github.t9t.jooq.generated.java.Tables.JSON_TEST;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

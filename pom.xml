@@ -141,6 +141,8 @@
                                 <sourceDirs>
                                     <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
                                     <sourceDir>${project.basedir}/src/test/java</sourceDir>
+                                    <!-- Oddly enough the Kotlin plugin doesn't pick up generated sources automatically -->
+                                    <sourceDir>${project.basedir}/target/generated-sources/jooq</sourceDir>
                                 </sourceDirs>
                             </configuration>
                         </execution>

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.t9t.jooq.generated.Tables.JSON_TEST;
+import static com.github.t9t.jooq.generated.java.Tables.JSON_TEST;
 import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

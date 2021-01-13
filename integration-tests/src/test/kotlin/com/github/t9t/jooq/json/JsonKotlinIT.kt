@@ -1,6 +1,6 @@
 package com.github.t9t.jooq.json
 
-import com.github.t9t.jooq.generated.Tables
+import com.github.t9t.jooq.generated.kotlin.tables.references.JSON_TEST
 import org.jooq.JSON
 import org.jooq.JSONB
 import org.jooq.Record1
@@ -20,7 +20,7 @@ class JsonKotlinIT {
 
     @Before
     fun setUp() {
-        dsl.deleteFrom(Tables.JSON_TEST).execute()
+        dsl.deleteFrom(JSON_TEST).execute()
         assertEquals(4, dsl.execute("insert into jooq.json_test (name, data, datab)" +
                 " values " +
                 "('both', '{\"json\": {\"int\": 100, \"str\": \"Hello, JSON world!\", \"object\": {\"v\":  200}, \"n\": null}}', '{\"jsonb\": {\"int\": 100, \"str\": \"Hello, JSONB world!\", \"object\": {\"v\": 200}, \"n\": null}}')," +
@@ -31,55 +31,55 @@ class JsonKotlinIT {
 
     @Test
     fun `select JSON NULL SQL, returning non-null JSON type`() {
-        val r: Record1<JSON> = dsl.select(Tables.JSON_TEST.DATA)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-sql"))
-                .fetchOne()!!
-        Assert.assertNull(r.value1())
+        val r: Record1<JSON?>? = dsl.select(JSON_TEST.DATA)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-sql"))
+                .fetchOne()
+        Assert.assertNull(r?.value1())
     }
 
     @Test
     fun `select JSON NULL SQL, returning nullable JSON type`() {
-        val r: Record1<JSON?> = dsl.select(Tables.JSON_TEST.DATA)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-sql"))
-                .fetchOne()!!
-        Assert.assertNull(r.value1())
+        val r: Record1<JSON?>? = dsl.select(JSON_TEST.DATA)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-sql"))
+                .fetchOne()
+        Assert.assertNull(r?.value1())
     }
 
     @Test
     fun `select null JSON value`() {
-        val r: Record1<JSON> = dsl.select(Tables.JSON_TEST.DATA)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-json"))
-                .fetchOne()!!
-        assertEquals("null", r.value1().toString())
+        val r: Record1<JSON?>? = dsl.select(JSON_TEST.DATA)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne()
+        assertEquals("null", r?.value1()?.toString())
     }
 
     @Test
     fun `select JSON NULL SQL, returning non-null JSONB type`() {
-        val r: Record1<JSONB> = dsl.select(Tables.JSON_TEST.DATAB)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-sql"))
-                .fetchOne()!!
-        Assert.assertNull(r.value1())
+        val r: Record1<JSONB?>? = dsl.select(JSON_TEST.DATAB)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-sql"))
+                .fetchOne()
+        Assert.assertNull(r?.value1())
     }
 
     @Test
     fun `select JSON NULL SQL, returning nullable JSONB type`() {
-        val r: Record1<JSONB?> = dsl.select(Tables.JSON_TEST.DATAB)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-sql"))
-                .fetchOne()!!
-        Assert.assertNull(r.value1())
+        val r: Record1<JSONB?>? = dsl.select(JSON_TEST.DATAB)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-sql"))
+                .fetchOne()
+        Assert.assertNull(r?.value1())
     }
 
     @Test
     fun `select null JSONB value`() {
-        val r = dsl.select(Tables.JSON_TEST.DATAB)
-                .from(Tables.JSON_TEST)
-                .where(Tables.JSON_TEST.NAME.eq("null-json"))
-                .fetchOne()!!
-        assertEquals("null", r.value1().toString())
+        val r = dsl.select(JSON_TEST.DATAB)
+                .from(JSON_TEST)
+                .where(JSON_TEST.NAME.eq("null-json"))
+                .fetchOne()
+        assertEquals("null", r?.value1()?.toString())
     }
 }
