@@ -9,7 +9,7 @@ import org.junit.Test
 
 class JsonbDSLTest {
 
-    private val jsonbField: Field<JSONB> = DSL.field("foo.bar", JSONB::class.java)
+    private val jsonbField: Field<JSONB?> = DSL.field("foo.bar", JSONB::class.java)
 
     @Test
     fun `should provide extension function to create field from JSON`() {
@@ -113,7 +113,7 @@ class JsonbDSLTest {
     @Test
     fun `should provide extension function for contains`() {
         /* Given */
-        val other: Field<JSONB> = DSL.field("other.bar", JSONB::class.java)
+        val other: Field<JSONB?> = DSL.field("other.bar", JSONB::class.java)
         /* When */
         val containsField = JsonbDSL.contains(jsonbField, other)
         val containsFieldExt = jsonbField.containsJson(other)
@@ -124,7 +124,7 @@ class JsonbDSLTest {
     @Test
     fun `should provide extension function for containedIn`() {
         /* Given */
-        val other: Field<JSONB> = DSL.field("other.bar", JSONB::class.java)
+        val other: Field<JSONB?> = DSL.field("other.bar", JSONB::class.java)
         /* When */
         val containedInField = JsonbDSL.containedIn(jsonbField, other)
         val containedInFieldExt = jsonbField.containedIn(other)
@@ -190,7 +190,7 @@ class JsonbDSLTest {
     @Test
     fun `should provide extension function for concat`() {
         /* Given */
-        val other: Field<JSONB> = DSL.field("other.bar", JSONB::class.java)
+        val other: Field<JSONB?> = DSL.field("other.bar", JSONB::class.java)
         /* When */
         val concatField = JsonbDSL.concat(jsonbField, other)
         val concatFieldExt = jsonbField.concatJson(other)
