@@ -1,3 +1,7 @@
+/**
+ * Operators (such as `objectAtPath`) are defined as extension functions, while PostgreSQL functions (such as
+ * `arrayLength`) are defined as "normal" functions with the goal to make it looks like "actual" SQL).
+ */
 package com.github.t9t.jooq.json.json
 
 import com.github.t9t.jooq.json.JsonDSL

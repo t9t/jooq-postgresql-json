@@ -1,3 +1,7 @@
+/**
+ * Operators (such as `objectAtPath`) are defined as extension functions, while PostgreSQL functions (such as
+ * `arrayLength`) are defined as "normal" functions with the goal to make it looks like "actual" SQL).
+ */
 package com.github.t9t.jooq.json.jsonb
 
 import com.github.t9t.jooq.json.JsonbDSL
@@ -106,7 +110,7 @@ fun Field<JSONB?>.hasAllKeys(keys: Collection<String>): Condition = JsonbDSL.has
  * @see JsonbDSL.concat
  */
 @NotNull
-fun Field<JSONB?>.concatJson(field2: Field<JSONB?>): Field<JSONB?> = JsonbDSL.concat(this, field2)
+fun Field<JSONB?>.concatJson(otherField: Field<JSONB?>): Field<JSONB?> = JsonbDSL.concat(this, otherField)
 
 /**
  * @see JsonbDSL.delete
