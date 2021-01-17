@@ -9,7 +9,7 @@ import org.junit.Test
 
 class JsonDSLTest {
 
-    private val jsonField: Field<JSON> = DSL.field("foo.bar", JSON::class.java)
+    private val jsonField: Field<JSON?> = DSL.field("foo.bar", JSON::class.java)
 
     @Test
     fun `should provide extension function to create field from JSON`() {
