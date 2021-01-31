@@ -5,7 +5,7 @@
     <groupId>com.github.t9t.jooq</groupId>
     <artifactId>jooq-postgresql-json-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.1</version>
+    <version>2.0.2-SNAPSHOT</version>
 
     <name>jooq-postgresql-json-parent</name>
     <description>jOOQ support for PostgreSQL json &amp; jsonb - parent pom</description>
@@ -30,7 +30,7 @@
             <dependency>
                 <groupId>com.github.t9t.jooq</groupId>
                 <artifactId>jooq-postgresql-json</artifactId>
-                <version>2.0.1</version>
+                <version>2.0.2-SNAPSHOT</version>
             </dependency>
 
             <dependency>
@@ -243,7 +243,7 @@
         <connection>scm:git:https://github.com/t9t/jooq-postgresql-json.git</connection>
         <developerConnection>scm:git:git@github.com:t9t/jooq-postgresql-json.git</developerConnection>
         <url>https://github.com/t9t/jooq-postgresql-json</url>
-        <tag>v2.0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
