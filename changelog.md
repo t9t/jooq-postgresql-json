@@ -1,3 +1,6 @@
+# 2.0.1
+- Updated jOOQ version to 3.14.6
+
 # 2.0.0 (**breaking**)
 
 - Changed the type of the Kotlin extension functions from `Field<JSON(B)>` to `Field<JSON(B)?>` (ie. nullable), to
