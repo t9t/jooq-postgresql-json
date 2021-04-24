@@ -39,6 +39,7 @@ the breaking changes.
 
 | Library version | jOOQ version | Note |
 | --- | --- | --- |
+| 2.0.2 | 3.14.9 |
 | 2.0.1 | 3.14.6 |
 | 2.0.0 | 3.14.4 | Breaking change because of Kotlin extension function receiver type change. |
 | 1.3.0 | 3.14.4 |
