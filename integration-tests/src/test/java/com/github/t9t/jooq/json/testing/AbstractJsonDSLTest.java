@@ -1,4 +1,4 @@
-package com.github.t9t.jooq.json;
+package com.github.t9t.jooq.json.testing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

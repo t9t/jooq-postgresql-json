@@ -1,6 +1,7 @@
-package com.github.t9t.jooq.json
+package com.github.t9t.jooq.json.testing
 
 import com.github.t9t.jooq.generated.kotlin.tables.references.JSON_TEST
+import com.github.t9t.jooq.json.testing.TestDb
 import org.jooq.JSON
 import org.jooq.JSONB
 import org.jooq.Record1

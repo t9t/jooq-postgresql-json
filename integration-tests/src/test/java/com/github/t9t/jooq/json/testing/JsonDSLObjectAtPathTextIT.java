@@ -1,5 +1,6 @@
-package com.github.t9t.jooq.json;
+package com.github.t9t.jooq.json.testing;
 
+import com.github.t9t.jooq.json.JsonbDSL;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;

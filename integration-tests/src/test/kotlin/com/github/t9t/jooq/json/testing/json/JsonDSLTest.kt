@@ -1,6 +1,7 @@
-package com.github.t9t.jooq.json.json
+package com.github.t9t.jooq.json.testing.json
 
 import com.github.t9t.jooq.json.JsonDSL
+import com.github.t9t.jooq.json.json.*
 import org.jooq.Field
 import org.jooq.JSON
 import org.jooq.impl.DSL

@@ -1,4 +1,4 @@
-package com.github.t9t.jooq.json;
+package com.github.t9t.jooq.json.testing;
 
 
 import org.jooq.*;
