@@ -1,3 +1,6 @@
+# 3.1.0
+- Updated jOOQ version to 3.15.1
+
 # 3.0.0 (**breaking**)
 - Upgraded JDK to build the library from 8 to 11
 - Updated the target Java version from 8 to 11
