@@ -10,7 +10,7 @@ fi
 JAVAC_VERSION=$(javac -version |& cut -d ' ' -f 2)
 echo "javac version: ${JAVAC_VERSION}"
 
-if [[ ${JAVAC_VERSION} != 1.8* ]]; then
+if [[ ${JAVAC_VERSION} != 11* ]]; then
   echo 'Please use JDK8'
   exit 1
 fi
