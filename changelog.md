@@ -1,3 +1,9 @@
+# 3.0.0 (**breaking**)
+- Upgraded JDK to build the library from 8 to 11
+- Updated the target Java version from 8 to 11
+- Library can no longer be used with Java 8 projects
+- Upgrade prepares for updating to jOOQ version 3.15, which dropped Java 8 support in the community version
+
 # 2.0.3
 - Updated jOOQ version to 3.14.12
 
