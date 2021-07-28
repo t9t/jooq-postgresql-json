@@ -203,7 +203,8 @@
                                             <directory>${test.jooq-codegen.directory}</directory>
                                         </target>
                                         <generate>
-                                            <fluentSetters>true</fluentSetters>
+                                            <!-- fluentSetters true causes compilation error: Setter return type must be Unit -->
+                                            <fluentSetters>false</fluentSetters>
                                             <interfaces>false</interfaces>
                                         </generate>
                                     </generator>
