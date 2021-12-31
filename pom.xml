@@ -21,8 +21,8 @@
 
         <jooq.version>3.15.5</jooq.version>
         <postgresql.driver.version>42.3.1</postgresql.driver.version>
-        <flyway.version>8.0.3</flyway.version>
-        <kotlin.version>1.5.31</kotlin.version>
+        <flyway.version>8.3.0</flyway.version>
+        <kotlin.version>1.5.32</kotlin.version>
     </properties>
 
     <dependencyManagement>
@@ -62,7 +62,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -84,12 +84,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.34.1</version>
+                    <version>0.38.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.flywaydb</groupId>
@@ -167,7 +167,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0-M4</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
@@ -182,7 +182,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0-M2</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
