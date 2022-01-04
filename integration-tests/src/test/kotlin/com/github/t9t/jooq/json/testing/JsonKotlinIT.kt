@@ -1,16 +1,15 @@
 package com.github.t9t.jooq.json.testing
 
 import com.github.t9t.jooq.generated.kotlin.tables.references.JSON_TEST
-import com.github.t9t.jooq.json.testing.TestDb
 import org.jooq.JSON
 import org.jooq.JSONB
 import org.jooq.Record1
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
-import org.junit.Assert
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Validates Kotlin, jOOQ and JSON(B) interoperability
@@ -19,7 +18,7 @@ class JsonKotlinIT {
     private val ds = TestDb.createDataSource()
     private val dsl = DSL.using(ds, SQLDialect.POSTGRES)
 
-    @Before
+    @BeforeEach
     fun setUp() {
         dsl.deleteFrom(JSON_TEST).execute()
         assertEquals(4, dsl.execute("insert into jooq.json_test (name, data, datab)" +
@@ -36,7 +35,7 @@ class JsonKotlinIT {
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne()
-        Assert.assertNull(r?.value1())
+        assertNull(r?.value1())
     }
 
     @Test
@@ -45,7 +44,7 @@ class JsonKotlinIT {
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne()
-        Assert.assertNull(r?.value1())
+        assertNull(r?.value1())
     }
 
     @Test
@@ -63,7 +62,7 @@ class JsonKotlinIT {
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne()
-        Assert.assertNull(r?.value1())
+        assertNull(r?.value1())
     }
 
     @Test
@@ -72,7 +71,7 @@ class JsonKotlinIT {
                 .from(JSON_TEST)
                 .where(JSON_TEST.NAME.eq("null-sql"))
                 .fetchOne()
-        Assert.assertNull(r?.value1())
+        assertNull(r?.value1())
     }
 
     @Test
