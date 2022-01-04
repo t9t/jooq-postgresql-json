@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json.testing;
 
 import org.jooq.impl.DSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonbDSL.hasAnyKey;
 
 public class JsonbDSLHasAnyKeyIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("hasAnyKey", Arrays.asList(
                 btest("one").selecting(DSL.field(hasAnyKey(jsonb, "str"))).expect(true),
                 btest("multiple").selecting(DSL.field(hasAnyKey(jsonb, "str", "obj", "num"))).expect(true),

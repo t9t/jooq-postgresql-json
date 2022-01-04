@@ -2,7 +2,7 @@ package com.github.t9t.jooq.json.testing;
 
 import com.github.t9t.jooq.json.JsonDSL;
 import com.github.t9t.jooq.json.JsonbDSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.fieldByKeyText;
 
 public class JsonDSLFieldByKeyTextIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("fieldByKeyText", Arrays.asList(
                 test("string").selecting(fieldByKeyText(json, "str")).expectString("Hello, json world!"),
                 test("twoLevels").selecting(fieldByKeyText(JsonDSL.fieldByKey(json, "obj"), "i")).expectString("5521"),

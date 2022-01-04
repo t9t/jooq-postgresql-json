@@ -1,6 +1,6 @@
 package com.github.t9t.jooq.json.testing;
 
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,7 @@ import static com.github.t9t.jooq.json.JsonbDSL.delete;
 import static com.github.t9t.jooq.json.JsonbDSL.field;
 
 public class JsonbDSLDeleteIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("delete", Arrays.asList(
                 btest("obj").selecting(delete(field("{\"a\": 10, \"b\": 20}"), "a")).expectJsonb("{\"b\": 20}"),
                 btest("array").selecting(delete(field("[\"a\", 1, \"b\", false, \"c\"]"), "b")).expectJsonb("[\"a\", 1, false, \"c\"]"),

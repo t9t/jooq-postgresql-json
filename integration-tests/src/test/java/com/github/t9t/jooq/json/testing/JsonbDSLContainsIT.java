@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json.testing;
 
 import org.jooq.impl.DSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,7 @@ import static com.github.t9t.jooq.json.JsonbDSL.contains;
 import static com.github.t9t.jooq.json.JsonbDSL.field;
 
 public class JsonbDSLContainsIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("contains", Arrays.asList(
                 btest("simple").selecting(DSL.field(contains(jsonb, field("{\"num\": 1337}")))).expect(true),
                 btest("complex").selecting(DSL.field(contains(jsonb, field("{\"obj\": {\"i\": 5521, \"b\": true}}")))).expect(true),
