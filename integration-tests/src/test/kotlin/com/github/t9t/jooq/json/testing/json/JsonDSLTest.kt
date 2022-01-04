@@ -5,8 +5,8 @@ import com.github.t9t.jooq.json.json.*
 import org.jooq.Field
 import org.jooq.JSON
 import org.jooq.impl.DSL
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class JsonDSLTest {
 

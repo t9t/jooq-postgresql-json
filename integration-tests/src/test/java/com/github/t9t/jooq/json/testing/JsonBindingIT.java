@@ -1,16 +1,21 @@
 package com.github.t9t.jooq.json.testing;
 
 
-import org.jooq.*;
+import org.jooq.DSLContext;
+import org.jooq.JSON;
+import org.jooq.JSONB;
+import org.jooq.Record1;
+import org.jooq.Record2;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 
 import static com.github.t9t.jooq.generated.java.Tables.JSON_TEST;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the basic assumptions about jOOQ binding json and jsonb fields to the {@link JSON} and {@link JSONB} classes
@@ -20,7 +25,7 @@ public class JsonBindingIT {
     private static final DataSource ds = TestDb.createDataSource();
     private static final DSLContext dsl = DSL.using(ds, SQLDialect.POSTGRES);
 
-    @Before
+    @BeforeEach
     public void setUp() {
         dsl.deleteFrom(JSON_TEST).execute();
         assertEquals(4, dsl.execute("insert into jooq.json_test (name, data, datab)" +
