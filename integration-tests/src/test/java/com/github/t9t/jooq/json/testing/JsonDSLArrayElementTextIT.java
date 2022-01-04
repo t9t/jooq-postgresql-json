@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json.testing;
 
 import com.github.t9t.jooq.json.JsonbDSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.arrayElementText;
 
 public class JsonDSLArrayElementTextIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("arrayElementText", Arrays.asList(
                 test("getFirstObject").forArray().selecting(arrayElementText(json, 0)).expectString("{\"d\": 4408}"),
                 test("getString").forArray().selecting(arrayElementText(json, 3)).expectString("json array"),

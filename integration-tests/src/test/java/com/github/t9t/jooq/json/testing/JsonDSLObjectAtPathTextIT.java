@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json.testing;
 
 import com.github.t9t.jooq.json.JsonbDSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.objectAtPathText;
 
 public class JsonDSLObjectAtPathTextIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("objectAtPathText", Arrays.asList(
                 test("oneLevel").selecting(objectAtPathText(json, "str")).expectString("Hello, json world!"),
                 test("obj").selecting(objectAtPathText(json, "obj")).expectJson(toNode("{\"i\": 5521, \"b\": true}")),

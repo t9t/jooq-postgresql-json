@@ -1,7 +1,7 @@
 package com.github.t9t.jooq.json.testing;
 
 import com.github.t9t.jooq.json.JsonbDSL;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 import static com.github.t9t.jooq.json.JsonDSL.stripNulls;
 
 public class JsonDSLStripNullsIT extends AbstractJsonDSLTest {
-    @Parameterized.Parameters(name = "{0}")
-    public static List<Object[]> params() {
+    public static List<Arguments> params() {
         return generateParams("stripNulls", Arrays.asList(
                 test("object").selecting(stripNulls(json)).expectJson(toNode("{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, json world!\"}")),
                 test("array").usingJson("[\"a\", null, \"b\", 2, null, 3, null]").selecting(stripNulls(json)).expectJson(toNode("[\"a\", null, \"b\", 2, null, 3, null]")),

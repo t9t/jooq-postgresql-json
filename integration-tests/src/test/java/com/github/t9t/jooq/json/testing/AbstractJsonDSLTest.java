@@ -2,12 +2,15 @@ package com.github.t9t.jooq.json.testing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jooq.*;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.JSON;
+import org.jooq.JSONB;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,10 +18,9 @@ import java.util.stream.Collectors;
 
 import static com.github.t9t.jooq.generated.java.Tables.JSON_TEST;
 import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@RunWith(Parameterized.class)
 public abstract class AbstractJsonDSLTest {
     private static final DSLContext dsl = DSL.using(TestDb.createDataSource(), SQLDialect.POSTGRES);
     private static final ObjectMapper om = new ObjectMapper();
@@ -26,28 +28,17 @@ public abstract class AbstractJsonDSLTest {
     private static final String template = "{\"obj\": {\"i\": 5521, \"b\": true}, \"arr\": [{\"d\": 4408}, 10, true, \"s\"], \"num\": 1337, \"str\": \"Hello, %s world!\", \"n\": null}";
     private static final String arrayTemplate = "[{\"d\": 4408}, 10, true, \"%s array\"]";
 
-
     static final Field<JSON> json = JSON_TEST.DATA;
     static final Field<JSONB> jsonb = JSON_TEST.DATAB;
 
-    @Parameterized.Parameter
-    public String testName;
-    @Parameterized.Parameter(1)
-    public String jsonData;
-    @Parameterized.Parameter(2)
-    public Object expected;
-    @Parameterized.Parameter(3)
-    public Field<?> fieldToSelect;
-
-    static List<Object[]> generateParams(String baseName, List<Params> paramList) {
+    static List<Arguments> generateParams(String baseName, List<Params> paramList) {
         return paramList.stream().map(p -> {
             String name = String.format("%s_%s", baseName, p.name);
-            return new Object[]{name, requireNonNull(p.jsonData, "jsonData"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect")};
+            return Arguments.of(name, requireNonNull(p.jsonData, "jsonData"), p.expected, requireNonNull(p.fieldToSelect, "fieldToSelect"));
         }).collect(Collectors.toList());
     }
 
-    @Before
-    public void setUp() {
+    private void setUp(String jsonData) {
         dsl.deleteFrom(JSON_TEST).execute();
 
         assertEquals(1, dsl.insertInto(JSON_TEST)
@@ -57,8 +48,11 @@ public abstract class AbstractJsonDSLTest {
         assertEquals(1, dsl.fetchCount(JSON_TEST));
     }
 
-    @Test
-    public void test() {
+    @ParameterizedTest(name = "{index} {0}")
+    @MethodSource("params")
+    public void test(String ignoredTestName, String jsonData, Object expected, Field<?> fieldToSelect) {
+        setUp(jsonData);
+
         Object data = dsl.select(fieldToSelect).from(JSON_TEST).fetchOne().value1();
 
         if (expected == null) {
