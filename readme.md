@@ -23,7 +23,7 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>3.1.2</version>
+  <version>3.2.0</version>
 </dependency>
 ```
 
@@ -38,6 +38,7 @@ the breaking changes.
 
 | Library version | jOOQ version | Note |
 | --- | --- | --- |
+| 3.2.0 | 3.16.3 |
 | 3.1.2 | 3.15.5 |
 | 3.1.1 | 3.15.4 |
 | 3.1.0 | 3.15.1 |
@@ -59,8 +60,8 @@ the breaking changes.
 ## Usage
 
 Use
-the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/JsonDSL.html)
-and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/JsonbDSL.html)
+the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
 classes to access the JSON functions and operators.
 
 For example, to extract a JSON nested property value as text from a `json` field:
@@ -92,8 +93,8 @@ dsl.update(MY_TABLE)
     .execute()
 ``` 
 
-- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/JsonDSL.html)
-- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/JsonbDSL.html)
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/JsonbDSL.html)
 
 ### Kotlin
 
@@ -103,8 +104,8 @@ like `JsonDSL.extractPathText(MY_TABLE.DATA_FIELD, "data", "productCode")` you c
 
 The extension functions are available in the following packages:
 
-- [`com.github.t9t.jooq.json.json`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/json)
-- [`com.github.t9t.jooq.json.jsonb`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.1.2/com/github/t9t/jooq/json/jsonb)
+- [`com.github.t9t.jooq.json.json`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/json)
+- [`com.github.t9t.jooq.json.jsonb`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.0/com/github/t9t/jooq/json/jsonb)
 
 The names of extension functions match the names of the methods on `JsonDSL` and `JsonbDSL`, except for `concat` and
 `contains`, which are called `concatJson` and `containsJson` respectively to prevent clashes with existing methods
