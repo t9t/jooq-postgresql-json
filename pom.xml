@@ -22,7 +22,7 @@
         <jooq.version>3.16.3</jooq.version>
         <postgresql.driver.version>42.3.2</postgresql.driver.version>
         <flyway.version>8.4.3</flyway.version>
-        <kotlin.version>1.5.32</kotlin.version>
+        <kotlin.version>1.6.10</kotlin.version>
         <junit5.version>5.8.2</junit5.version>
     </properties>
 
