@@ -4,7 +4,7 @@
     <parent>
         <artifactId>jooq-postgresql-json-parent</artifactId>
         <groupId>com.github.t9t.jooq</groupId>
-        <version>3.2.2</version>
+        <version>3.2.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>integration-tests</artifactId>
