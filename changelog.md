@@ -1,3 +1,6 @@
+# 3.2.3
+- Updated jOOQ version to 3.16.7
+
 # 3.2.2
 - Updated jOOQ version to 3.16.6
 
