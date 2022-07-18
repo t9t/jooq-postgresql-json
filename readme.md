@@ -57,7 +57,7 @@ the breaking changes.
 | 1.1.2 | 3.13.4 |
 | 1.1.1 | 3.13.2 |
 | 1.1.0 | 3.13.1 |
-| 1.0.0 | 3.12.3 | Breaking change becauuse of jOOQ upgrade from `3.11` to `3.12`. |
+| 1.0.0 | 3.12.3 | Breaking change because of jOOQ upgrade from `3.11` to `3.12`. |
 | 0.4.0 | 3.11.11 |
 
 ## Usage
@@ -158,7 +158,7 @@ Processing functions available for both `json` (through `JsonDSL`) and `jsonb` (
 | `json(b)_typeof` | `text` | Get the type of a JSON field | `typeOf()` |
 | `json(b)_strip_nulls` | `json`/`jsonb` | Remove object fields with `null` values | `stripNulls()` |
 
-Functions only available for `json` (through `JsonbDSL`):
+Functions only available for `jsonb` (through `JsonbDSL`):
 
 | Function | Return type | Description | Method |
 | --- | --- | --- | --- |
