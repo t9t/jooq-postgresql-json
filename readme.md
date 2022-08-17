@@ -53,19 +53,7 @@ the breaking changes.
 | 3.1.1 | 3.15.4 |
 | 3.1.0 | 3.15.1 |
 | 3.0.0 | 3.14.12 | Breaking change, upgraded from Java 8 to Java 11. Java 8 no longer supported. |
-| 2.0.3 | 3.14.12 |
-| 2.0.2 | 3.14.9 |
-| 2.0.1 | 3.14.6 |
-| 2.0.0 | 3.14.4 | Breaking change because of Kotlin extension function receiver type change. |
-| 1.3.0 | 3.14.4 |
-| 1.2.2 | 3.14.4 |
-| 1.2.1 | 3.14.3 |
-| 1.2.0 | 3.14.0 |
-| 1.1.2 | 3.13.4 |
-| 1.1.1 | 3.13.2 |
-| 1.1.0 | 3.13.1 |
-| 1.0.0 | 3.12.3 | Breaking change because of jOOQ upgrade from `3.11` to `3.12`. |
-| 0.4.0 | 3.11.11 |
+
 
 ## Usage
 
