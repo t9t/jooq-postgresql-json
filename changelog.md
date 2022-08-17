@@ -1,3 +1,12 @@
+# 4.0.0
+Removed the transitive dependency on `jooq` as it became too time consuming to update it and release this library each
+time. Additionally the jOOQ 3.17 release (Open Source Edition) only JDK 17 is supported, while `jooq-postgresql-json`
+should still be compatible with JDK 11 and jOOQ 3.16.
+
+From now on, every new jOOQ release will be tested with `jooq-postgresql-json` and a new release will only be created
+when incompatibilities are found and fixed. The readme will be periodically updated to reflect the latest jOOQ versions
+that `jooq-postgresql-json` is tested with.
+
 # 3.2.3
 - Updated jOOQ version to 3.16.7
 

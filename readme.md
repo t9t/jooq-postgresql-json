@@ -4,6 +4,9 @@ for `json` and `jsonb` fields.
 
 **Requires at least Java 11.**
 
+⚠ Since version 4.0.0 this library does not include a transitive Maven dependency on `jooq` any more, you have to
+include both `jooq` and `jooq-postgresql-json` in your project to use it.
+
 - [Include as a Maven dependency](#include-as-a-maven-dependency)
 - [Usage](#usage)
   - [Kotlin extension functions](#kotlin)
@@ -23,21 +26,25 @@ First, add the following Maven dependency:
 <dependency>
   <groupId>com.github.t9t.jooq</groupId>
   <artifactId>jooq-postgresql-json</artifactId>
-  <version>3.2.3</version>
+  <version>4.0.0</version>
 </dependency>
 ```
 
+`jooq-postgresql-json` does not include a transitive dependency on `jooq`, so you have to include that yourself as well.
+
 ### Version matrix
 
-This shows only which jOOQ version is used in this library. Minor version differences should still be compatible and
-newer major versions of jOOQ might still work with older versions of this library if nothing changed much in the jOOQ
-JSON APIs.
+As for 4.0.0, this shows only which jOOQ versions are explicitly tested with this library. Minor version differences
+should still be compatible and newer major versions of jOOQ might still work with older versions of this library if
+nothing changed much in the jOOQ JSON APIs. New releases will only be created when incompatibilities with new jOOQ
+versions are found and fixed.
 
 See [the changelog](changelog.md) for more information about what is included in the various releases and the reason for
 the breaking changes.
 
 | Library version | jOOQ version | Note |
 | --- | --- | --- |
+| 4.0.0 | 3.16.x or 3.17.x | Breaking change, no longer includes a dependency on `jooq`. Tested with both jOOQ `3.16.9` (JDK 11 and 17) and `3.17.3` (JDK 17 only). |
 | 3.2.3 | 3.16.7 |
 | 3.2.2 | 3.16.6 |
 | 3.2.1 | 3.16.5 |
@@ -63,8 +70,8 @@ the breaking changes.
 ## Usage
 
 Use
-the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/JsonDSL.html)
-and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/JsonbDSL.html)
+the [`JsonDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/JsonDSL.html)
+and [`JsonbDSL`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/JsonbDSL.html)
 classes to access the JSON functions and operators.
 
 For example, to extract a JSON nested property value as text from a `json` field:
@@ -96,8 +103,8 @@ dsl.update(MY_TABLE)
     .execute()
 ``` 
 
-- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/JsonDSL.html)
-- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/JsonbDSL.html)
+- [`JsonDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/JsonDSL.html)
+- [`JsonbDSL` Javadoc](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/JsonbDSL.html)
 
 ### Kotlin
 
@@ -107,8 +114,8 @@ like `JsonDSL.extractPathText(MY_TABLE.DATA_FIELD, "data", "productCode")` you c
 
 The extension functions are available in the following packages:
 
-- [`com.github.t9t.jooq.json.json`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/json)
-- [`com.github.t9t.jooq.json.jsonb`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/3.2.3/com/github/t9t/jooq/json/jsonb)
+- [`com.github.t9t.jooq.json.json`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/json)
+- [`com.github.t9t.jooq.json.jsonb`](https://javadoc.io/static/com.github.t9t.jooq/jooq-postgresql-json/4.0.0/com/github/t9t/jooq/json/jsonb)
 
 The names of extension functions match the names of the methods on `JsonDSL` and `JsonbDSL`, except for `concat` and
 `contains`, which are called `concatJson` and `containsJson` respectively to prevent clashes with existing methods
