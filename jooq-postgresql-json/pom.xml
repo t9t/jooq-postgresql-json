@@ -16,6 +16,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
