@@ -44,7 +44,7 @@ the breaking changes.
 
 | Library version | jOOQ version | Note |
 | --- | --- | --- |
-| 4.0.0 | 3.16.x or 3.17.x | Breaking change, no longer includes a dependency on `jooq`. Tested with both jOOQ `3.16.9` (JDK 11 and 17) and `3.17.3` (JDK 17 only). |
+| 4.0.0 | 3.16.x - 3.18.x | Breaking change, no longer includes a dependency on `jooq`. Tested with both jOOQ `3.16.20` (JDK 11 and 17), and `3.17.14` and `3.18.5` (JDK 17 only). |
 | 3.2.3 | 3.16.7 |
 | 3.2.2 | 3.16.6 |
 | 3.2.1 | 3.16.5 |
