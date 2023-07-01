@@ -3,7 +3,7 @@ Unfortunately, I no longer use jOOQ or `jooq-postgresql-json` myself, and so I d
 library anymore. I will no longer test the library when new jOOQ versions come out, and I won't closely follow jOOQ
 news anymore to keep an eye out for new features to integrate with.
 
-See also issue #24.
+See also: https://github.com/t9t/jooq-postgresql-json/issues/24.
 
 # jOOQ PostgreSQL JSON support
 Provides jOOQ support for [PostgreSQL JSON functions and operators](https://www.postgresql.org/docs/11/functions-json.html)
